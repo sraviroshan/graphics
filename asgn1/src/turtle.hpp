@@ -22,8 +22,12 @@
 #ifndef _TURTLE_HPP_
 #define _TURTLE_HPP_
 #include <unistd.h>
+#include <GLFW/glfw3.h>
 
 #include "turtle_defs.hpp"
+
+//! The pointer to the GLFW window
+extern GLFWwindow* window;
 
 /***************
  The Turtle class

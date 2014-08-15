@@ -36,6 +36,9 @@ turtle_com_list_t::iterator liter;
 std::string filename, progname;
 bool file_flag=false;
 
+//! The pointer to the GLFW window
+GLFWwindow* window;
+
 //GLFW display callback
 void renderGL( void )
 {
@@ -110,9 +113,6 @@ void setup(int argc, char *argv[])
 int main (int argc, char *argv[]) 
 {
   progname=argv[0];
-
-  //! The pointer to the GLFW window
-  GLFWwindow* window;
 
   //! Setting up the GLFW Error callback
   glfwSetErrorCallback(csX75::error_callback);

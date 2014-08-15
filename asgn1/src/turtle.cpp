@@ -131,7 +131,7 @@ void turtle_t::backward_move(const double _dist)
 
 void turtle_t::pause(const double _period)
 {
-  //glfwSwapBuffers(window);
+  glfwSwapBuffers(window);
   sleep(_period);
 }
 
