@@ -32,10 +32,10 @@ void turtle_t::reset(void)
 {
   pos.x = 0;
   pos.y = 0;
-  dir = dir+5;
+  dir = 0;
   col.r = 1.0; col.g = 1.0; col.b = 1.0;
+  scaling_factor = 1.0;
   glColor4f(col.r, col.g, col.b, 1.0);
-  
 }
 
 void turtle_t::clear(void)
@@ -77,10 +77,15 @@ void turtle_t::set_col(const double _r, const double _g, const double _b)
 }
 
 void turtle_t::set_bgcol(const double _r, const double _g, const double _b)
-{ }
+{ 
+  glClearColor(_r, _g, _b, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT);
+}
 
 void turtle_t::scale(const double _s)
-{ }
+{ 
+  scaling_factor = _s;
+}
 
 void turtle_t::turn_left(const double _angle)    
 {
@@ -97,8 +102,8 @@ void turtle_t::forward(const double _dist)
   glBegin(GL_LINES);
   glVertex3f(pos.x,  pos.y,  0.0f);
   
-  double x1 = pos.x + _dist * cos(dir * PI /180);
-  double y1 = pos.y + _dist * sin(dir * PI /180);
+  double x1 = pos.x + _dist * cos(dir * PI /180) * 1/scaling_factor;
+  double y1 = pos.y + _dist * sin(dir * PI /180) * 1/scaling_factor;
 
   glVertex3f(x1, y1,  0.0f);
   glEnd();
@@ -113,15 +118,21 @@ void turtle_t::back(const double _dist)
 
 void turtle_t::forward_move(const double _dist)
 {
-  double x1 = pos.x + _dist * cos(dir * PI /180);
-  double y1 = pos.y + _dist * sin(dir * PI /180);
+  double x1 = pos.x + _dist * cos(dir * PI /180) * 1/scaling_factor;
+  double y1 = pos.y + _dist * sin(dir * PI /180) * 1/scaling_factor;
   
-  set_pos(x1,y1);  
+  set_pos(x1, y1);  
 }
 
 void turtle_t::backward_move(const double _dist)
 {
   forward_move(- _dist);
+}
+
+void turtle_t::pause(const double _period)
+{
+  //glfwSwapBuffers(window);
+  sleep(_period);
 }
 
 void turtle_t::repeat(const unsigned int &_n, const turtle_com_list_t &_replist)
@@ -194,6 +205,11 @@ void turtle_t::exec(turtle_com_t *com)
     {
       turtle_scale_t* scalecom = dynamic_cast<turtle_scale_t*>(com);
       if (scalecom) scale(scalecom->s);
+    }
+  else if (com->cname==PAUSE)
+    {
+      turtle_pause_t* pausecom = dynamic_cast<turtle_pause_t*>(com);
+      if (pausecom) pause(pausecom->period);
     }
   else if (com->cname==REPEAT)
     {

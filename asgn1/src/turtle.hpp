@@ -21,6 +21,7 @@
 
 #ifndef _TURTLE_HPP_
 #define _TURTLE_HPP_
+#include <unistd.h>
 
 #include "turtle_defs.hpp"
 
@@ -57,6 +58,7 @@ private:
   vertex_t pos;    // Current position
   double dir;      // Current orientation in degrees ccw from east
   color_t col;     // Current color
+  double scaling_factor;    // Scaling factor for the canvas
 
 public:
 
@@ -64,9 +66,7 @@ public:
   turtle_t() 
   {
     //Reset turtle position and orientation
-    reset(); 
-    //Set the current draw color
-    col.r = 1.0; col.g = 1.0; col.b = 1.0;
+    reset();
   }
 
   //Copy Constructor
@@ -124,6 +124,9 @@ public:
   //Repeat the execution of the commands given
   //in _replist _n times.
   void repeat(const unsigned int &_n, const turtle_com_list_t &_replist);
+
+  //Pause for _period seconds
+  void pause(const double _period);
 
   //Executes the command com
   void exec(turtle_com_t *com);
