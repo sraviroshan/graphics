@@ -1,0 +1,3 @@
+CLS : should it clear the screen with background color or BLACK ? 
+BGCOL : should it immediately change the background color or on next CLS command ?
+RESET : it is only supposed to reset the position and orientation of turtle. Not the colors and stuff
