@@ -71,6 +71,9 @@ public:
   {
     //Reset turtle position and orientation
     reset();
+    col.r = 1.0; col.g = 1.0; col.b = 1.0;
+    glColor4f(col.r, col.g, col.b, 1.0);
+    scaling_factor = 1.0;
   }
 
   //Copy Constructor
