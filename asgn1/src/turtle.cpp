@@ -33,9 +33,6 @@ void turtle_t::reset(void)
   pos.x = 0;
   pos.y = 0;
   dir = 0;
-  col.r = 1.0; col.g = 1.0; col.b = 1.0;
-  scaling_factor = 1.0;
-  glColor4f(col.r, col.g, col.b, 1.0);
 }
 
 void turtle_t::clear(void)
@@ -79,7 +76,6 @@ void turtle_t::set_col(const double _r, const double _g, const double _b)
 void turtle_t::set_bgcol(const double _r, const double _g, const double _b)
 { 
   glClearColor(_r, _g, _b, 1.0);
-  glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void turtle_t::scale(const double _s)
