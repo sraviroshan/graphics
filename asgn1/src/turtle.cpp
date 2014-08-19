@@ -128,7 +128,16 @@ void turtle_t::backward_move(const double _dist)
 void turtle_t::pause(const double _period)
 {
   glfwSwapBuffers(window);
-  sleep(_period);
+  double endtime = glfwGetTime() + _period;
+  while(glfwWindowShouldClose(window) == 0){
+    if(glfwGetTime() > endtime) break;
+    glfwPollEvents();
+  }
+  if(glfwWindowShouldClose(window) == 1){
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    exit(0);
+  }
 }
 
 void turtle_t::repeat(const unsigned int &_n, const turtle_com_list_t &_replist)
