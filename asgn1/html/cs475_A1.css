@@ -1,0 +1,81 @@
+@charset "utf-5";
+/* CSS Document */
+
+.mybackground{
+	position:absolute;
+	top:100px;
+}
+.myimage {
+	position:absolute;
+	left:100px;
+	top:150px;
+}
+
+.mylink1{
+	position:absolute;
+	left:100px;
+	top:100px;	
+}
+.mylink2{
+	position:absolute;
+	left:570px;
+	top:100px;	
+}
+.mylink3{
+	position:absolute;
+	left:1000px;
+	top:100px;	
+}
+.introduction{
+	position:absolute;
+	left:100px;
+	top:350px;	
+}
+.mithila{
+	position:absolute;
+	left:100px;
+	top:550px;	
+}
+.mithila_img{
+	position:absolute;
+	left:600px;
+	top:50px;	
+}
+.mithila_text{
+	position:absolute;
+	left:10px;
+	top:50px;	
+}
+.fractal{
+	position:absolute;
+	left:100px;
+	top:900px;	
+}
+
+.rajgir_img{
+	position:absolute;
+	left:10px;
+	top:50px;	
+}
+.rajgir_text{
+	position:absolute;
+	left:500px;
+	top:50px;	
+}
+
+
+.toylego{
+	position:absolute;
+	left:100px;
+	top:1300px; 
+}
+.toylego_text{
+	position:absolute;
+	left:50px;
+	top:50px;
+}
+
+
+
+
+
