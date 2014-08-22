@@ -24,7 +24,7 @@
 
 void triline(turtle_t &turt, double length)
 {
-   if (length <= 0.01)
+   if (length <= 0.1)
    {
       turt.forward(length);
    }
