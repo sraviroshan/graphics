@@ -40,6 +40,47 @@ void triline(turtle_t &turt, double length)
      triline(turt, newlength);
    }
 }
+//Sierpinski triangle helpher ; just scatch recursive call 
+
+void sierpinski_helper(turtle_t &turt, double length)
+{
+  if(length<=0.05) //simply draw a triangle of 'length' side and return back to same pos,dir
+  {
+    turt.forward(length);
+    turt.turn_left(120);
+    turt.forward(length);
+    turt.turn_left(120);
+    turt.forward(length);
+    turt.turn_left(120);
+  }
+  else
+  { //recursively call 3 times and move back to top vertex with same orientation
+    double newlength = length/2.0;
+    sierpinski_helper(turt, newlength);
+    turt.forward_move(newlength);
+    sierpinski_helper(turt, newlength);
+    turt.turn_left(120);
+    turt.forward_move(newlength);
+    turt.turn_right(120);
+    sierpinski_helper(turt, newlength);
+
+    //move back to top vertex
+    turt.turn_right(120);
+    turt.forward_move(newlength);
+    turt.turn_left(120);
+  }
+}
+
+void sierpinski(turtle_t &turt, double x){
+  turt.reset();
+  turt.clear();
+  turt.turn_left(90);
+  turt.forward_move(0.7);
+  turt.turn_left(150);
+
+  sierpinski_helper(turt, x);
+}
+
 
 //Drawing a Koch Snowflake
 void koch(turtle_t &turt, double x)
@@ -58,5 +99,6 @@ void koch(turtle_t &turt, double x)
 
 void render_drawing(turtle_t &turt)
 {
-  koch(turt, 1.0);
+  // koch(turt, 1.0);
+  sierpinski(turt, 1.2);
 }
