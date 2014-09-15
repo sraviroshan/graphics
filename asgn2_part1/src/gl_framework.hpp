@@ -37,6 +37,10 @@ namespace csX75
   void framebuffer_size_callback(GLFWwindow* window, int width, int height);
   //!GLFW keyboard callback
   void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+  extern int rotation_angle; //angle for rotation about axis
+  extern int solder_rotation_z; //solder rotation angle about z axis
+  extern int solder_rotation_x; //solder rotation angle about x axis
+  extern int elbows_rotation; //elbows rotarion angle about z axis
 };
 
 #endif

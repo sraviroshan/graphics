@@ -24,6 +24,10 @@ namespace csX75
 {
   int win_width;
   int win_height;
+  int rotation_angle;
+  int solder_rotation_z;
+  int solder_rotation_x;
+  int elbows_rotation;
 
   //! Initialize GL State
   void initGL(void)
@@ -74,6 +78,22 @@ namespace csX75
     //!Close the window if the ESC key was pressed
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
+    else if(key==GLFW_KEY_DOWN && action == GLFW_PRESS)
+      rotation_angle = (rotation_angle - 5)%360;
+    else if(key==GLFW_KEY_UP && action == GLFW_PRESS)
+      rotation_angle = (rotation_angle + 5)%360;    
+    else if(key==GLFW_KEY_S && action == GLFW_PRESS)
+      solder_rotation_z = (solder_rotation_z + 5)%360;    
+    else if(key==GLFW_KEY_D && action == GLFW_PRESS)
+      solder_rotation_z = (solder_rotation_z - 5)%360;
+    else if(key==GLFW_KEY_E && action == GLFW_PRESS)
+      elbows_rotation = (elbows_rotation + 5)%360;    
+    else if(key==GLFW_KEY_B && action == GLFW_PRESS)
+      elbows_rotation = (elbows_rotation - 5)%360;  
+    else if(key==GLFW_KEY_X && action == GLFW_PRESS)
+      solder_rotation_x = (solder_rotation_x + 5)%360;    
+    else if(key==GLFW_KEY_Y && action == GLFW_PRESS)
+      solder_rotation_x = (solder_rotation_x - 5)%360;      
   }
 };  
   
