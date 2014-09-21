@@ -24,8 +24,12 @@ namespace csX75
 {
   int win_width;
   int win_height;
-  int rotation_angle;
+ //int rotation_angle;
+  int body_rotation_x;
+  int body_rotation_y;
+  int body_rotation_z;
   int solder_rotation_z;
+  int solder_rotation_y;
   int solder_rotation_x;
   int elbows_rotation;
 
@@ -60,12 +64,12 @@ namespace csX75
     if (width > height)
       {
 	aspect = (double)width/(double)height;
-	glOrtho(-aspect, aspect, -1.0, 1.0, -1.0, 1.0);
+	glOrtho(-aspect, aspect, -1.0, 1.0, -5.0, 5.0);
       }
     else
       {
 	aspect = (double)height/(double)width;
-	glOrtho(-1.0, 1.0, -aspect, aspect, -1.0, 1.0);
+	glOrtho(-1.0, 1.0, -aspect, aspect, -5.0, 5.0);
       }
     
     win_width = width;
@@ -79,21 +83,37 @@ namespace csX75
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
     else if(key==GLFW_KEY_DOWN && action == GLFW_PRESS)
-      rotation_angle = (rotation_angle - 5)%360;
+      body_rotation_x = (body_rotation_x - 5)%360;
     else if(key==GLFW_KEY_UP && action == GLFW_PRESS)
-      rotation_angle = (rotation_angle + 5)%360;    
+      body_rotation_x = (body_rotation_x + 5)%360;    
+    else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS)
+      body_rotation_y = (body_rotation_y - 5)%360;
+    else if(key==GLFW_KEY_RIGHT && action == GLFW_PRESS)
+      body_rotation_y = (body_rotation_y + 5)%360;    
+    else if(key==GLFW_KEY_Z && action == GLFW_PRESS)
+      body_rotation_z = (body_rotation_z - 5)%360;
+    else if(key==GLFW_KEY_A && action == GLFW_PRESS)
+      body_rotation_z = (body_rotation_z + 5)%360;    
+    
+
     else if(key==GLFW_KEY_S && action == GLFW_PRESS)
       solder_rotation_z = (solder_rotation_z + 5)%360;    
     else if(key==GLFW_KEY_D && action == GLFW_PRESS)
       solder_rotation_z = (solder_rotation_z - 5)%360;
+    else if(key==GLFW_KEY_X && action == GLFW_PRESS)
+      solder_rotation_x = (solder_rotation_x + 5)%360;    
+    else if(key==GLFW_KEY_B && action == GLFW_PRESS)
+      solder_rotation_x = (solder_rotation_x - 5)%360;      
+    else if(key==GLFW_KEY_Y && action == GLFW_PRESS)
+      solder_rotation_y = (solder_rotation_y + 5)%360;    
+    else if(key==GLFW_KEY_C && action == GLFW_PRESS)
+      solder_rotation_y = (solder_rotation_y - 5)%360;      
+
     else if(key==GLFW_KEY_E && action == GLFW_PRESS)
       elbows_rotation = (elbows_rotation + 5)%360;    
     else if(key==GLFW_KEY_B && action == GLFW_PRESS)
       elbows_rotation = (elbows_rotation - 5)%360;  
-    else if(key==GLFW_KEY_X && action == GLFW_PRESS)
-      solder_rotation_x = (solder_rotation_x + 5)%360;    
-    else if(key==GLFW_KEY_Y && action == GLFW_PRESS)
-      solder_rotation_x = (solder_rotation_x - 5)%360;      
+    
   }
 };  
   

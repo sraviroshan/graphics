@@ -23,6 +23,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <GL/glu.h>
 
 #include <iostream>
 
@@ -38,7 +39,11 @@ namespace csX75
   //!GLFW keyboard callback
   void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
   extern int rotation_angle; //angle for rotation about axis
+  extern int body_rotation_x; //rotate body about x axis
+  extern int body_rotation_y; //rotate body about x axis
+  extern int body_rotation_z; //rotate body about x axis
   extern int solder_rotation_z; //solder rotation angle about z axis
+  extern int solder_rotation_y; //solder rotation angle about y axis
   extern int solder_rotation_x; //solder rotation angle about x axis
   extern int elbows_rotation; //elbows rotarion angle about z axis
 };

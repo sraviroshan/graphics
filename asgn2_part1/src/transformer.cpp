@@ -25,140 +25,142 @@
 
 #include "gl_framework.hpp"
 
+#define id_torso 1
+#define torso_xl 3 
+#define torso_yl 5
+#define torso_zl 2
+
+#define id_uper_hand 2
+#define uper_hand_l 2.5
+
+#define id_lower_hand 3
+#define lower_hand_l 4 
 
 //! The pointer to the GLFW window
 GLFWwindow* window;
 
 //GLFW display callback
-void oldrenderGL( void )
+void unit_cube(void);
+void torso(void);
+void uper_hand(void);
+void lower_hand(void);
+
+/*-----------------------------INIT DISPLAY LISTS------------------------*/
+void init_structures(void)
 {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear The Screen And The Depth Buffer
-    glLoadIdentity();                   // Reset The View
-    //glTranslatef(-1.5f,0.0f,-6.0f);             // Move Left And Into The Screen
- 
-    glScalef(0.5, 0.5,  0.5);
-    glRotatef(20,1.0f,0.0f,0.0f);             // Rotate The Pyramid On It's Y Axis (angle in degrees)
- 
-    glBegin(GL_TRIANGLES);                  // Start Drawing The Pyramid
-
-    //front
-    glColor3f(1.0f,0.0f,0.0f);          // Red
-    glVertex3f( 0.0f, 1.0f, 0.0f);          // Top Of Triangle (Front)
-    glVertex3f(-1.0f,-1.0f, 1.0f);          // Left Of Triangle (Front)
-    glVertex3f( 1.0f,-1.0f, 1.0f);          // Right Of Triangle (Front)
-
-    //right
-    glColor3f(0.0f,0.0f,1.0f);          // Blue
-    glVertex3f( 0.0f, 1.0f, 0.0f);          // Top Of Triangle (Right)
-    glVertex3f( 1.0f,-1.0f, 1.0f);          // Left Of Triangle (Right)
-    glVertex3f( 1.0f,-1.0f, -1.0f);         // Right Of Triangle (Right)
-
-    //back
-    glColor3f(0.0f,1.0f,0.0f);          // Green
-    glVertex3f( 0.0f, 1.0f, 0.0f);          // Top Of Triangle (Back)
-    glVertex3f( 1.0f,-1.0f, -1.0f);         // Left Of Triangle (Back)
-    glVertex3f(-1.0f,-1.0f, -1.0f);         // Right Of Triangle (Back)
-
-    //left
-    glColor3f(1.0f,0.0f,0.0f);          // Red
-    glVertex3f( 0.0f, 1.0f, 0.0f);          // Top Of Triangle (Left)
-    glVertex3f(-1.0f,-1.0f,-1.0f);          // Left Of Triangle (Left)
-    glVertex3f(-1.0f,-1.0f, 1.0f);          // Right Of Triangle (Left)
-    glEnd();                        // Done Drawing The Pyramid
+  torso();
+  uper_hand();
+  lower_hand();
 }
-void tringle_axial_rotation(){
-  glLoadIdentity();
-  glRotatef(csX75::rotation_angle, 1, 1, 0);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-  glColor4f(0.5, 0.0, 0.5, 1.0);
-  glBegin(GL_TRIANGLES);
-  glVertex3f(-0.5f,  0.5f,  0.0f);
-  glVertex3f(0.5f, 0.5f,  0.5f);
-  glVertex3f(0.5f, -0.5f,  0.0f);
-  glEnd();
-
-  glColor4f(0.5, 0.0, 1.0, 1.0);
-  glBegin(GL_TRIANGLES);
-  glVertex3f(-0.5f,  0.5f,  0.0f);
-  glVertex3f(-0.5f, -0.5f,  0.5f);
-  glVertex3f(0.5f, -0.5f,  0.0f);
-  glEnd();
-}
-void hand(){
+void unit_cube(){
   glBegin(GL_QUADS);            //front face
-  glVertex3f(0.0f,0.2f,0.1f); 
-  glVertex3f(0.0f,-0.2f,0.1f);
-  glVertex3f(0.5f,-0.2f,0.1f);
-  glVertex3f(0.5f,0.2f,0.1f);
+  glVertex3f(-0.1f,0.1f,0.1f); 
+  glVertex3f(-0.1f,-0.1f,0.1f);
+  glVertex3f(0.1f,-0.1f,0.1f);
+  glVertex3f(0.1f,0.1f,0.1f);
   glEnd();
   
   glBegin(GL_QUADS);          //back face       
-  glVertex3f(0.0f,0.2f,-0.1f);
-  glVertex3f(0.0f,-0.2f,-0.1f);
-  glVertex3f(0.5f,-0.2f,-0.1f);
-  glVertex3f(0.5f,0.2f,-0.1f);
+  glVertex3f(-0.1f,0.1f,-0.1f);
+  glVertex3f(-0.1f,-0.1f,-0.1f);
+  glVertex3f(0.1f,-0.1f,-0.1f);
+  glVertex3f(0.1f,0.1f,-0.1f);
   glEnd();
   
   glBegin(GL_QUADS);          //left face
-  glVertex3f(0.0f,0.2f,0.1f);
-  glVertex3f(0.0f,0.2f,-0.1f);
-  glVertex3f(0.0f,-0.2f,-0.1f);
-  glVertex3f(0.0f,-0.2f,0.1f);
+  glVertex3f(-0.1f,0.1f,0.1f);
+  glVertex3f(-0.1f,0.1f,-0.1f);
+  glVertex3f(-0.1f,-0.1f,-0.1f);
+  glVertex3f(-0.1f,-0.1f,0.1f);
   glEnd();
 
   glBegin(GL_QUADS);          //right face
-  glVertex3f(0.5f,0.2f,0.1f);
-  glVertex3f(0.5f,0.2f,-0.1f);
-  glVertex3f(0.5f,-0.2f,-0.1f);
-  glVertex3f(0.5f,-0.2f,0.1f);
+  glVertex3f(0.1f,0.1f,0.1f);
+  glVertex3f(0.1f,0.1f,-0.1f);
+  glVertex3f(0.1f,-0.1f,-0.1f);
+  glVertex3f(0.1f,-0.1f,0.1f);
   glEnd();
   
   glBegin(GL_QUADS);        //top face        
-  glVertex3f(0.0f,0.2f,-0.1f);
-  glVertex3f(0.0f,0.2f,0.1f);
-  glVertex3f(0.5f,0.2f,0.1f);
-  glVertex3f(0.5f,0.2f,-0.1f);
+  glVertex3f(-0.1f,0.1f,-0.1f);
+  glVertex3f(-0.1f,0.1f,0.1f);
+  glVertex3f(0.1f,0.1f,0.1f);
+  glVertex3f(0.1f,0.1f,-0.1f);
   glEnd();
   
   glBegin(GL_QUADS);        //bottom face
-  glVertex3f(0.0f,-0.2f,-0.1f);
-  glVertex3f(0.0f,-0.2f,0.1f);
-  glVertex3f(0.5f,-0.2f,0.1f);
-  glVertex3f(0.5f,-0.2f,-0.1f);
+  glVertex3f(-0.1f,-0.1f,-0.1f);
+  glVertex3f(-0.1f,-0.1f,0.1f);
+  glVertex3f(0.1f,-0.1f,0.1f);
+  glVertex3f(0.1f,-0.1f,-0.1f);
   glEnd();
-  
+
 }
-void arm_rotation(){
+void torso(){
+  glNewList(id_torso,GL_COMPILE);
+  glScalef(torso_xl,torso_yl,torso_zl);
+  unit_cube();
+  glEndList();
+}
+void uper_hand(){
+  glNewList(id_uper_hand,GL_COMPILE);
+  glScalef(uper_hand_l,1,1);
+  unit_cube();
+  glEndList();
+}
+
+void lower_hand(){
+  glNewList(id_lower_hand,GL_COMPILE);
+  glScalef(lower_hand_l,1,1);
+  unit_cube();
+  glEndList();
+}
+
+void hierarchi(){
   glLoadIdentity();
 
-  glScalef(0.5, 0.5, 0.5);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glRotatef(csX75::solder_rotation_x,1,0,0);
-  glRotatef(csX75::solder_rotation_z,0,0,1);
+  //set eye 
+   gluLookAt(0.4,0,0.4,
+             0,0,0,
+             0,1,0);
+  //body rotation
+  glScalef(0.1, 0.1, 0.1);
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+      glRotatef(csX75::body_rotation_x,1,0,0);
+      glRotatef(csX75::body_rotation_y,0,0,1);
+      glRotatef(csX75::body_rotation_z,0,0,1);
+      
 
-  glPushMatrix();
+    glPushMatrix();
+    
+      glCallList(id_torso);
+    glPopMatrix();
   
-  glColor4f(0.5,0.0,0.5,1.0);
-  hand();
-  glPopMatrix();
+    glPushMatrix();
+      glRotatef(csX75::solder_rotation_x,1,0,0);
+      glRotatef(csX75::solder_rotation_y,1,0,0);
+      glRotatef(csX75::solder_rotation_z,0,0,1);
+      glTranslatef((torso_xl+uper_hand_l)/2,torso_yl/2,0.0f);
+            
+      glPushMatrix();
+        glColor4f(0.0,1.0,0.0,1.0);
+        glCallList(id_uper_hand);
+      glPopMatrix();
 
-  glPushMatrix();
-  glTranslatef(0.5f,0.0f,0.0f);
-  glRotatef(csX75::elbows_rotation,0,0,1);
-
-  glColor4f(0.7,0.0,0.2,1.0);
-  glScalef(1.5,1,1);
-  hand();
-  glPopMatrix();
+      glPushMatrix();
+        glTranslatef((uper_hand_l+lower_hand_l)/2,0.0f,0.0f);
+        glRotatef(csX75::elbows_rotation,0,0,1);
+        glColor4f(0.0,0.0,1.0,1.0);
+        glCallList(id_lower_hand);
+      glPopMatrix();
+    glPopMatrix();
   
-
+   
 }
 
 void renderGL(void){
   //tringle_axial_rotation();
-  arm_rotation();
+  hierarchi();
 }
 
 int main (int argc, char *argv[]) 
@@ -196,11 +198,16 @@ int main (int argc, char *argv[])
   csX75::framebuffer_size_callback(window, win_width, win_height);
   //Initialize GL state
   csX75::initGL();
-  csX75::rotation_angle=0;
-  csX75::solder_rotation_z=0;
+  //csX75::rotation_angle=0;
+  csX75::body_rotation_x=0;
+  csX75::body_rotation_y=0;
+  csX75::body_rotation_z=0;
   csX75::solder_rotation_x=0;
+  csX75::solder_rotation_y=0;
+  csX75::solder_rotation_z=0;
   csX75::elbows_rotation=0;
 
+  init_structures();  //
   // Loop until the user closes the window
   while (glfwWindowShouldClose(window) == 0)
     {
