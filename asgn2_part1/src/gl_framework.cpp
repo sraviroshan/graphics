@@ -96,22 +96,22 @@ namespace csX75
       body_rotation_z = (body_rotation_z + 5)%360;    
     
 
-    else if(key==GLFW_KEY_S && action == GLFW_PRESS)
+    else if(key==GLFW_KEY_T && action == GLFW_PRESS)
       solder_rotation_z = (solder_rotation_z + 5)%360;    
-    else if(key==GLFW_KEY_D && action == GLFW_PRESS)
-      solder_rotation_z = (solder_rotation_z - 5)%360;
-    else if(key==GLFW_KEY_X && action == GLFW_PRESS)
-      solder_rotation_x = (solder_rotation_x + 5)%360;    
-    else if(key==GLFW_KEY_B && action == GLFW_PRESS)
-      solder_rotation_x = (solder_rotation_x - 5)%360;      
     else if(key==GLFW_KEY_Y && action == GLFW_PRESS)
+      solder_rotation_z = (solder_rotation_z - 5)%360;
+    else if(key==GLFW_KEY_Q && action == GLFW_PRESS)
+      solder_rotation_x = (solder_rotation_x + 5)%360;    
+    else if(key==GLFW_KEY_W && action == GLFW_PRESS)
+      solder_rotation_x = (solder_rotation_x - 5)%360;      
+    else if(key==GLFW_KEY_E && action == GLFW_PRESS)
       solder_rotation_y = (solder_rotation_y + 5)%360;    
-    else if(key==GLFW_KEY_C && action == GLFW_PRESS)
+    else if(key==GLFW_KEY_R && action == GLFW_PRESS)
       solder_rotation_y = (solder_rotation_y - 5)%360;      
 
-    else if(key==GLFW_KEY_E && action == GLFW_PRESS)
+    else if(key==GLFW_KEY_S && action == GLFW_PRESS)
       elbows_rotation = (elbows_rotation + 5)%360;    
-    else if(key==GLFW_KEY_B && action == GLFW_PRESS)
+    else if(key==GLFW_KEY_D && action == GLFW_PRESS)
       elbows_rotation = (elbows_rotation - 5)%360;  
     
   }

@@ -26,15 +26,15 @@
 #include "gl_framework.hpp"
 
 #define id_torso 1
-#define torso_xl 3 
-#define torso_yl 5
-#define torso_zl 2
+#define torso_xl 3.0 
+#define torso_yl 5.0
+#define torso_zl 2.0
 
 #define id_uper_hand 2
 #define uper_hand_l 2.5
 
 #define id_lower_hand 3
-#define lower_hand_l 4 
+#define lower_hand_l 4.0 
 
 //! The pointer to the GLFW window
 GLFWwindow* window;
@@ -54,45 +54,45 @@ void init_structures(void)
 }
 void unit_cube(){
   glBegin(GL_QUADS);            //front face
-  glVertex3f(-0.1f,0.1f,0.1f); 
-  glVertex3f(-0.1f,-0.1f,0.1f);
-  glVertex3f(0.1f,-0.1f,0.1f);
-  glVertex3f(0.1f,0.1f,0.1f);
+  glVertex3f(-1.0f,1.0f,1.0f); 
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
   glEnd();
   
   glBegin(GL_QUADS);          //back face       
-  glVertex3f(-0.1f,0.1f,-0.1f);
-  glVertex3f(-0.1f,-0.1f,-0.1f);
-  glVertex3f(0.1f,-0.1f,-0.1f);
-  glVertex3f(0.1f,0.1f,-0.1f);
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
   glBegin(GL_QUADS);          //left face
-  glVertex3f(-0.1f,0.1f,0.1f);
-  glVertex3f(-0.1f,0.1f,-0.1f);
-  glVertex3f(-0.1f,-0.1f,-0.1f);
-  glVertex3f(-0.1f,-0.1f,0.1f);
+  glVertex3f(-1.0f,1.0f,1.0f);
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
   glEnd();
 
   glBegin(GL_QUADS);          //right face
-  glVertex3f(0.1f,0.1f,0.1f);
-  glVertex3f(0.1f,0.1f,-0.1f);
-  glVertex3f(0.1f,-0.1f,-0.1f);
-  glVertex3f(0.1f,-0.1f,0.1f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
   glEnd();
   
   glBegin(GL_QUADS);        //top face        
-  glVertex3f(-0.1f,0.1f,-0.1f);
-  glVertex3f(-0.1f,0.1f,0.1f);
-  glVertex3f(0.1f,0.1f,0.1f);
-  glVertex3f(0.1f,0.1f,-0.1f);
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
   glBegin(GL_QUADS);        //bottom face
-  glVertex3f(-0.1f,-0.1f,-0.1f);
-  glVertex3f(-0.1f,-0.1f,0.1f);
-  glVertex3f(0.1f,-0.1f,0.1f);
-  glVertex3f(0.1f,-0.1f,-0.1f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
   glEnd();
 
 }
@@ -104,6 +104,7 @@ void torso(){
 }
 void uper_hand(){
   glNewList(id_uper_hand,GL_COMPILE);
+  glTranslatef(uper_hand_l/2,0,0);
   glScalef(uper_hand_l,1,1);
   unit_cube();
   glEndList();
@@ -111,6 +112,7 @@ void uper_hand(){
 
 void lower_hand(){
   glNewList(id_lower_hand,GL_COMPILE);
+  glTranslatef(lower_hand_l,0,0);
   glScalef(lower_hand_l,1,1);
   unit_cube();
   glEndList();
@@ -119,36 +121,32 @@ void lower_hand(){
 void hierarchi(){
   glLoadIdentity();
 
-  //set eye 
-   gluLookAt(0.4,0,0.4,
-             0,0,0,
-             0,1,0);
   //body rotation
-  glScalef(0.1, 0.1, 0.1);
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-      glRotatef(csX75::body_rotation_x,1,0,0);
-      glRotatef(csX75::body_rotation_y,0,0,1);
-      glRotatef(csX75::body_rotation_z,0,0,1);
+   glScalef(0.05, 0.05, 0.05);
+       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+       glRotatef(csX75::body_rotation_x,1,0,0);
+       glRotatef(csX75::body_rotation_y,0,1,0);
+       glRotatef(csX75::body_rotation_z,0,0,1);
       
 
     glPushMatrix();
-    
+      glColor4f(1.0,0.0,0.0,1.0);
       glCallList(id_torso);
     glPopMatrix();
   
     glPushMatrix();
-      glRotatef(csX75::solder_rotation_x,1,0,0);
-      glRotatef(csX75::solder_rotation_y,1,0,0);
-      glRotatef(csX75::solder_rotation_z,0,0,1);
-      glTranslatef((torso_xl+uper_hand_l)/2,torso_yl/2,0.0f);
+       glTranslatef(torso_xl,torso_yl,0.0f);
+       glRotatef(csX75::solder_rotation_x,1,0,0);
+       glRotatef(csX75::solder_rotation_y,0,1,0);
+       glRotatef(csX75::solder_rotation_z,0,0,1);
             
-      glPushMatrix();
-        glColor4f(0.0,1.0,0.0,1.0);
-        glCallList(id_uper_hand);
-      glPopMatrix();
+       glPushMatrix();
+         glColor4f(0.0,1.0,0.0,1.0);
+         glCallList(id_uper_hand);
+       glPopMatrix();
 
       glPushMatrix();
-        glTranslatef((uper_hand_l+lower_hand_l)/2,0.0f,0.0f);
+        glTranslatef(uper_hand_l,0.0f,0.0f);
         glRotatef(csX75::elbows_rotation,0,0,1);
         glColor4f(0.0,0.0,1.0,1.0);
         glCallList(id_lower_hand);
