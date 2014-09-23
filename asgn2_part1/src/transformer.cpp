@@ -47,6 +47,9 @@
 #define id_lower_leg 6
 #define lower_leg_l 4
 
+#define id_unit_weel 7
+#define unit_weel_y 6
+
 //! The pointer to the GLFW window
 GLFWwindow* window;
 
@@ -58,6 +61,7 @@ void lower_hand(void);
 void waist(void);
 void uper_leg(void);
 void lower_leg(void);
+void unit_weel(void);
 /*-----------------------------INIT DISPLAY LISTS------------------------*/
 void init_structures(void)
 {
@@ -67,7 +71,82 @@ void init_structures(void)
   waist();
   uper_leg();
   lower_leg();
+
+  unit_weel();
 }
+//unit weel
+void unit_weel(){
+  
+  glNewList(id_unit_weel,GL_COMPILE);
+  glTranslatef(0,unit_weel_y,0);
+  
+  glColor4f(1, 0.44, .555, 1);
+  glBegin(GL_TRIANGLE_FAN);
+    glVertex3f(0.0f,0.0f,0.20f);
+    glVertex3f(1.0f,0.0f,0.20f);
+    glVertex3f(0.8660f,0.50f,0.20f);
+    glVertex3f(0.50f,0.8660f,0.20f);
+    glVertex3f(0.0f,1.0f,0.20f);
+    glVertex3f(-0.50f,0.8660f,0.20f);
+    glVertex3f(-0.8660f,0.50f,0.20f);
+    glVertex3f(-1.0f,0.0f,0.20f);
+    glVertex3f(-0.8660f,-0.50f,0.20f);
+    glVertex3f(-0.50f,-0.8660f,0.20f);
+    glVertex3f(0.0f,-1.0f,0.20f);
+    glVertex3f(0.50f,-0.8660f,0.20f);
+    glVertex3f(0.8660f,-0.50f,0.20f);
+    glVertex3f(1.0f,0.0f,0.20f);
+  glEnd();
+  glBegin(GL_TRIANGLE_FAN);
+    glVertex3f(0.0f,0.0f,-0.20f);
+    glVertex3f(1.0f,0.0f,-0.20f);
+    glVertex3f(0.8660f,0.50f,-0.20f);
+    glVertex3f(0.50f,0.8660f,-0.20f);
+    glVertex3f(0.0f,1.0f,-0.20f);
+    glVertex3f(-0.50f,0.8660f,-0.20f);
+    glVertex3f(-0.8660f,0.50f,-0.20f);
+    glVertex3f(-1.0f,0.0f,-0.20f);
+    glVertex3f(-0.8660f,-0.50f,-0.20f);
+    glVertex3f(-0.50f,-0.8660f,-0.20f);
+    glVertex3f(0.0f,-1.0f,-0.20f);
+    glVertex3f(0.50f,-0.8660f,-0.20f);
+    glVertex3f(0.8660f,-0.50f,-0.20f);
+    glVertex3f(1.0f,0.0f,-0.20f);
+  glEnd();
+  
+  glColor4f(0, 0.44, .555, 1);
+  glBegin(GL_QUAD_STRIP);
+    glVertex3f(1.0f,0.0f,0.20f);
+    glVertex3f(0.0f,0.0f,-0.20f);
+    glVertex3f(0.8660f,0.50f,0.20f);
+    glVertex3f(0.8660f,0.50f,-0.20f);
+    glVertex3f(0.50f,0.8660f,0.20f);
+    glVertex3f(0.50f,0.8660f,-0.20f);
+    glVertex3f(0.0f,1.0f,0.20f);
+    glVertex3f(0.0f,1.0f,-0.20f);
+    glVertex3f(-0.50f,0.8660f,0.20f);
+    glVertex3f(-0.50f,0.8660f,-0.20f);
+    glVertex3f(-0.8660f,0.50f,0.20f);
+    glVertex3f(-0.8660f,0.50f,-0.20f);
+    glVertex3f(-1.0f,0.0f,0.20f);
+    glVertex3f(-1.0f,0.0f,-0.20f);
+    glVertex3f(-0.8660f,-0.50f,0.20f);
+    glVertex3f(-0.8660f,-0.50f,-0.20f);
+    glVertex3f(-0.50f,-0.8660f,0.20f);
+    glVertex3f(-0.50f,-0.8660f,-0.20f);
+    glVertex3f(0.0f,-1.0f,0.20f);
+    glVertex3f(0.0f,-1.0f,-0.20f);
+    glVertex3f(0.50f,-0.8660f,0.20f);
+    glVertex3f(0.50f,-0.8660f,-0.20f);
+    glVertex3f(0.8660f,-0.50f,0.20f);
+    glVertex3f(0.8660f,-0.50f,-0.20f);
+  glEnd();
+
+  glEndList();
+    
+}
+
+
 void unit_cube(){
   glBegin(GL_QUADS);            //front face
   glVertex3f(-1.0f,1.0f,1.0f); 
@@ -420,6 +499,10 @@ void hierarchi(){
       glColor4f(1.0,0.0,0.0,1.0);
       glCallList(id_torso);
     glPopMatrix();
+    //weel
+    glPushMatrix();
+      glCallList(id_unit_weel);
+    glPopMatrix();
   
     //left hand  
     glPushMatrix();
@@ -484,7 +567,7 @@ void hierarchi(){
           glCallList(id_lower_leg);
         glPopMatrix();
       glPopMatrix();
-       
+
       //right leg
       glPushMatrix();
         glTranslatef(-1*torso_xl/2,-2*waist_yl,0);
