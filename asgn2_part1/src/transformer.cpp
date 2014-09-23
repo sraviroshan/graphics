@@ -42,7 +42,10 @@
 #define waist_zl 1.0
 
 #define id_uper_leg 5
-#define uper_leg_l 5
+#define uper_leg_l 2
+
+#define id_lower_leg 6
+#define lower_leg_l 4
 
 //! The pointer to the GLFW window
 GLFWwindow* window;
@@ -54,7 +57,7 @@ void uper_hand(void);
 void lower_hand(void);
 void waist(void);
 void uper_leg(void);
-
+void lower_leg(void);
 /*-----------------------------INIT DISPLAY LISTS------------------------*/
 void init_structures(void)
 {
@@ -63,6 +66,7 @@ void init_structures(void)
   lower_hand();
   waist();
   uper_leg();
+  lower_leg();
 }
 void unit_cube(){
   glBegin(GL_QUADS);            //front face
@@ -341,6 +345,63 @@ void uper_leg(){
   glEndList();
 
 }
+//lower leg
+void lower_leg(){
+  glNewList(id_lower_leg,GL_COMPILE);
+  glTranslatef(0,-1*lower_leg_l,0);
+  glScalef(0.8,lower_leg_l,1);
+  
+  glColor4f(0.3989,0.1056 ,0.48, 1);
+  glBegin(GL_QUADS);            //front face
+  glVertex3f(-1.0f,1.0f,1.0f); 
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glEnd();
+  
+  glColor4f(0.3989,0.1056 ,0.48, 1);
+  glBegin(GL_QUADS);          //back face       
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glColor4f(0.28,0.0616, 0.1126, 1);
+  glBegin(GL_QUADS);          //left face
+  glVertex3f(-1.0f,1.0f,1.0f);
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glEnd();
+
+  glColor4f(0.28,0.0616, 0.1126, 1);
+  glBegin(GL_QUADS);          //right face
+  glVertex3f(1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glEnd();
+  
+  glColor4f(0.2366, 0.1056, 0.48, 1);
+  glBegin(GL_QUADS);        //top face        
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glColor4f(0.2366, 0.1056, 0.48, 1);
+  glBegin(GL_QUADS);        //bottom face
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glEnd();
+
+  glEndList();
+
+}
 
 
 
@@ -348,7 +409,7 @@ void hierarchi(){
   glLoadIdentity();
 
   //body rotation
-   glScalef(0.05, 0.05, 0.05);
+   glScalef(0.04, 0.04, 0.04);
        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
        glRotatef(csX75::body_rotation_x,1,0,0);
        glRotatef(csX75::body_rotation_y,0,1,0);
@@ -404,20 +465,38 @@ void hierarchi(){
     //waist
     glPushMatrix();
       glTranslatef(0,-1*torso_yl,0);
+      glRotatef(csX75::waist_rotation,0,1,0);
 
       glPushMatrix();
         glCallList(id_waist);
       glPopMatrix();
-    //left leg
-
+      
+      //left leg
       glPushMatrix();
         glTranslatef(torso_xl/2,-2*waist_yl,0);
-        glCallList(id_uper_leg);
+        glPushMatrix();
+          glCallList(id_uper_leg);
+        glPopMatrix();
+
+        glPushMatrix();
+          glTranslatef(0,-2*uper_leg_l,0);
+          glRotatef(csX75::lower_leg_rotation_l,1,0,0);
+          glCallList(id_lower_leg);
+        glPopMatrix();
       glPopMatrix();
+       
       //right leg
       glPushMatrix();
         glTranslatef(-1*torso_xl/2,-2*waist_yl,0);
-        glCallList(id_uper_leg);
+        glPushMatrix();
+          glCallList(id_uper_leg);
+        glPopMatrix();
+        
+        glPushMatrix();
+          glTranslatef(0,-2*uper_leg_l,0);
+          glRotatef(csX75::lower_leg_rotation_r,1,0,0);
+          glCallList(id_lower_leg);
+        glPopMatrix();        
       glPopMatrix();
     glPopMatrix();
    
@@ -474,7 +553,10 @@ int main (int argc, char *argv[])
   csX75::solder_rotation_y=0;
   csX75::solder_rotation_z=0;
   csX75::elbows_rotation=0;
-  
+  csX75::waist_rotation=0;
+  csX75::lower_leg_rotation_l=0;
+  csX75::lower_leg_rotation_r=0;
+
 
 
   init_structures();  //

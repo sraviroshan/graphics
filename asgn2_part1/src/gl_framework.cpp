@@ -32,6 +32,9 @@ namespace csX75
   int solder_rotation_y;
   int solder_rotation_x;
   int elbows_rotation;
+  int waist_rotation;
+  int lower_leg_rotation_l;
+  int lower_leg_rotation_r;
 
   //! Initialize GL State
   void initGL(void)
@@ -82,6 +85,7 @@ namespace csX75
     //!Close the window if the ESC key was pressed
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
+    //whole body rotation
     else if(key==GLFW_KEY_DOWN && action == GLFW_PRESS)
       body_rotation_x = (body_rotation_x - 5)%360;
     else if(key==GLFW_KEY_UP && action == GLFW_PRESS)
@@ -95,7 +99,7 @@ namespace csX75
     else if(key==GLFW_KEY_A && action == GLFW_PRESS)
       body_rotation_z = (body_rotation_z + 5)%360;    
     
-
+    // uper left hand rotation
     else if(key==GLFW_KEY_T && action == GLFW_PRESS)
       solder_rotation_z = (solder_rotation_z + 5)%360;    
     else if(key==GLFW_KEY_Y && action == GLFW_PRESS)
@@ -108,12 +112,28 @@ namespace csX75
       solder_rotation_y = (solder_rotation_y + 5)%360;    
     else if(key==GLFW_KEY_R && action == GLFW_PRESS)
       solder_rotation_y = (solder_rotation_y - 5)%360;      
-
+    //lower left hand rotation
     else if(key==GLFW_KEY_S && action == GLFW_PRESS)
       elbows_rotation = (elbows_rotation + 5)%360;    
     else if(key==GLFW_KEY_D && action == GLFW_PRESS)
       elbows_rotation = (elbows_rotation - 5)%360;  
+    // waist rotation
+    else if (key==GLFW_KEY_M && action == GLFW_PRESS)
+      waist_rotation = (waist_rotation +5)%360;
+    //lower left leg
+    else if (key==GLFW_KEY_P && action== GLFW_PRESS)
+      lower_leg_rotation_l = (lower_leg_rotation_l + 5)%360;
+    else if (key==GLFW_KEY_O && action== GLFW_PRESS)
+      lower_leg_rotation_l = (lower_leg_rotation_l - 5)%360;
+    //lower right leg
+    else if (key==GLFW_KEY_I && action== GLFW_PRESS)
+      lower_leg_rotation_r = (lower_leg_rotation_r + 5)%360;
+    else if (key==GLFW_KEY_U && action== GLFW_PRESS)
+      lower_leg_rotation_r = (lower_leg_rotation_r - 5)%360;
     
+
+
+
   }
 };  
   

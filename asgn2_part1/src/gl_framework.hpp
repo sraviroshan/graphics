@@ -46,6 +46,9 @@ namespace csX75
   extern int solder_rotation_y; //solder rotation angle about y axis
   extern int solder_rotation_x; //solder rotation angle about x axis
   extern int elbows_rotation; //elbows rotarion angle about z axis
+  extern int waist_rotation; // rotation of waist about y axis
+  extern int lower_leg_rotation_l; //rotation of left lower leg about x axis
+  extern int lower_leg_rotation_r; //rotation of right lower leg about x axis
 };
 
 #endif
