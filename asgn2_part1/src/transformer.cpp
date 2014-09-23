@@ -36,7 +36,12 @@
 #define id_lower_hand 3
 #define lower_hand_l 4.0 
 
-#define id_uper_leg 4
+#define id_waist  4
+#define waist_xl 2.0
+#define waist_yl 1.5
+#define waist_zl 1.0
+
+#define id_uper_leg 5
 #define uper_leg_l 5
 
 //! The pointer to the GLFW window
@@ -47,6 +52,7 @@ void unit_cube(void);
 void torso(void);
 void uper_hand(void);
 void lower_hand(void);
+void waist(void);
 void uper_leg(void);
 
 /*-----------------------------INIT DISPLAY LISTS------------------------*/
@@ -55,6 +61,7 @@ void init_structures(void)
   torso();
   uper_hand();
   lower_hand();
+  waist();
   uper_leg();
 }
 void unit_cube(){
@@ -269,6 +276,14 @@ void lower_hand(){
 
   glEndList();
 }
+//waist
+void waist(){
+  glNewList(id_waist,GL_COMPILE);
+  glTranslatef(0,-1*waist_yl,0);
+  glScalef(waist_xl,waist_yl,waist_zl);
+  unit_cube();
+  glEndList();
+}
 //uper_leg
 void uper_leg(){
   glNewList(id_uper_leg,GL_COMPILE);
@@ -385,12 +400,23 @@ void hierarchi(){
         glCallList(id_lower_hand);
       glPopMatrix();
     glPopMatrix();
-
-    //left leg
+    
+    //waist
     glPushMatrix();
-      glTranslatef(torso_xl/2,-1*torso_yl,0);
+      glTranslatef(0,-1*torso_yl,0);
 
       glPushMatrix();
+        glCallList(id_waist);
+      glPopMatrix();
+    //left leg
+
+      glPushMatrix();
+        glTranslatef(torso_xl/2,-2*waist_yl,0);
+        glCallList(id_uper_leg);
+      glPopMatrix();
+      //right leg
+      glPushMatrix();
+        glTranslatef(-1*torso_xl/2,-2*waist_yl,0);
         glCallList(id_uper_leg);
       glPopMatrix();
     glPopMatrix();
