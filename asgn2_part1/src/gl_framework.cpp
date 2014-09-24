@@ -35,6 +35,7 @@ namespace csX75
   int waist_rotation;
   int lower_leg_rotation_l;
   int lower_leg_rotation_r;
+  int front_weel_slab_rotation;
 
   //! Initialize GL State
   void initGL(void)
@@ -130,7 +131,9 @@ namespace csX75
       lower_leg_rotation_r = (lower_leg_rotation_r + 5)%360;
     else if (key==GLFW_KEY_U && action== GLFW_PRESS)
       lower_leg_rotation_r = (lower_leg_rotation_r - 5)%360;
-    
+    //front leg slab contain weel rotation
+    else if(key== GLFW_KEY_L && action == GLFW_PRESS)
+      front_weel_slab_rotation = (front_weel_slab_rotation + 5)%360;
 
 
 

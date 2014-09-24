@@ -49,6 +49,7 @@ namespace csX75
   extern int waist_rotation; // rotation of waist about y axis
   extern int lower_leg_rotation_l; //rotation of left lower leg about x axis
   extern int lower_leg_rotation_r; //rotation of right lower leg about x axis
+  extern int front_weel_slab_rotation; //rotarion of slab contain weel around x axis
 };
 
 #endif

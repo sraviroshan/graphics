@@ -22,13 +22,14 @@
 #include <unistd.h>
 #include <iostream>
 #include <string>
+#include <cmath>
 
 #include "gl_framework.hpp"
 
 #define id_torso 1
-#define torso_xl 3.0 
-#define torso_yl 5.0
-#define torso_zl 2.0
+#define torso_xl 2.50 
+#define torso_yl 3.0
+#define torso_zl 1.50
 
 #define id_uper_hand 2
 #define uper_hand_l 2.5
@@ -38,17 +39,28 @@
 
 #define id_waist  4
 #define waist_xl 2.0
-#define waist_yl 1.5
+#define waist_yl 0.5
 #define waist_zl 1.0
 
 #define id_uper_leg 5
-#define uper_leg_l 2
+#define uper_leg_l 2.0
 
 #define id_lower_leg 6
-#define lower_leg_l 4
+#define lower_leg_l 4.0
+#define lower_leg_xl 0.8
 
-#define id_unit_weel 7
-#define unit_weel_y 6
+#define id_front_weel_slab 7
+#define front_weel_slab_xl 0.5
+#define front_weel_slab_yl 2.0
+
+#define id_unit_weel 8
+#define unit_weel_y 6.0
+#define id_weel 9
+#define weel_radius 2.0
+#define weel_width  1.0
+#define weel_angle  15
+
+#define PI 3.14159265359
 
 //! The pointer to the GLFW window
 GLFWwindow* window;
@@ -62,6 +74,10 @@ void waist(void);
 void uper_leg(void);
 void lower_leg(void);
 void unit_weel(void);
+void front_weel_slab(void);
+void weel(void);
+
+
 /*-----------------------------INIT DISPLAY LISTS------------------------*/
 void init_structures(void)
 {
@@ -71,8 +87,10 @@ void init_structures(void)
   waist();
   uper_leg();
   lower_leg();
+  front_weel_slab();
 
   unit_weel();
+  weel();
 }
 //unit weel
 void unit_weel(){
@@ -146,7 +164,31 @@ void unit_weel(){
     
 }
 
+void weel(){
+  glNewList(id_weel,GL_COMPILE);
 
+
+  glBegin(GL_TRIANGLE_FAN);
+    for(int i=0;i<=360;i+=weel_angle){
+      float radian = i* PI/180.0;
+      glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),weel_width/2);
+    }
+  glEnd();
+  glBegin(GL_TRIANGLE_FAN);
+    for(int i=0;i<=360;i+=weel_angle){
+      float radian = i* PI/180.0;
+      glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),-1*weel_width/2);
+    }
+  glEnd();
+  glBegin(GL_QUAD_STRIP);
+    for(int i=0;i<=360;i+=weel_angle){
+      float radian = i* PI/180.0;
+      glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),weel_width/2);
+      glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),-1*weel_width/2);
+    }
+  glEnd();
+  glEndList();
+}
 void unit_cube(){
   glBegin(GL_QUADS);            //front face
   glVertex3f(-1.0f,1.0f,1.0f); 
@@ -428,7 +470,7 @@ void uper_leg(){
 void lower_leg(){
   glNewList(id_lower_leg,GL_COMPILE);
   glTranslatef(0,-1*lower_leg_l,0);
-  glScalef(0.8,lower_leg_l,1);
+  glScalef(lower_leg_xl,lower_leg_l,1);
   
   glColor4f(0.3989,0.1056 ,0.48, 1);
   glBegin(GL_QUADS);            //front face
@@ -481,7 +523,63 @@ void lower_leg(){
   glEndList();
 
 }
+//front weel slab
+void front_weel_slab(){
+  glNewList(id_front_weel_slab, GL_COMPILE);
+  glTranslatef(0,-1*front_weel_slab_yl,0);
+  glScalef(front_weel_slab_xl,front_weel_slab_yl,1);
 
+  glColor4f(0.28,0.0616, 1, 1);
+  glBegin(GL_QUADS);            //front face
+  glVertex3f(-1.0f,1.0f,1.0f); 
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glEnd();
+  
+  glColor4f(0.28,0.0616, 1, 1);
+  glBegin(GL_QUADS);          //back face       
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glColor4f(0.3989,0.1056 ,0.8, 1);
+  glBegin(GL_QUADS);          //left face
+  glVertex3f(-1.0f,1.0f,1.0f);
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glEnd();
+
+  glColor4f(0.3989,0.1056 ,0.8, 1);
+  glBegin(GL_QUADS);          //right face
+  glVertex3f(1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glEnd();
+  
+  glColor4f(0.2366, 0.1056, 0.48, 1);
+  glBegin(GL_QUADS);        //top face        
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glColor4f(0.2366, 0.1056, 0.48, 1);
+  glBegin(GL_QUADS);        //bottom face
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glEnd();
+
+  glEndList();
+
+}
 
 
 void hierarchi(){
@@ -564,8 +662,24 @@ void hierarchi(){
         glPushMatrix();
           glTranslatef(0,-2*uper_leg_l,0);
           glRotatef(csX75::lower_leg_rotation_l,1,0,0);
-          glCallList(id_lower_leg);
-        glPopMatrix();
+          glPushMatrix();
+            glCallList(id_lower_leg);
+          glPopMatrix();
+          glPushMatrix();
+            glTranslatef(lower_leg_xl+front_weel_slab_xl,(-1*lower_leg_l),0);
+            glRotatef(csX75::front_weel_slab_rotation,1,0,0);
+            
+            glPushMatrix();
+              glCallList(id_front_weel_slab);
+            glPopMatrix();
+            
+            glPushMatrix();
+              glTranslatef(front_weel_slab_xl+weel_width/2,-1*front_weel_slab_yl,0);
+              glRotatef(90,0,1,0);
+              glCallList(id_weel);
+            glPopMatrix();
+          glPopMatrix();
+        glPopMatrix();        
       glPopMatrix();
 
       //right leg
@@ -578,8 +692,23 @@ void hierarchi(){
         glPushMatrix();
           glTranslatef(0,-2*uper_leg_l,0);
           glRotatef(csX75::lower_leg_rotation_r,1,0,0);
-          glCallList(id_lower_leg);
-        glPopMatrix();        
+          glPushMatrix();
+            glCallList(id_lower_leg);
+          glPopMatrix();
+          glPushMatrix();
+            glTranslatef(-1*(lower_leg_xl+front_weel_slab_xl),(-1*lower_leg_l),0);
+            glRotatef(csX75::front_weel_slab_rotation,1,0,0);
+            glPushMatrix();
+              glCallList(id_front_weel_slab);
+            glPopMatrix();
+            glPushMatrix();
+              glTranslatef(-1*(front_weel_slab_xl+weel_width/2),-1*front_weel_slab_yl,0);
+              glRotatef(90,0,1,0);
+              glCallList(id_weel);
+            glPopMatrix();
+
+          glPopMatrix();
+        glPopMatrix();                
       glPopMatrix();
     glPopMatrix();
    
@@ -599,8 +728,8 @@ int main (int argc, char *argv[])
   if (!glfwInit())
     return -1;
 
-  int win_width=512;
-  int win_height=512;
+  int win_width=700;
+  int win_height=700;
 
   //! Create a windowed mode window and its OpenGL context
   window = glfwCreateWindow(win_width, win_height, "ToyLOGO", NULL, NULL);
@@ -639,6 +768,7 @@ int main (int argc, char *argv[])
   csX75::waist_rotation=0;
   csX75::lower_leg_rotation_l=0;
   csX75::lower_leg_rotation_r=0;
+  csX75::front_weel_slab_rotation=0;
 
 
 
