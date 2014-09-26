@@ -44,6 +44,7 @@ namespace csX75
   int uper_leg_rotation_zl;
   int uper_leg_rotation_xr;
   int uper_leg_rotation_zr;
+  int back_weel_slab_rotation;
 
   //! Initialize GL State
   void initGL(void)
@@ -144,6 +145,9 @@ namespace csX75
       elbows_rotation_r = (elbows_rotation_r + 5)%360;    
     else if(key==GLFW_KEY_8 && action == GLFW_PRESS)
       elbows_rotation_r = (elbows_rotation_r - 5)%360;  
+    // back weel slab rotarion
+    else if (key==GLFW_KEY_F && action == GLFW_PRESS)
+      back_weel_slab_rotation = (back_weel_slab_rotation +5)%360;
     
     // waist rotation
     else if (key==GLFW_KEY_M && action == GLFW_PRESS)

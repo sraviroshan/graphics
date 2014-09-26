@@ -42,6 +42,7 @@ namespace csX75
   extern int body_rotation_x; //rotate body about x axis
   extern int body_rotation_y; //rotate body about x axis
   extern int body_rotation_z; //rotate body about x axis
+  extern int back_weel_slab_rotation; //rotation of back weel slab bout x axis
   extern int solder_rotation_zl; //left solder rotation angle about z axis
   extern int solder_rotation_yl; //left solder rotation angle about y axis
   extern int solder_rotation_xl; // left solder rotation angle about x axis

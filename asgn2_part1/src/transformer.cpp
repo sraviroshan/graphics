@@ -53,6 +53,10 @@
 #define front_weel_slab_xl 0.5
 #define front_weel_slab_yl 2.0
 
+#define id_back_weel_slab 10
+#define back_weel_slab_xl 0.5 
+#define back_weel_slab_zl 3
+
 #define id_unit_weel 8
 #define unit_weel_y 6.0
 #define id_weel 9
@@ -76,6 +80,7 @@ void lower_leg(void);
 void unit_weel(void);
 void front_weel_slab(void);
 void weel(void);
+void back_weel_slab(void);
 
 
 /*-----------------------------INIT DISPLAY LISTS------------------------*/
@@ -88,6 +93,7 @@ void init_structures(void)
   uper_leg();
   lower_leg();
   front_weel_slab();
+  back_weel_slab();
 
   unit_weel();
   weel();
@@ -580,6 +586,17 @@ void front_weel_slab(){
   glEndList();
 
 }
+//back weel slab
+void back_weel_slab(){
+  glNewList(id_back_weel_slab, GL_COMPILE);
+  glTranslatef(0,0,-1*back_weel_slab_zl);
+  glScalef(back_weel_slab_xl,1,back_weel_slab_zl);
+
+  glColor4f(0.75, 0.7273, 0.0675, 1);
+  unit_cube();
+  glEndList();
+
+}
 
 
 void hierarchi(){
@@ -601,7 +618,37 @@ void hierarchi(){
     glPushMatrix();
       glCallList(id_unit_weel);
     glPopMatrix();
-  
+    //back left weel slab
+      glPushMatrix();
+        glTranslatef((torso_xl+back_weel_slab_xl),-1*torso_yl,-1*torso_zl);
+        glRotatef(csX75::back_weel_slab_rotation,1,0,0);
+        glPushMatrix();
+          glCallList(id_back_weel_slab);
+        glPopMatrix();
+        //back weel
+        glPushMatrix();
+          glTranslatef(0,0,-2*back_weel_slab_zl);
+          glRotatef(90,0,1,0);
+          glColor4f(0.0588,0.2528,0.49,1.0);
+          glCallList(id_weel);
+        glPopMatrix();
+      glPopMatrix();
+    //back right weel slab
+      glPushMatrix();
+        glTranslatef(-(torso_xl+back_weel_slab_xl),-1*torso_yl,-1*torso_zl);
+        glRotatef(csX75::back_weel_slab_rotation,1,0,0);
+        glPushMatrix();
+          glCallList(id_back_weel_slab);
+        glPopMatrix();
+        //back weel
+        glPushMatrix();
+          glTranslatef(0,0,-2*back_weel_slab_zl);
+          glRotatef(90,0,1,0);
+          glColor4f(0.0588,0.2528,0.49,1.0);
+          glCallList(id_weel);
+        glPopMatrix();
+      glPopMatrix();
+
     //left hand  
     glPushMatrix();
        glTranslatef(torso_xl,torso_yl,0.0f);
@@ -651,7 +698,7 @@ void hierarchi(){
       glPushMatrix();
         glCallList(id_waist);
       glPopMatrix();
-      
+
       //left leg
       glPushMatrix();
         glTranslatef(torso_xl/2,-2*waist_yl,0);
@@ -781,6 +828,7 @@ int main (int argc, char *argv[])
   csX75::uper_leg_rotation_zl=0;
   csX75::uper_leg_rotation_xr=0;
   csX75::uper_leg_rotation_zr=0;
+  csX75::back_weel_slab_rotation=0;
 
 
 
