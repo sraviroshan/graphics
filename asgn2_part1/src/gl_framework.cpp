@@ -28,14 +28,22 @@ namespace csX75
   int body_rotation_x;
   int body_rotation_y;
   int body_rotation_z;
-  int solder_rotation_z;
-  int solder_rotation_y;
-  int solder_rotation_x;
-  int elbows_rotation;
+  int solder_rotation_zl;
+  int solder_rotation_yl;
+  int solder_rotation_xl;
+  int elbows_rotation_l;
+  int solder_rotation_zr;
+  int solder_rotation_yr;
+  int solder_rotation_xr;
+  int elbows_rotation_r;
   int waist_rotation;
   int lower_leg_rotation_l;
   int lower_leg_rotation_r;
   int front_weel_slab_rotation;
+  int uper_leg_rotation_xl;
+  int uper_leg_rotation_zl;
+  int uper_leg_rotation_xr;
+  int uper_leg_rotation_zr;
 
   //! Initialize GL State
   void initGL(void)
@@ -102,25 +110,63 @@ namespace csX75
     
     // uper left hand rotation
     else if(key==GLFW_KEY_T && action == GLFW_PRESS)
-      solder_rotation_z = (solder_rotation_z + 5)%360;    
+      solder_rotation_zl = (solder_rotation_zl + 5)%360;    
     else if(key==GLFW_KEY_Y && action == GLFW_PRESS)
-      solder_rotation_z = (solder_rotation_z - 5)%360;
+      solder_rotation_zl = (solder_rotation_zl - 5)%360;
     else if(key==GLFW_KEY_Q && action == GLFW_PRESS)
-      solder_rotation_x = (solder_rotation_x + 5)%360;    
+      solder_rotation_xl = (solder_rotation_xl + 5)%360;    
     else if(key==GLFW_KEY_W && action == GLFW_PRESS)
-      solder_rotation_x = (solder_rotation_x - 5)%360;      
+      solder_rotation_xl = (solder_rotation_xl - 5)%360;      
     else if(key==GLFW_KEY_E && action == GLFW_PRESS)
-      solder_rotation_y = (solder_rotation_y + 5)%360;    
+      solder_rotation_yl = (solder_rotation_yl + 5)%360;    
     else if(key==GLFW_KEY_R && action == GLFW_PRESS)
-      solder_rotation_y = (solder_rotation_y - 5)%360;      
+      solder_rotation_yl = (solder_rotation_yl - 5)%360;      
     //lower left hand rotation
     else if(key==GLFW_KEY_S && action == GLFW_PRESS)
-      elbows_rotation = (elbows_rotation + 5)%360;    
+      elbows_rotation_l = (elbows_rotation_l + 5)%360;    
     else if(key==GLFW_KEY_D && action == GLFW_PRESS)
-      elbows_rotation = (elbows_rotation - 5)%360;  
+      elbows_rotation_l = (elbows_rotation_l - 5)%360;  
+    // uper right hand rotation
+    else if(key==GLFW_KEY_1 && action == GLFW_PRESS)
+      solder_rotation_zr = (solder_rotation_zr + 5)%360;    
+    else if(key==GLFW_KEY_2 && action == GLFW_PRESS)
+      solder_rotation_zr = (solder_rotation_zr - 5)%360;
+    else if(key==GLFW_KEY_3 && action == GLFW_PRESS)
+      solder_rotation_xr = (solder_rotation_xr + 5)%360;    
+    else if(key==GLFW_KEY_4 && action == GLFW_PRESS)
+      solder_rotation_xr = (solder_rotation_xr - 5)%360;      
+    else if(key==GLFW_KEY_5 && action == GLFW_PRESS)
+      solder_rotation_yr = (solder_rotation_yr + 5)%360;    
+    else if(key==GLFW_KEY_6 && action == GLFW_PRESS)
+      solder_rotation_yr = (solder_rotation_yr - 5)%360;      
+    //lower right hand rotation
+    else if(key==GLFW_KEY_7 && action == GLFW_PRESS)
+      elbows_rotation_r = (elbows_rotation_r + 5)%360;    
+    else if(key==GLFW_KEY_8 && action == GLFW_PRESS)
+      elbows_rotation_r = (elbows_rotation_r - 5)%360;  
+    
     // waist rotation
     else if (key==GLFW_KEY_M && action == GLFW_PRESS)
       waist_rotation = (waist_rotation +5)%360;
+    //uper left leg toration
+    else if (key == GLFW_KEY_N && action == GLFW_PRESS)
+      uper_leg_rotation_xl = (uper_leg_rotation_xl + 5)%360;
+    else if (key == GLFW_KEY_B && action == GLFW_PRESS)
+      uper_leg_rotation_xl = (uper_leg_rotation_xl - 5)%360;
+    else if (key == GLFW_KEY_V && action == GLFW_PRESS)
+      uper_leg_rotation_zl = (uper_leg_rotation_zl + 5)%360;
+    else if (key == GLFW_KEY_C && action == GLFW_PRESS)
+      uper_leg_rotation_zl = (uper_leg_rotation_zl - 5)%360;
+    //uper right leg rotation
+    else if (key == GLFW_KEY_K && action == GLFW_PRESS)
+      uper_leg_rotation_xr = (uper_leg_rotation_xr + 5)%360;
+    else if (key == GLFW_KEY_J && action == GLFW_PRESS)
+      uper_leg_rotation_xr = (uper_leg_rotation_xr - 5)%360;
+    else if (key == GLFW_KEY_H && action == GLFW_PRESS)
+      uper_leg_rotation_zr = (uper_leg_rotation_zr + 5)%360;
+    else if (key == GLFW_KEY_G && action == GLFW_PRESS)
+      uper_leg_rotation_zr = (uper_leg_rotation_zr - 5)%360;
+
     //lower left leg
     else if (key==GLFW_KEY_P && action== GLFW_PRESS)
       lower_leg_rotation_l = (lower_leg_rotation_l + 5)%360;

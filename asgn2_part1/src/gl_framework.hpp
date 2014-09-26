@@ -42,14 +42,22 @@ namespace csX75
   extern int body_rotation_x; //rotate body about x axis
   extern int body_rotation_y; //rotate body about x axis
   extern int body_rotation_z; //rotate body about x axis
-  extern int solder_rotation_z; //solder rotation angle about z axis
-  extern int solder_rotation_y; //solder rotation angle about y axis
-  extern int solder_rotation_x; //solder rotation angle about x axis
-  extern int elbows_rotation; //elbows rotarion angle about z axis
+  extern int solder_rotation_zl; //left solder rotation angle about z axis
+  extern int solder_rotation_yl; //left solder rotation angle about y axis
+  extern int solder_rotation_xl; // left solder rotation angle about x axis
+  extern int elbows_rotation_l; //left elbows rotarion angle about z axis
+  extern int solder_rotation_zr; // right solder rotation angle about z axis
+  extern int solder_rotation_yr; // right solder rotation angle about y axis
+  extern int solder_rotation_xr; // right solder rotation angle about x axis
+  extern int elbows_rotation_r; //right elbows rotarion angle about z axis
   extern int waist_rotation; // rotation of waist about y axis
   extern int lower_leg_rotation_l; //rotation of left lower leg about x axis
   extern int lower_leg_rotation_r; //rotation of right lower leg about x axis
   extern int front_weel_slab_rotation; //rotarion of slab contain weel around x axis
+  extern int uper_leg_rotation_xl; //rotation of uper left leg about x axis
+  extern int uper_leg_rotation_zl; //rotation of uper left leg about z axis
+  extern int uper_leg_rotation_xr; //rotation of uper right leg about x axis
+  extern int uper_leg_rotation_zr; //rotation of uper right leg about z axis
 };
 
 #endif

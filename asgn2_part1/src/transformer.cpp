@@ -605,9 +605,9 @@ void hierarchi(){
     //left hand  
     glPushMatrix();
        glTranslatef(torso_xl,torso_yl,0.0f);
-       glRotatef(csX75::solder_rotation_x,1,0,0);
-       glRotatef(csX75::solder_rotation_y,0,1,0);
-       glRotatef(csX75::solder_rotation_z,0,0,1);
+       glRotatef(csX75::solder_rotation_xl,1,0,0);
+       glRotatef(csX75::solder_rotation_yl,0,1,0);
+       glRotatef(csX75::solder_rotation_zl,0,0,1);
             
        glPushMatrix();
          glColor4f(0.0,1.0,0.0,1.0);
@@ -616,7 +616,7 @@ void hierarchi(){
 
       glPushMatrix();
         glTranslatef(uper_hand_l*2,0.0f,0.0f);
-        glRotatef(csX75::elbows_rotation,0,0,1);
+        glRotatef(csX75::elbows_rotation_l,0,0,1);
         glColor4f(0.0,0.0,1.0,1.0);
         glCallList(id_lower_hand);
       glPopMatrix();
@@ -624,9 +624,9 @@ void hierarchi(){
     //right hand
     glPushMatrix();
        glTranslatef(-1*torso_xl,torso_yl,0.0f);
-       glRotatef(csX75::solder_rotation_x,1,0,0);
-       glRotatef(csX75::solder_rotation_y,0,1,0);
-       glRotatef(csX75::solder_rotation_z,0,0,1);
+       glRotatef(csX75::solder_rotation_xr,1,0,0);
+       glRotatef(csX75::solder_rotation_yr,0,1,0);
+       glRotatef(csX75::solder_rotation_zr,0,0,1);
             
        glPushMatrix();
          glColor4f(0.0,1.0,0.0,1.0);
@@ -636,7 +636,7 @@ void hierarchi(){
 
       glPushMatrix();
         glTranslatef(-1*uper_hand_l*2,0.0f,0.0f);
-        glRotatef(csX75::elbows_rotation,0,0,1);
+        glRotatef(csX75::elbows_rotation_r,0,0,1);
         glColor4f(0.0,0.0,1.0,1.0);
         glScalef(-1,1,1);
         glCallList(id_lower_hand);
@@ -655,6 +655,8 @@ void hierarchi(){
       //left leg
       glPushMatrix();
         glTranslatef(torso_xl/2,-2*waist_yl,0);
+        glRotatef(csX75::uper_leg_rotation_xl,1,0,0);
+        glRotatef(csX75::uper_leg_rotation_zl,0,0,1);
         glPushMatrix();
           glCallList(id_uper_leg);
         glPopMatrix();
@@ -685,6 +687,8 @@ void hierarchi(){
       //right leg
       glPushMatrix();
         glTranslatef(-1*torso_xl/2,-2*waist_yl,0);
+        glRotatef(csX75::uper_leg_rotation_xr,1,0,0);
+        glRotatef(csX75::uper_leg_rotation_zr,0,0,1);
         glPushMatrix();
           glCallList(id_uper_leg);
         glPopMatrix();
@@ -761,14 +765,22 @@ int main (int argc, char *argv[])
   csX75::body_rotation_x=0;
   csX75::body_rotation_y=0;
   csX75::body_rotation_z=0;
-  csX75::solder_rotation_x=0;
-  csX75::solder_rotation_y=0;
-  csX75::solder_rotation_z=0;
-  csX75::elbows_rotation=0;
+  csX75::solder_rotation_xl=0;
+  csX75::solder_rotation_yl=0;
+  csX75::solder_rotation_zl=0;
+  csX75::elbows_rotation_l=0;
+  csX75::solder_rotation_xr=0;
+  csX75::solder_rotation_yr=0;
+  csX75::solder_rotation_zr=0;
+  csX75::elbows_rotation_r=0;
   csX75::waist_rotation=0;
   csX75::lower_leg_rotation_l=0;
   csX75::lower_leg_rotation_r=0;
   csX75::front_weel_slab_rotation=0;
+  csX75::uper_leg_rotation_xl=0;
+  csX75::uper_leg_rotation_zl=0;
+  csX75::uper_leg_rotation_xr=0;
+  csX75::uper_leg_rotation_zr=0;
 
 
 
