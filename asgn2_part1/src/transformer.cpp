@@ -608,7 +608,7 @@ void back_weel_slab(){
 //truck hood
 void hood_feet(){
   glNewList(id_hood_feet,GL_COMPILE);
-  glTranslatef(0,-1*hood_feet_yl,-1*hood_feet_zl);
+  glTranslatef(0,hood_feet_yl,-1*hood_feet_zl);
   glScalef(hood_feet_xl,hood_feet_yl,hood_feet_zl);
   unit_cube();
   glEndList();
@@ -749,7 +749,7 @@ void hierarchi(){
           glPopMatrix();
           //hood feet
           glPushMatrix();
-            glTranslatef(0,2*(hood_feet_yl-lower_leg_l),-1 );
+            glTranslatef(0,-2*lower_leg_l,-1 );
             glRotatef(csX75::hood_feet_rotation_xl1,1,0,0);
             glPushMatrix();
               glColor4f(0.105,0.5,0.1708,1.0);
@@ -796,7 +796,7 @@ void hierarchi(){
           glPopMatrix();
           //hood feet
           glPushMatrix();
-            glTranslatef(0,2*(hood_feet_yl-lower_leg_l),-1 );
+            glTranslatef(0,-2*lower_leg_l,-1 );
             glRotatef(csX75::hood_feet_rotation_xr1,1,0,0);
             glPushMatrix();
               glColor4f(0.105,0.5,0.1708,1.0);

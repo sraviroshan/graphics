@@ -197,22 +197,22 @@ namespace csX75
       front_weel_slab_rotation = (front_weel_slab_rotation - 5)%360;
     //hood  left feet rotation
     else if (key == GLFW_KEY_K && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xl1 = (hood_feet_rotation_xl1 +5)%180;
+      hood_feet_rotation_xl1 = (hood_feet_rotation_xl1 +5)%360;
     else if (key == GLFW_KEY_K && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xl1 = (hood_feet_rotation_xl1 -5)%180;
+      hood_feet_rotation_xl1 = (hood_feet_rotation_xl1 -5)%360;
     else if (key == GLFW_KEY_J && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xl2 = (hood_feet_rotation_xl2 +5)%180;
+      hood_feet_rotation_xl2 = (hood_feet_rotation_xl2 +5)%3600;
     else if (key == GLFW_KEY_J && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xl2 = (hood_feet_rotation_xl2 -5)%180;
+      hood_feet_rotation_xl2 = (hood_feet_rotation_xl2 -5)%360;
     //hood  right feet rotation
     else if (key == GLFW_KEY_H && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xr1 = (hood_feet_rotation_xl1 +5)%180;
+      hood_feet_rotation_xr1 = (hood_feet_rotation_xr1 +5)%360;
     else if (key == GLFW_KEY_H && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xr1 = (hood_feet_rotation_xl1 -5)%180;
+      hood_feet_rotation_xr1 = (hood_feet_rotation_xr1 -5)%360;
     else if (key == GLFW_KEY_G && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xr2 = (hood_feet_rotation_xl2 +5)%180;
+      hood_feet_rotation_xr2 = (hood_feet_rotation_xr2 +5)%360;
     else if (key == GLFW_KEY_G && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xr2 = (hood_feet_rotation_xl2 -5)%180;
+      hood_feet_rotation_xr2 = (hood_feet_rotation_xr2 -5)%360;
   }
 };  
   
