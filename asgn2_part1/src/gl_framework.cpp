@@ -201,7 +201,7 @@ namespace csX75
     else if (key == GLFW_KEY_K && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
       hood_feet_rotation_xl1 = (hood_feet_rotation_xl1 -5)%360;
     else if (key == GLFW_KEY_J && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xl2 = (hood_feet_rotation_xl2 +5)%3600;
+      hood_feet_rotation_xl2 = (hood_feet_rotation_xl2 +5)%360;
     else if (key == GLFW_KEY_J && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
       hood_feet_rotation_xl2 = (hood_feet_rotation_xl2 -5)%360;
     //hood  right feet rotation
