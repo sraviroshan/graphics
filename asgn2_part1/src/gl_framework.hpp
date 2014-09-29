@@ -59,6 +59,10 @@ namespace csX75
   extern int uper_leg_rotation_zl; //rotation of uper left leg about z axis
   extern int uper_leg_rotation_xr; //rotation of uper right leg about x axis
   extern int uper_leg_rotation_zr; //rotation of uper right leg about z axis
+  extern int hood_feet_rotation_xl1; //rotation of left whole feet about x axis
+  extern int hood_feet_rotation_xl2; //rotation of left uper feet about x axis
+  extern int hood_feet_rotation_xr1; //rotation of right whole feet about x axis
+  extern int hood_feet_rotation_xr2; //rotation of right uper feet about x axis
 };
 
 #endif

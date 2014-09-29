@@ -64,6 +64,12 @@
 #define weel_width  1.0
 #define weel_angle  15
 
+#define id_hood_feet 11
+#define hood_feet_xl 1.25 
+#define hood_feet_yl 2.0
+#define hood_feet_zl 0.5
+
+
 #define PI 3.14159265359
 
 //! The pointer to the GLFW window
@@ -81,6 +87,7 @@ void unit_weel(void);
 void front_weel_slab(void);
 void weel(void);
 void back_weel_slab(void);
+void hood_feet(void);
 
 
 /*-----------------------------INIT DISPLAY LISTS------------------------*/
@@ -94,6 +101,7 @@ void init_structures(void)
   lower_leg();
   front_weel_slab();
   back_weel_slab();
+  hood_feet();
 
   unit_weel();
   weel();
@@ -597,6 +605,14 @@ void back_weel_slab(){
   glEndList();
 
 }
+//truck hood
+void hood_feet(){
+  glNewList(id_hood_feet,GL_COMPILE);
+  glTranslatef(0,-1*hood_feet_yl,-1*hood_feet_zl);
+  glScalef(hood_feet_xl,hood_feet_yl,hood_feet_zl);
+  unit_cube();
+  glEndList();
+}
 
 
 void hierarchi(){
@@ -623,6 +639,7 @@ void hierarchi(){
         glTranslatef((torso_xl+back_weel_slab_xl),-1*torso_yl,-1*torso_zl);
         glRotatef(csX75::back_weel_slab_rotation,1,0,0);
         glPushMatrix();
+          glColor4f(0.84,0.7669,0.1092,1.0);
           glCallList(id_back_weel_slab);
         glPopMatrix();
         //back weel
@@ -638,6 +655,7 @@ void hierarchi(){
         glTranslatef(-(torso_xl+back_weel_slab_xl),-1*torso_yl,-1*torso_zl);
         glRotatef(csX75::back_weel_slab_rotation,1,0,0);
         glPushMatrix();
+          glColor4f(0.84,0.7669,0.1092,1.0);
           glCallList(id_back_weel_slab);
         glPopMatrix();
         //back weel
@@ -707,7 +725,7 @@ void hierarchi(){
         glPushMatrix();
           glCallList(id_uper_leg);
         glPopMatrix();
-
+        //lower leg
         glPushMatrix();
           glTranslatef(0,-2*uper_leg_l,0);
           glRotatef(csX75::lower_leg_rotation_l,1,0,0);
@@ -725,9 +743,26 @@ void hierarchi(){
             glPushMatrix();
               glTranslatef(front_weel_slab_xl+weel_width/2,-1*front_weel_slab_yl,0);
               glRotatef(90,0,1,0);
+              glColor4f(0.0588,0.2528,0.49,1.0);
               glCallList(id_weel);
+            glPopMatrix();  
+          glPopMatrix();
+          //hood feet
+          glPushMatrix();
+            glTranslatef(0,2*(hood_feet_yl-lower_leg_l),-1 );
+            glRotatef(csX75::hood_feet_rotation_xl1,1,0,0);
+            glPushMatrix();
+              glColor4f(0.105,0.5,0.1708,1.0);
+              glCallList(id_hood_feet);
+            glPopMatrix();
+            glPushMatrix();
+              glTranslatef(0,0,-2*hood_feet_zl);
+              glRotatef(csX75::hood_feet_rotation_xl2,1,0,0);
+              glColor4f(0.1098,0.61,0.3932,1.0);
+              glCallList(id_hood_feet);
             glPopMatrix();
           glPopMatrix();
+
         glPopMatrix();        
       glPopMatrix();
 
@@ -755,9 +790,24 @@ void hierarchi(){
             glPushMatrix();
               glTranslatef(-1*(front_weel_slab_xl+weel_width/2),-1*front_weel_slab_yl,0);
               glRotatef(90,0,1,0);
+              glColor4f(0.0588,0.2528,0.49,1.0);
               glCallList(id_weel);
             glPopMatrix();
-
+          glPopMatrix();
+          //hood feet
+          glPushMatrix();
+            glTranslatef(0,2*(hood_feet_yl-lower_leg_l),-1 );
+            glRotatef(csX75::hood_feet_rotation_xr1,1,0,0);
+            glPushMatrix();
+              glColor4f(0.105,0.5,0.1708,1.0);
+              glCallList(id_hood_feet);
+            glPopMatrix();
+            glPushMatrix();
+              glTranslatef(0,0,-2*hood_feet_zl);
+              glRotatef(csX75::hood_feet_rotation_xr2,1,0,0);
+              glColor4f(0.1098,0.61,0.3932,1.0);
+              glCallList(id_hood_feet);
+            glPopMatrix();
           glPopMatrix();
         glPopMatrix();                
       glPopMatrix();
@@ -829,6 +879,11 @@ int main (int argc, char *argv[])
   csX75::uper_leg_rotation_xr=0;
   csX75::uper_leg_rotation_zr=0;
   csX75::back_weel_slab_rotation=0;
+  csX75::hood_feet_rotation_xl1=0;
+  csX75::hood_feet_rotation_xl2=0;
+  csX75::hood_feet_rotation_xr1=0;
+  csX75::hood_feet_rotation_xr2=0;
+
 
 
 
