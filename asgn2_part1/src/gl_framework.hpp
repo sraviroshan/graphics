@@ -56,7 +56,8 @@
 
 #define id_back_weel_slab 10
 #define back_weel_slab_xl 0.5 
-#define back_weel_slab_zl 3
+//#define back_weel_slab_zl 3
+#define back_weel_slab_zl 1.5
 
 #define id_unit_weel 8
 #define unit_weel_y 6.0

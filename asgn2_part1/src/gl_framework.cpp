@@ -141,14 +141,14 @@ namespace csX75
     csX75::uper_leg_rotation_zl=0;
     csX75::uper_leg_rotation_xr=90;
     csX75::uper_leg_rotation_zr=0;
-    csX75::back_weel_slab_rotation=-10;
+    csX75::back_weel_slab_rotation=-20;
     csX75::hood_feet_rotation_xl1=0;
     csX75::hood_feet_rotation_xl2=0;
     csX75::hood_feet_rotation_xr1=0;
     csX75::hood_feet_rotation_xr2=0;
     csX75::throat_translate_y = -2*torso_yl;
     csX75::truck_ceiling_rotation = 90;
-    csX75::front_glass_rotation=0;
+    csX75::front_glass_rotation=120;
   }
 
   void reset_view_angle(){
