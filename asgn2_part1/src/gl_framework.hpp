@@ -83,6 +83,11 @@
 #define id_truck_ceiling 14
 #define truck_ceiling_width .2
 
+#define id_front_glass 15
+#define front_glass_xl 1.25
+#define front_glass_yl 2.0
+#define front_glass_zl 0.14
+
 #define PI 3.14159265359
 
 namespace csX75
@@ -128,6 +133,7 @@ namespace csX75
   extern int hood_feet_rotation_xr2; //rotation of right uper feet about x axis
   extern float throat_translate_y; //translation of throat along y axis
   extern int truck_ceiling_rotation; //rotation of truck ceilig about x axis
+  extern int front_glass_rotation; //totation of fron glass bout x axis
 };
 
 #endif

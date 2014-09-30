@@ -47,6 +47,7 @@ void hood_feet(void);
 void sphere(void);
 void hemisphere(void);
 void truck_ceiling(void);
+void front_glass(void);
 
 /*-----------------------------INIT DISPLAY LISTS------------------------*/
 void init_structures(void)
@@ -60,12 +61,14 @@ void init_structures(void)
   front_weel_slab();
   back_weel_slab();
   hood_feet();
+  front_glass();
   sphere();
   hemisphere();
 
   unit_weel();
   weel();
   truck_ceiling();
+
 }
 //unit weel
 void unit_weel(){
@@ -626,6 +629,13 @@ void hood_feet(){
   unit_cube();
   glEndList();
 }
+void front_glass(){
+  glNewList(id_front_glass,GL_COMPILE);
+  glTranslatef(0,-1*front_glass_yl,-1*front_glass_zl);
+  glScalef(front_glass_xl,front_glass_yl,front_glass_zl);
+  unit_cube();
+  glEndList();
+}
 //truck ceiling
 void truck_ceiling(){
   glNewList(id_truck_ceiling,GL_COMPILE);
@@ -845,9 +855,20 @@ void hierarchi(){
             glPushMatrix();
               glTranslatef(0,0,-2*hood_feet_zl);
               glRotatef(csX75::hood_feet_rotation_xl2,1,0,0);
-              glColor4f(0.1098,0.61,0.3932,1.0);
-              glCallList(id_hood_feet);
+              glPushMatrix();
+                glColor4f(0.1098,0.61,0.3932,1.0);
+                glCallList(id_hood_feet);
+              glPopMatrix();
+              //front left glass
+              glPushMatrix();
+                glTranslatef(0,2*front_glass_yl,-2*hood_feet_zl);
+                glRotatef(csX75::front_glass_rotation,1,0,0);
+                glColor4f(1,1,1,1.0);
+                glCallList(id_front_glass);
+              glPopMatrix();
+
             glPopMatrix();
+
           glPopMatrix();
 
         glPopMatrix();        
@@ -892,8 +913,17 @@ void hierarchi(){
             glPushMatrix();
               glTranslatef(0,0,-2*hood_feet_zl);
               glRotatef(csX75::hood_feet_rotation_xr2,1,0,0);
+              glPushMatrix();
               glColor4f(0.1098,0.61,0.3932,1.0);
               glCallList(id_hood_feet);
+              glPopMatrix();
+              //front left glass
+              glPushMatrix();
+                glTranslatef(0,2*front_glass_yl,-2*hood_feet_zl);
+                glRotatef(csX75::front_glass_rotation,1,0,0);
+                glColor4f(1,1,1,1.0);
+                glCallList(id_front_glass);
+              glPopMatrix();
             glPopMatrix();
           glPopMatrix();
         glPopMatrix();                
