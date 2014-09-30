@@ -69,6 +69,12 @@
 #define hood_feet_yl 2.0
 #define hood_feet_zl 0.5
 
+#define id_sphere 12
+#define radius 1.4
+#define ANGLE 5
+#define Z 10
+
+#define throat_yl 2
 
 #define PI 3.14159265359
 
@@ -88,7 +94,7 @@ void front_weel_slab(void);
 void weel(void);
 void back_weel_slab(void);
 void hood_feet(void);
-
+void sphere(void);
 
 /*-----------------------------INIT DISPLAY LISTS------------------------*/
 void init_structures(void)
@@ -102,6 +108,7 @@ void init_structures(void)
   front_weel_slab();
   back_weel_slab();
   hood_feet();
+  sphere();
 
   unit_weel();
   weel();
@@ -203,6 +210,42 @@ void weel(){
   glEnd();
   glEndList();
 }
+//sphere
+void sphere_layer(float R, float z1, float z2){
+    float r1 = sqrt(R*R - z1*z1);
+    float r2 = sqrt(R*R - z2*z2);
+
+    float theta = 0;
+
+    for(theta = 0; theta < 360; theta+=ANGLE){
+      float radian = theta * PI/180.0; 
+      float radian1 = (theta+ANGLE) * PI/180.0; 
+      glBegin(GL_QUADS);
+      glVertex3f(r1 * cos(radian), z1, r1 * sin(radian));
+      glVertex3f(r1 * cos(radian1), z1, r1 * sin(radian1));
+
+      glVertex3f(r2 * cos(radian1), z2, r2 * sin(radian1));
+      glVertex3f(r2 * cos(radian), z2, r2 * sin(radian));
+      glEnd();
+    }
+}
+void sphere(){
+  glNewList(id_sphere,GL_COMPILE);
+  //float radius = 0.3;
+  float deltaz = radius/(Z);
+  float z = 0;
+  for(int i=0; i< Z; i++){
+      sphere_layer(radius, z, z+deltaz);
+      z += deltaz;
+  }
+  z=0;
+  for(int i=0; i> (-1*Z); i--){
+      sphere_layer(radius, z, z-deltaz);
+      z -= deltaz;
+  }
+  glEndList();
+}
+
 void unit_cube(){
   glBegin(GL_QUADS);            //front face
   glVertex3f(-1.0f,1.0f,1.0f); 
@@ -630,10 +673,25 @@ void hierarchi(){
       glColor4f(1.0,0.0,0.0,1.0);
       glCallList(id_torso);
     glPopMatrix();
-    //weel
+    // //weel
+    // glPushMatrix();
+    //   glCallList(id_unit_weel);
+    // glPopMatrix();
+    // 
+    //head
     glPushMatrix();
-      glCallList(id_unit_weel);
+      glTranslatef(0,2*torso_yl,0);
+      glColor4f(1,0.2528,0.49,1.0);
+      glCallList(id_sphere);
     glPopMatrix();
+    //throat
+    glPushMatrix();
+      glTranslatef(0,torso_yl,0);
+      glScalef(1,throat_yl,1);
+      glColor4f(0.39,0.1638,0.3033,1.0);
+      glCallList(id_sphere);
+    glPopMatrix();
+
     //back left weel slab
       glPushMatrix();
         glTranslatef((torso_xl+back_weel_slab_xl),-1*torso_yl,-1*torso_zl);
@@ -644,7 +702,7 @@ void hierarchi(){
         glPopMatrix();
         //back weel
         glPushMatrix();
-          glTranslatef(0,0,-2*back_weel_slab_zl);
+          glTranslatef(back_weel_slab_xl,0,-2*back_weel_slab_zl);
           glRotatef(90,0,1,0);
           glColor4f(0.0588,0.2528,0.49,1.0);
           glCallList(id_weel);
@@ -660,7 +718,7 @@ void hierarchi(){
         glPopMatrix();
         //back weel
         glPushMatrix();
-          glTranslatef(0,0,-2*back_weel_slab_zl);
+          glTranslatef(-1*back_weel_slab_xl,0,-2*back_weel_slab_zl);
           glRotatef(90,0,1,0);
           glColor4f(0.0588,0.2528,0.49,1.0);
           glCallList(id_weel);
