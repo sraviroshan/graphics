@@ -25,6 +25,9 @@
 #include <cmath>
 
 #include "gl_framework.hpp"
+#include "texture_utils.h"
+
+GLuint texture[10];
 
 
 
@@ -70,6 +73,20 @@ void init_structures(void)
   truck_ceiling();
 
 }
+
+// Load bitmap images to form textures
+void load_textures() { 
+
+    //texture for torso
+    glGenTextures(1, &texture[0]);
+    Texture t1(texture[0], "images/silver1.bmp");
+    t1.generate();
+
+    glGenTextures(1, &texture[1]);
+    Texture t2(texture[1], "images/NeHe.bmp");
+    t2.generate();
+};
+
 //unit weel
 void unit_weel(){
   
@@ -263,7 +280,7 @@ void unit_cube(){
   glEnd();
 
 }
-void torso(){
+void torso_old(){
   glNewList(id_torso,GL_COMPILE);
   glScalef(torso_xl,torso_yl,torso_zl);
   
@@ -313,6 +330,63 @@ void torso(){
   glVertex3f(-1.0f,-1.0f,1.0f);
   glVertex3f(1.0f,-1.0f,1.0f);
   glVertex3f(1.0f,-1.0f,-1.0f);
+  glEnd();
+
+
+  glEndList();
+}
+
+void torso(){
+  glNewList(id_torso, GL_COMPILE);
+  glBindTexture(GL_TEXTURE_2D, texture[0]);
+  glScalef(torso_xl,torso_yl,torso_zl);
+  
+  glColor4f(1, 1, 1, 1);
+  glBegin(GL_QUADS);            //front face
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,1.0f); 
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glEnd();
+  
+  //glColor4f(1, 0, 0, 1);
+  glBegin(GL_QUADS);          //back face       
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  //glColor4f(0, 1,0, 1);
+  glBegin(GL_QUADS);          //left face
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glEnd();
+
+  //glColor4f(0, 1, 0, 1);
+  glBegin(GL_QUADS);          //right face
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glEnd();
+  
+  //glColor4f(0, 0, 1, 1);
+  glBegin(GL_QUADS);        //top face        
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  //glColor4f(0, 0,1, 1);
+  glBegin(GL_QUADS);        //bottom face
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glEnd();
 
 
@@ -971,11 +1045,11 @@ int main (int argc, char *argv[])
   glfwGetFramebufferSize(window, &win_width, &win_height);
   csX75::framebuffer_size_callback(window, win_width, win_height);
 
-
-  glEnable(GL_DEPTH_TEST);
-
   //Initialize GL state
   csX75::initGL();
+
+  //Load textures
+  load_textures();
   
   //initialise viewing angle
   csX75::reset_view_angle();

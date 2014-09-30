@@ -61,6 +61,15 @@ namespace csX75
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     //Set depth buffer furthest depth
     glClearDepth(1.0);
+    //Enable Depth test
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);     // The Type Of Depth Test To Do
+    //Enable texture
+    glEnable(GL_TEXTURE_2D); 
+
+    //Check if following is needed
+    glShadeModel(GL_SMOOTH);      // Enables Smooth Color Shading
+
   }
   
   //!GLFW Error Callback
