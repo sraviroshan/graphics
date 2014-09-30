@@ -27,6 +27,64 @@
 
 #include <iostream>
 
+#define id_torso 1
+#define torso_xl 2.50 
+#define torso_yl 3.0
+#define torso_zl 1.50
+
+#define id_uper_hand 2
+#define uper_hand_l 2.5
+
+#define id_lower_hand 3
+#define lower_hand_l 4.0 
+
+#define id_waist  4
+#define waist_xl 2.0
+#define waist_yl 0.5
+#define waist_zl 1.0
+
+#define id_uper_leg 5
+#define uper_leg_l 2.0
+
+#define id_lower_leg 6
+#define lower_leg_l 4.0
+#define lower_leg_xl 0.8
+
+#define id_front_weel_slab 7
+#define front_weel_slab_xl 0.5
+#define front_weel_slab_yl 2.0
+
+#define id_back_weel_slab 10
+#define back_weel_slab_xl 0.5 
+#define back_weel_slab_zl 3
+
+#define id_unit_weel 8
+#define unit_weel_y 6.0
+#define id_weel 9
+#define weel_radius 2.0
+#define weel_width  1.0
+#define weel_angle  15
+
+#define id_hood_feet 11
+#define hood_feet_xl 1.25 
+#define hood_feet_yl 2.0
+#define hood_feet_zl 0.5
+
+#define id_sphere 12
+#define radius 1.4
+#define ANGLE 5
+#define VERTICAL_ANGLE_PARTS 10
+#define id_hemisphere 13
+
+#define throat_xl .7
+#define throat_yl 2
+#define throat_zl .7
+
+#define id_truck_ceiling 14
+#define truck_ceiling_width .2
+
+#define PI 3.14159265359
+
 namespace csX75
 {
   //! Initialize GL State
@@ -38,6 +96,11 @@ namespace csX75
   void framebuffer_size_callback(GLFWwindow* window, int width, int height);
   //!GLFW keyboard callback
   void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+  void reset_transformer_config();
+  void reset_car_config();
+  void reset_view_angle();
+
   extern int rotation_angle; //angle for rotation about axis
   extern int body_rotation_x; //rotate body about x axis
   extern int body_rotation_y; //rotate body about x axis
@@ -64,6 +127,7 @@ namespace csX75
   extern int hood_feet_rotation_xr1; //rotation of right whole feet about x axis
   extern int hood_feet_rotation_xr2; //rotation of right uper feet about x axis
   extern float throat_translate_y; //translation of throat along y axis
+  extern int truck_ceiling_rotation; //rotation of truck ceilig about x axis
 };
 
 #endif

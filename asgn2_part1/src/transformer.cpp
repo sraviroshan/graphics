@@ -26,63 +26,7 @@
 
 #include "gl_framework.hpp"
 
-#define id_torso 1
-#define torso_xl 2.50 
-#define torso_yl 3.0
-#define torso_zl 1.50
 
-#define id_uper_hand 2
-#define uper_hand_l 2.5
-
-#define id_lower_hand 3
-#define lower_hand_l 4.0 
-
-#define id_waist  4
-#define waist_xl 2.0
-#define waist_yl 0.5
-#define waist_zl 1.0
-
-#define id_uper_leg 5
-#define uper_leg_l 2.0
-
-#define id_lower_leg 6
-#define lower_leg_l 4.0
-#define lower_leg_xl 0.8
-
-#define id_front_weel_slab 7
-#define front_weel_slab_xl 0.5
-#define front_weel_slab_yl 2.0
-
-#define id_back_weel_slab 10
-#define back_weel_slab_xl 0.5 
-#define back_weel_slab_zl 3
-
-#define id_unit_weel 8
-#define unit_weel_y 6.0
-#define id_weel 9
-#define weel_radius 2.0
-#define weel_width  1.0
-#define weel_angle  15
-
-#define id_hood_feet 11
-#define hood_feet_xl 1.25 
-#define hood_feet_yl 2.0
-#define hood_feet_zl 0.5
-
-#define id_sphere 12
-#define radius 1.4
-#define ANGLE 5
-#define VERTICAL_ANGLE_PARTS 10
-#define id_hemisphere 13
-
-#define throat_xl .7
-#define throat_yl 2
-#define throat_zl .7
-
-#define id_truck_ceiling 14
-#define truck_ceiling_width .2
-
-#define PI 3.14159265359
 
 //! The pointer to the GLFW window
 GLFWwindow* window;
@@ -685,8 +629,8 @@ void hood_feet(){
 //truck ceiling
 void truck_ceiling(){
   glNewList(id_truck_ceiling,GL_COMPILE);
-  glTranslatef(0,torso_zl+lower_hand_l,0);
-  glScalef(torso_xl,torso_zl+lower_hand_l,truck_ceiling_width);
+  glTranslatef(0,torso_zl+lower_hand_l/2,0);
+  glScalef(torso_xl,torso_zl+lower_hand_l/2,truck_ceiling_width);
 
   glColor4f(0.28,0.0616, 1, 1);
   glBegin(GL_QUADS);            //front face
@@ -756,6 +700,7 @@ void hierarchi(){
     //truck ceiling
     glPushMatrix();
       glTranslatef(0,torso_yl,-1*torso_zl);
+      glRotatef(csX75::truck_ceiling_rotation,1,0,0);
       glCallList(id_truck_ceiling);
     glPopMatrix();
     //throat
@@ -998,39 +943,16 @@ int main (int argc, char *argv[])
 
 
   glEnable(GL_DEPTH_TEST);
+
   //Initialize GL state
   csX75::initGL();
-  //csX75::rotation_angle=0;
-  csX75::body_rotation_x=0;
-  csX75::body_rotation_y=0;
-  csX75::body_rotation_z=0;
-  csX75::solder_rotation_xl=0;
-  csX75::solder_rotation_yl=0;
-  csX75::solder_rotation_zl=0;
-  csX75::elbows_rotation_l=0;
-  csX75::solder_rotation_xr=0;
-  csX75::solder_rotation_yr=0;
-  csX75::solder_rotation_zr=0;
-  csX75::elbows_rotation_r=0;
-  csX75::waist_rotation=0;
-  csX75::lower_leg_rotation_l=0;
-  csX75::lower_leg_rotation_r=0;
-  csX75::front_weel_slab_rotation=0;
-  csX75::uper_leg_rotation_xl=0;
-  csX75::uper_leg_rotation_zl=0;
-  csX75::uper_leg_rotation_xr=0;
-  csX75::uper_leg_rotation_zr=0;
-  csX75::back_weel_slab_rotation=0;
-  csX75::hood_feet_rotation_xl1=0;
-  csX75::hood_feet_rotation_xl2=0;
-  csX75::hood_feet_rotation_xr1=0;
-  csX75::hood_feet_rotation_xr2=0;
-  csX75::throat_translate_y = 0;
+  
+  //initialise viewing angle
+  csX75::reset_view_angle();
+  //initialise all constraint angles and lengths
+  csX75::reset_transformer_config();
 
-
-
-
-  init_structures();  //
+  init_structures();  //create display lists of different body parts
   // Loop until the user closes the window
   while (glfwWindowShouldClose(window) == 0)
     {

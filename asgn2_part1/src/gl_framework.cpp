@@ -50,6 +50,7 @@ namespace csX75
   int hood_feet_rotation_xr1;
   int hood_feet_rotation_xr2;
   float throat_translate_y;
+  int truck_ceiling_rotation;
 
 
   //! Initialize GL State
@@ -93,6 +94,64 @@ namespace csX75
     
     win_width = width;
     win_height = height;
+  }
+
+  void reset_transformer_config(){
+    csX75::solder_rotation_xl=0;
+    csX75::solder_rotation_yl=0;
+    csX75::solder_rotation_zl=0;
+    csX75::elbows_rotation_l=0;
+    csX75::solder_rotation_xr=0;
+    csX75::solder_rotation_yr=0;
+    csX75::solder_rotation_zr=0;
+    csX75::elbows_rotation_r=0;
+    csX75::waist_rotation=0;
+    csX75::lower_leg_rotation_l=0;
+    csX75::lower_leg_rotation_r=0;
+    csX75::front_weel_slab_rotation=180;
+    csX75::uper_leg_rotation_xl=0;
+    csX75::uper_leg_rotation_zl=0;
+    csX75::uper_leg_rotation_xr=0;
+    csX75::uper_leg_rotation_zr=0;
+    csX75::back_weel_slab_rotation=55;
+    csX75::hood_feet_rotation_xl1=-110;
+    csX75::hood_feet_rotation_xl2=-140;
+    csX75::hood_feet_rotation_xr1=-110;
+    csX75::hood_feet_rotation_xr2=-140;
+    csX75::throat_translate_y = 0;
+    csX75::truck_ceiling_rotation = -150;
+  }
+
+  void reset_car_config(){
+    csX75::solder_rotation_xl=0;
+    csX75::solder_rotation_yl=-90;
+    csX75::solder_rotation_zl=-90;
+    csX75::elbows_rotation_l=90;
+    csX75::solder_rotation_xr=0;
+    csX75::solder_rotation_yr=90;
+    csX75::solder_rotation_zr=90;
+    csX75::elbows_rotation_r=-90;
+    csX75::waist_rotation=180;
+    csX75::lower_leg_rotation_l=0;
+    csX75::lower_leg_rotation_r=0;
+    csX75::front_weel_slab_rotation=0;
+    csX75::uper_leg_rotation_xl=90;
+    csX75::uper_leg_rotation_zl=0;
+    csX75::uper_leg_rotation_xr=90;
+    csX75::uper_leg_rotation_zr=0;
+    csX75::back_weel_slab_rotation=-10;
+    csX75::hood_feet_rotation_xl1=0;
+    csX75::hood_feet_rotation_xl2=0;
+    csX75::hood_feet_rotation_xr1=0;
+    csX75::hood_feet_rotation_xr2=0;
+    csX75::throat_translate_y = -2*torso_yl;
+    csX75::truck_ceiling_rotation = 90;
+  }
+
+  void reset_view_angle(){
+    csX75::body_rotation_x=0;
+    csX75::body_rotation_y=0;
+    csX75::body_rotation_z=0;
   }
   
   //!GLFW keyboard callback
@@ -218,6 +277,16 @@ namespace csX75
       throat_translate_y += 0.3;
     else if (key == GLFW_KEY_A && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
       throat_translate_y -= 0.3;
+    else if (key == GLFW_KEY_D && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
+      truck_ceiling_rotation = (truck_ceiling_rotation +5)%360;
+    else if (key == GLFW_KEY_D && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
+      truck_ceiling_rotation = (truck_ceiling_rotation -5)%360;
+    else if (key == GLFW_KEY_T && action == GLFW_PRESS)
+      reset_transformer_config();
+    else if (key == GLFW_KEY_C && action == GLFW_PRESS)
+      reset_car_config();
+    else if (key == GLFW_KEY_V && action == GLFW_PRESS)
+      reset_view_angle();
   }
 };  
   
