@@ -49,6 +49,7 @@ namespace csX75
   int hood_feet_rotation_xl2;
   int hood_feet_rotation_xr1;
   int hood_feet_rotation_xr2;
+  float throat_translate_y;
 
 
   //! Initialize GL State
@@ -213,6 +214,10 @@ namespace csX75
       hood_feet_rotation_xr2 = (hood_feet_rotation_xr2 +5)%360;
     else if (key == GLFW_KEY_G && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
       hood_feet_rotation_xr2 = (hood_feet_rotation_xr2 -5)%360;
+    else if (key == GLFW_KEY_A && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
+      throat_translate_y += 0.3;
+    else if (key == GLFW_KEY_A && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
+      throat_translate_y -= 0.3;
   }
 };  
   

@@ -72,9 +72,15 @@
 #define id_sphere 12
 #define radius 1.4
 #define ANGLE 5
-#define Z 10
+#define VERTICAL_ANGLE_PARTS 10
+#define id_hemisphere 13
 
+#define throat_xl .7
 #define throat_yl 2
+#define throat_zl .7
+
+#define id_truck_ceiling 14
+#define truck_ceiling_width .2
 
 #define PI 3.14159265359
 
@@ -95,6 +101,8 @@ void weel(void);
 void back_weel_slab(void);
 void hood_feet(void);
 void sphere(void);
+void hemisphere(void);
+void truck_ceiling(void);
 
 /*-----------------------------INIT DISPLAY LISTS------------------------*/
 void init_structures(void)
@@ -109,9 +117,11 @@ void init_structures(void)
   back_weel_slab();
   hood_feet();
   sphere();
+  hemisphere();
 
   unit_weel();
   weel();
+  truck_ceiling();
 }
 //unit weel
 void unit_weel(){
@@ -211,7 +221,9 @@ void weel(){
   glEndList();
 }
 //sphere
-void sphere_layer(float R, float z1, float z2){
+void sphere_layer(float R, float angle1, float angle2){
+    float z1 = R * sin(angle1 * PI/180);
+    float z2 = R * sin(angle2 * PI/180);
     float r1 = sqrt(R*R - z1*z1);
     float r2 = sqrt(R*R - z2*z2);
 
@@ -231,18 +243,32 @@ void sphere_layer(float R, float z1, float z2){
 }
 void sphere(){
   glNewList(id_sphere,GL_COMPILE);
-  //float radius = 0.3;
-  float deltaz = radius/(Z);
-  float z = 0;
-  for(int i=0; i< Z; i++){
-      sphere_layer(radius, z, z+deltaz);
-      z += deltaz;
+  float delta_angle = 90.0 / VERTICAL_ANGLE_PARTS;
+
+  float v_angle = 0;
+  for(int i=0; i < VERTICAL_ANGLE_PARTS; i++){
+      sphere_layer(radius, v_angle, v_angle+delta_angle);
+      v_angle += delta_angle;
   }
-  z=0;
-  for(int i=0; i> (-1*Z); i--){
-      sphere_layer(radius, z, z-deltaz);
-      z -= deltaz;
+  
+  v_angle=0;
+  for(int i=0; i < VERTICAL_ANGLE_PARTS; i++){
+      sphere_layer(radius, v_angle, v_angle-delta_angle);
+      v_angle -= delta_angle;
   }
+  glEndList();
+}
+//hamisphare
+void hemisphere(){
+  glNewList(id_hemisphere,GL_COMPILE);
+  float delta_angle = 90.0 / VERTICAL_ANGLE_PARTS;
+
+  float v_angle = 0;
+  for(int i=0; i < VERTICAL_ANGLE_PARTS; i++){
+      sphere_layer(radius, v_angle, v_angle+delta_angle);
+      v_angle += delta_angle;
+  }
+  
   glEndList();
 }
 
@@ -656,7 +682,56 @@ void hood_feet(){
   unit_cube();
   glEndList();
 }
+//truck ceiling
+void truck_ceiling(){
+  glNewList(id_truck_ceiling,GL_COMPILE);
+  glTranslatef(0,torso_zl+lower_hand_l,0);
+  glScalef(torso_xl,torso_zl+lower_hand_l,truck_ceiling_width);
 
+  glColor4f(0.28,0.0616, 1, 1);
+  glBegin(GL_QUADS);            //front face
+  glVertex3f(-1.0f,1.0f,1.0f); 
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);          //back face       
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);          //left face
+  glVertex3f(-1.0f,1.0f,1.0f);
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glEnd();
+
+  glBegin(GL_QUADS);          //right face
+  glVertex3f(1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);        //top face        
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);        //bottom face
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glEnd();
+  glEndList();
+}
 
 void hierarchi(){
   glLoadIdentity();
@@ -678,18 +753,27 @@ void hierarchi(){
     //   glCallList(id_unit_weel);
     // glPopMatrix();
     // 
-    //head
+    //truck ceiling
     glPushMatrix();
-      glTranslatef(0,2*torso_yl,0);
-      glColor4f(1,0.2528,0.49,1.0);
-      glCallList(id_sphere);
+      glTranslatef(0,torso_yl,-1*torso_zl);
+      glCallList(id_truck_ceiling);
     glPopMatrix();
     //throat
     glPushMatrix();
+      glTranslatef(0, csX75::throat_translate_y,0);
       glTranslatef(0,torso_yl,0);
-      glScalef(1,throat_yl,1);
-      glColor4f(0.39,0.1638,0.3033,1.0);
-      glCallList(id_sphere);
+      glPushMatrix();
+        glScalef(throat_xl,throat_yl,throat_zl);
+        glColor4f(0.39,0.1638,0.3033,1.0);
+        glCallList(id_hemisphere);
+      glPopMatrix();
+      //head
+      glPushMatrix();
+        glTranslatef(0,throat_yl*radius,0);
+        glColor4f(1,0.2528,0.49,1.0);
+        glCallList(id_sphere);
+      glPopMatrix();
+      
     glPopMatrix();
 
     //back left weel slab
@@ -941,6 +1025,7 @@ int main (int argc, char *argv[])
   csX75::hood_feet_rotation_xl2=0;
   csX75::hood_feet_rotation_xr1=0;
   csX75::hood_feet_rotation_xr2=0;
+  csX75::throat_translate_y = 0;
 
 
 

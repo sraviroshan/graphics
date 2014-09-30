@@ -63,6 +63,7 @@ namespace csX75
   extern int hood_feet_rotation_xl2; //rotation of left uper feet about x axis
   extern int hood_feet_rotation_xr1; //rotation of right whole feet about x axis
   extern int hood_feet_rotation_xr2; //rotation of right uper feet about x axis
+  extern float throat_translate_y; //translation of throat along y axis
 };
 
 #endif
