@@ -66,6 +66,9 @@ namespace csX75
     glDepthFunc(GL_LESS);     // The Type Of Depth Test To Do
     //Enable texture
     glEnable(GL_TEXTURE_2D); 
+    
+    // glEnable(GL_POINT_SMOOTH);
+    // glEnable (GL_BLEND);
 
     //Check if following is needed
     glShadeModel(GL_SMOOTH);      // Enables Smooth Color Shading

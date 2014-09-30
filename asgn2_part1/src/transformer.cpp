@@ -83,8 +83,16 @@ void load_textures() {
     t1.generate();
 
     glGenTextures(1, &texture[1]);
-    Texture t2(texture[1], "images/NeHe.bmp");
+    Texture t2(texture[1], "images/tyre.bmp");
     t2.generate();
+
+    glGenTextures(1, &texture[2]);
+    Texture t3(texture[2], "images/front_glass.bmp");
+    t3.generate();
+
+    glGenTextures(1, &texture[3]);
+    Texture t4(texture[3], "images/rim.bmp");
+    t4.generate();
 };
 
 //unit weel
@@ -162,24 +170,40 @@ void unit_weel(){
 void weel(){
   glNewList(id_weel,GL_COMPILE);
 
+  glColor4f(1, 1, 1, 1);
+  glBindTexture(GL_TEXTURE_2D, texture[3]);
+  glBegin(GL_TRIANGLES);
+    for(int i=0;i<360;i+=weel_angle){
+      float radian = i* PI/180.0;
+      float radian2 = (i+weel_angle) * PI/180.0;
+      glTexCoord2f(0.5f, 0.5f); glVertex3f(0,0,0);
+      glTexCoord2f((cos(radian)+1)/2, (sin(radian)+1)/2); glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),weel_width/2);
+      glTexCoord2f((cos(radian2)+1)/2, (sin(radian2)+1)/2); glVertex3f(weel_radius*cos(radian2),weel_radius*sin(radian2),weel_width/2);
+    }
+  glEnd();
+  glBegin(GL_TRIANGLES);
+    for(int i=0;i<360;i+=weel_angle){
+      float radian = i* PI/180.0;
+      float radian2 = (i+weel_angle) * PI/180.0;
+      glTexCoord2f(0.5f, 0.5f); glVertex3f(0,0,0);
+      glTexCoord2f((cos(radian)+1)/2, (sin(radian)+1)/2); glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),-weel_width/2);
+      glTexCoord2f((cos(radian2)+1)/2, (sin(radian2)+1)/2); glVertex3f(weel_radius*cos(radian2),weel_radius*sin(radian2),-weel_width/2);
+    }
+  glEnd();
 
-  glBegin(GL_TRIANGLE_FAN);
-    for(int i=0;i<=360;i+=weel_angle){
+  glBindTexture(GL_TEXTURE_2D, texture[1]);
+
+  glColor4f(1, 1, 1, 1);
+  glBegin(GL_QUADS);
+    for(int i=0;i<360;i+=weel_angle){
       float radian = i* PI/180.0;
-      glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),weel_width/2);
-    }
-  glEnd();
-  glBegin(GL_TRIANGLE_FAN);
-    for(int i=0;i<=360;i+=weel_angle){
-      float radian = i* PI/180.0;
-      glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),-1*weel_width/2);
-    }
-  glEnd();
-  glBegin(GL_QUAD_STRIP);
-    for(int i=0;i<=360;i+=weel_angle){
-      float radian = i* PI/180.0;
-      glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),weel_width/2);
-      glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),-1*weel_width/2);
+      float radian2 = (i+weel_angle) * PI/180.0;
+      glTexCoord2f(0.0f, 0.0f); glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),weel_width/2);
+      glTexCoord2f(1.0f, 0.0f); glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),-1*weel_width/2);
+      
+      glTexCoord2f(1.0f, 1.0f); glVertex3f(weel_radius*cos(radian2),weel_radius*sin(radian2),-1*weel_width/2);
+      glTexCoord2f(0.0f, 1.0f); glVertex3f(weel_radius*cos(radian2),weel_radius*sin(radian2),weel_width/2);
+      
     }
   glEnd();
   glEndList();
@@ -705,9 +729,55 @@ void hood_feet(){
 }
 void front_glass(){
   glNewList(id_front_glass,GL_COMPILE);
+
+  glBindTexture(GL_TEXTURE_2D, texture[2]);
+  glColor4f(1, 1, 1, 1);
+
   glTranslatef(0,-1*front_glass_yl,-1*front_glass_zl);
   glScalef(front_glass_xl,front_glass_yl,front_glass_zl);
-  unit_cube();
+  
+  glBegin(GL_QUADS);            //front face
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,1.0f); 
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);          //back face       
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);          //left face
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glEnd();
+
+  glBegin(GL_QUADS);          //right face
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);        //top face        
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);        //bottom face
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glEnd();
+  
   glEndList();
 }
 //truck ceiling
