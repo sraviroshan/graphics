@@ -76,7 +76,7 @@ void init_structures(void)
 
 // Load bitmap images to form textures
 void load_textures() { 
-
+    glEnable(GL_TEXTURE_2D);
     //texture for torso
     glGenTextures(1, &texture[0]);
     Texture t1(texture[0], "images/silver1.bmp");
@@ -93,6 +93,7 @@ void load_textures() {
     glGenTextures(1, &texture[3]);
     Texture t4(texture[3], "images/rim.bmp");
     t4.generate();
+    glDisable(GL_TEXTURE_2D);
 };
 
 //unit weel
@@ -170,8 +171,9 @@ void unit_weel(){
 void weel(){
   glNewList(id_weel,GL_COMPILE);
 
-  glColor4f(1, 1, 1, 1);
+  glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture[3]);
+  glColor4f(1, 1, 1, 1);
   glBegin(GL_TRIANGLES);
     for(int i=0;i<360;i+=weel_angle){
       float radian = i* PI/180.0;
@@ -206,6 +208,8 @@ void weel(){
       
     }
   glEnd();
+  glDisable(GL_TEXTURE_2D);
+
   glEndList();
 }
 //sphere
@@ -362,6 +366,7 @@ void torso_old(){
 
 void torso(){
   glNewList(id_torso, GL_COMPILE);
+  glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture[0]);
   glScalef(torso_xl,torso_yl,torso_zl);
   
@@ -412,7 +417,7 @@ void torso(){
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glEnd();
-
+  glDisable(GL_TEXTURE_2D);
 
   glEndList();
 }
@@ -729,7 +734,8 @@ void hood_feet(){
 }
 void front_glass(){
   glNewList(id_front_glass,GL_COMPILE);
-
+  
+  glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture[2]);
   glColor4f(1, 1, 1, 1);
 
@@ -777,6 +783,7 @@ void front_glass(){
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glEnd();
+  glDisable(GL_TEXTURE_2D);
   
   glEndList();
 }
@@ -1120,7 +1127,7 @@ int main (int argc, char *argv[])
 
   //Load textures
   load_textures();
-  
+
   //initialise viewing angle
   csX75::reset_view_angle();
   //initialise all constraint angles and lengths

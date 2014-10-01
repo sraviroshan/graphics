@@ -64,8 +64,8 @@ namespace csX75
     //Enable Depth test
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);     // The Type Of Depth Test To Do
-    //Enable texture
-    glEnable(GL_TEXTURE_2D); 
+    // //Enable texture
+    // glEnable(GL_TEXTURE_2D);  Dont' enable it here. Enable wherever required and then disable
     
     // glEnable(GL_POINT_SMOOTH);
     // glEnable (GL_BLEND);
