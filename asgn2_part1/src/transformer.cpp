@@ -27,7 +27,7 @@
 #include "gl_framework.hpp"
 #include "texture_utils.h"
 
-GLuint texture[10];
+GLuint texture[20];
 
 
 
@@ -112,6 +112,18 @@ void load_textures() {
     glGenTextures(1, &texture[7]);
     Texture t7(texture[7], "images/torso_front.bmp");
     t7.generate();
+
+    glGenTextures(1, &texture[8]);
+    Texture t8(texture[8], "images/rainbow.bmp");
+    t8.generate();
+
+    glGenTextures(1, &texture[9]);
+    Texture t9(texture[9], "images/autobots.bmp");
+    t9.generate();
+
+    glGenTextures(1, &texture[10]);
+    Texture t10(texture[10], "images/back_suspension.bmp");
+    t10.generate();
 
     glDisable(GL_TEXTURE_2D);
 };
@@ -404,7 +416,7 @@ void torso(){
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
   glEnd();
   
-  glBindTexture(GL_TEXTURE_2D, texture[0]);
+  glBindTexture(GL_TEXTURE_2D, texture[8]);
   //glColor4f(1, 0, 0, 1);
   glBegin(GL_QUADS);          //back face       
   glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
@@ -413,6 +425,7 @@ void torso(){
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
+  glBindTexture(GL_TEXTURE_2D, texture[0]);
   //glColor4f(0, 1,0, 1);
   glBegin(GL_QUADS);          //left face
   glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,1.0f);
@@ -753,7 +766,55 @@ void back_weel_slab(){
   glScalef(back_weel_slab_xl,1,back_weel_slab_zl);
 
   glColor4f(0.75, 0.7273, 0.0675, 1);
-  unit_cube();
+  glBegin(GL_QUADS);            //front face
+  glVertex3f(-1.0f,1.0f,1.0f); 
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);          //back face       
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+
+
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture[10]);
+  
+  glColor4f(1, 1, 1, 1);
+
+  glBegin(GL_QUADS);          //left face
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glEnd();
+
+  glBegin(GL_QUADS);          //right face
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);        //top face        
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);        //bottom face
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glEnd();
+  glDisable(GL_TEXTURE_2D);
   glEndList();
 
 }
@@ -929,24 +990,29 @@ void front_glass(){
 //truck ceiling
 void truck_ceiling(){
   glNewList(id_truck_ceiling,GL_COMPILE);
+
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture[9]);
+  glColor4f(1, 1, 1, 1);
   glTranslatef(0,torso_zl+lower_hand_l/2,0);
   glScalef(torso_xl,torso_zl+lower_hand_l/2,truck_ceiling_width);
 
-  glColor4f(0.28,0.0616, 1, 1);
   glBegin(GL_QUADS);            //front face
-  glVertex3f(-1.0f,1.0f,1.0f); 
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,1.0f,1.0f); 
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,1.0f);
   glEnd();
   
   glBegin(GL_QUADS);          //back face       
-  glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
+  glDisable(GL_TEXTURE_2D);
   
+  glColor4f(0.28,0.0616, 1, 1);
   glBegin(GL_QUADS);          //left face
   glVertex3f(-1.0f,1.0f,1.0f);
   glVertex3f(-1.0f,1.0f,-1.0f);
