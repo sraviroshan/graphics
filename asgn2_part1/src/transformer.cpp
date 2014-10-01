@@ -83,7 +83,7 @@ void load_textures() {
     t1.generate();
 
     glGenTextures(1, &texture[1]);
-    Texture t2(texture[1], "images/tyre.bmp");
+    Texture t2(texture[1], "images/tyre2.bmp");
     t2.generate();
 
     glGenTextures(1, &texture[2]);
