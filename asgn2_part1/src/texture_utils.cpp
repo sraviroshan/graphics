@@ -120,10 +120,10 @@ int ImageLoad(std::string filename, Image *image) {
 	return 0;
     }
 
-    for (i=0;i<size;i+=3) { // reverse all of the colors. (bgr -> rgb)
+    for (i=0;i<size;i+=3) { // reverse all of the colors. (bgr -> rgb) grb
 	temp = image->data[i];
-	image->data[i] = image->data[i+2];
-	image->data[i+2] = temp;
+	image->data[i] = image->data[i+1];
+	image->data[i+1] = temp;
     unsigned int a = (unsigned char) image->data[i];
     //printf("%u ", a);
     }
