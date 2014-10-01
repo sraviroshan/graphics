@@ -25,8 +25,12 @@ Texture::~Texture(){
     if(image!=NULL) delete(image);
 }
 
-//returns 1 if success, 0 otherwise
 int Texture::generate(){
+    generate(GL_RGB);
+}
+
+//returns 1 if success, 0 otherwise
+int Texture::generate(GLenum format){
     image = new Image();
     if(image == NULL) return 0;
 
@@ -41,7 +45,7 @@ int Texture::generate(){
 
     // 2d texture, level of detail 0 (normal), 3 components (red, green, blue), x size from image, y size from image, 
     // border 0 (normal), rgb color data, unsigned byte data, and finally the data itself.
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, image->sizeX, image->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, image->data);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, image->sizeX, image->sizeY, 0, format, GL_UNSIGNED_BYTE, image->data);
 
     return 1;
 }

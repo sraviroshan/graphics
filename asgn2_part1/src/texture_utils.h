@@ -19,6 +19,7 @@ public:
 	Texture(GLuint tex_id, std::string fname);
 	~Texture();
 	int generate();
+	int generate(GLenum format);
 };
 
 int ImageLoad(std::string filename, Image *image);

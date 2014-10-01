@@ -71,6 +71,8 @@
 #define hood_feet_yl 2.0
 #define hood_feet_zl 0.5
 
+#define id_hood_feet_left 16
+
 #define id_sphere 12
 #define radius 1.4
 #define ANGLE 5

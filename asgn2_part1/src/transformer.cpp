@@ -51,6 +51,7 @@ void sphere(void);
 void hemisphere(void);
 void truck_ceiling(void);
 void front_glass(void);
+void hood_feet_left(void);
 
 /*-----------------------------INIT DISPLAY LISTS------------------------*/
 void init_structures(void)
@@ -67,6 +68,7 @@ void init_structures(void)
   front_glass();
   sphere();
   hemisphere();
+  hood_feet_left();
 
   unit_weel();
   weel();
@@ -77,22 +79,40 @@ void init_structures(void)
 // Load bitmap images to form textures
 void load_textures() { 
     glEnable(GL_TEXTURE_2D);
+
     //texture for torso
     glGenTextures(1, &texture[0]);
-    Texture t1(texture[0], "images/silver1.bmp");
-    t1.generate();
+    Texture t0(texture[0], "images/silver1.bmp");
+    t0.generate();
 
     glGenTextures(1, &texture[1]);
-    Texture t2(texture[1], "images/tyre2.bmp");
-    t2.generate();
+    Texture t1(texture[1], "images/tyre2.bmp");
+    t1.generate();
 
     glGenTextures(1, &texture[2]);
-    Texture t3(texture[2], "images/front_glass.bmp");
-    t3.generate();
+    Texture t2(texture[2], "images/front_glass.bmp");
+    t2.generate();
 
     glGenTextures(1, &texture[3]);
-    Texture t4(texture[3], "images/rim.bmp");
+    Texture t3(texture[3], "images/rim.bmp");
+    t3.generate();
+
+    glGenTextures(1, &texture[4]);
+    Texture t4(texture[4], "images/front_left.bmp");
     t4.generate();
+
+    glGenTextures(1, &texture[5]);
+    Texture t5(texture[5], "images/headlight.bmp");
+    t5.generate();
+
+    glGenTextures(1, &texture[6]);
+    Texture t6(texture[6], "images/hood_top.bmp");
+    t6.generate();
+
+    glGenTextures(1, &texture[7]);
+    Texture t7(texture[7], "images/torso_front.bmp");
+    t7.generate();
+
     glDisable(GL_TEXTURE_2D);
 };
 
@@ -367,23 +387,24 @@ void torso_old(){
 void torso(){
   glNewList(id_torso, GL_COMPILE);
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, texture[0]);
+  glBindTexture(GL_TEXTURE_2D, texture[7]);
   glScalef(torso_xl,torso_yl,torso_zl);
   
   glColor4f(1, 1, 1, 1);
   glBegin(GL_QUADS);            //front face
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,1.0f); 
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
-  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
-  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,1.0f); 
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
   glEnd();
   
+  glBindTexture(GL_TEXTURE_2D, texture[0]);
   //glColor4f(1, 0, 0, 1);
   glBegin(GL_QUADS);          //back face       
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,-1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
-  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
   //glColor4f(0, 1,0, 1);
@@ -645,13 +666,19 @@ void lower_leg(){
   glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
-  glColor4f(0.2366, 0.1056, 0.48, 1);
+  // glColor4f(0.2366, 0.1056, 0.48, 1);
+
+  glEnable(GL_TEXTURE_2D);
+  glColor4f(1, 1, 1, 1);
+  glBindTexture(GL_TEXTURE_2D, texture[5]);
   glBegin(GL_QUADS);        //bottom face
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f);glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+   
   glEnd();
+  glDisable(GL_TEXTURE_2D);
 
   glEndList();
 
@@ -729,9 +756,115 @@ void hood_feet(){
   glNewList(id_hood_feet,GL_COMPILE);
   glTranslatef(0,hood_feet_yl,-1*hood_feet_zl);
   glScalef(hood_feet_xl,hood_feet_yl,hood_feet_zl);
-  unit_cube();
+  
+  glBegin(GL_QUADS);            //front face
+  glVertex3f(-1.0f,1.0f,1.0f); 
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);          //back face       
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);          //left face
+  glVertex3f(-1.0f,1.0f,1.0f);
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glEnd();
+
+  glBegin(GL_QUADS);          //right face
+  glVertex3f(1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);        //top face        
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);        //bottom face
+  glVertex3f(-1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glEnd();
+
   glEndList();
 }
+void hood_feet_left(){
+  glNewList(id_hood_feet_left,GL_COMPILE);
+  glTranslatef(0,hood_feet_yl,-1*hood_feet_zl);
+  glScalef(hood_feet_xl,hood_feet_yl,hood_feet_zl);
+  
+
+  glColor4f(0.1098,0.61,0.3932,1.0);
+  glBegin(GL_QUADS);            //front face
+  glVertex3f(-1.0f,1.0f,1.0f); 
+  glVertex3f(-1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glEnd();
+  
+  glEnable(GL_TEXTURE_2D);
+  glColor4f(1, 1, 1, 1);
+  glBindTexture(GL_TEXTURE_2D, texture[6]);
+  glBegin(GL_QUADS);          //back face       
+  glTexCoord2f(0.0f, 1.0f);glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f);glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f);glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f);glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);          //left face
+  glTexCoord2f(0.5f, 1.0f);glVertex3f(-1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f);glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f);glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.5f, 0.0f);glVertex3f(-1.0f,-1.0f,1.0f);
+  glEnd();
+
+  glBegin(GL_QUADS);          //right face
+  glTexCoord2f(0.5f, 1.0f);glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f);glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f);glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.5f, 0.0f);glVertex3f(1.0f,-1.0f,1.0f);
+  glEnd();
+  glDisable(GL_TEXTURE_2D);
+  
+  glColor4f(0.1098,0.61,0.3932,1.0);
+  glBegin(GL_QUADS);        //top face        
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  glEnable(GL_TEXTURE_2D);
+  glColor4f(1, 1, 1, 1);
+  glBindTexture(GL_TEXTURE_2D, texture[4]);
+  glBegin(GL_QUADS);        //bottom face
+  glTexCoord2f(0.0f, 1.0f);glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+   
+  glEnd();
+  glDisable(GL_TEXTURE_2D);
+
+  glEndList();
+
+}
+
+
 void front_glass(){
   glNewList(id_front_glass,GL_COMPILE);
   
@@ -1000,15 +1133,15 @@ void hierarchi(){
             glTranslatef(0,-2*lower_leg_l,-1 );
             glRotatef(csX75::hood_feet_rotation_xl1,1,0,0);
             glPushMatrix();
-              glColor4f(0.105,0.5,0.1708,1.0);
-              glCallList(id_hood_feet);
+              //glColor4f(0.105,0.5,0.1708,1.0);
+              glCallList(id_hood_feet_left);
             glPopMatrix();
             glPushMatrix();
               glTranslatef(0,0,-2*hood_feet_zl);
               glRotatef(csX75::hood_feet_rotation_xl2,1,0,0);
               glPushMatrix();
-                glColor4f(0.1098,0.61,0.3932,1.0);
-                glCallList(id_hood_feet);
+                //glColor4f(0.1098,0.61,0.3932,1.0);
+                glCallList(id_hood_feet_left);
               glPopMatrix();
               //front left glass
               glPushMatrix();
@@ -1059,14 +1192,14 @@ void hierarchi(){
             glRotatef(csX75::hood_feet_rotation_xr1,1,0,0);
             glPushMatrix();
               glColor4f(0.105,0.5,0.1708,1.0);
-              glCallList(id_hood_feet);
+              glCallList(id_hood_feet_left);
             glPopMatrix();
             glPushMatrix();
               glTranslatef(0,0,-2*hood_feet_zl);
               glRotatef(csX75::hood_feet_rotation_xr2,1,0,0);
               glPushMatrix();
               glColor4f(0.1098,0.61,0.3932,1.0);
-              glCallList(id_hood_feet);
+              glCallList(id_hood_feet_left);
               glPopMatrix();
               //front left glass
               glPushMatrix();
