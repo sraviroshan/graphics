@@ -241,20 +241,25 @@ void sphere_layer(float R, float angle1, float angle2){
 
     float theta = 0;
 
-    for(theta = 0; theta < 360; theta+=ANGLE){
+    for(theta = 90; theta < 450; theta+=ANGLE){
       float radian = theta * PI/180.0; 
       float radian1 = (theta+ANGLE) * PI/180.0; 
       glBegin(GL_QUADS);
-      glVertex3f(r1 * cos(radian), z1, r1 * sin(radian));
-      glVertex3f(r1 * cos(radian1), z1, r1 * sin(radian1));
-
-      glVertex3f(r2 * cos(radian1), z2, r2 * sin(radian1));
-      glVertex3f(r2 * cos(radian), z2, r2 * sin(radian));
+      glTexCoord2f(theta/360, 0.5*(1+angle1/90)); glVertex3f(r1 * cos(radian), z1, r1 * sin(radian));
+      glTexCoord2f((theta+ANGLE)/360, 0.5*(1+angle1/90)); glVertex3f(r1 * cos(radian1), z1, r1 * sin(radian1));
+      
+      glTexCoord2f((theta+ANGLE)/360, 0.5*(1+angle2/90)); glVertex3f(r2 * cos(radian1), z2, r2 * sin(radian1));
+      glTexCoord2f(theta/360, 0.5*(1+angle2/90)); glVertex3f(r2 * cos(radian), z2, r2 * sin(radian));
       glEnd();
     }
 }
+  
 void sphere(){
   glNewList(id_sphere,GL_COMPILE);
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture[11]);
+  glColor4f(1, 1, 1, 1);
+
   float delta_angle = 90.0 / VERTICAL_ANGLE_PARTS;
 
   float v_angle = 0;
@@ -268,6 +273,7 @@ void sphere(){
       sphere_layer(radius, v_angle, v_angle-delta_angle);
       v_angle -= delta_angle;
   }
+  glDisable(GL_TEXTURE_2D);
   glEndList();
 }
 //hamisphare
