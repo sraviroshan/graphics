@@ -74,7 +74,7 @@
 #define id_hood_feet_left 16
 
 #define id_sphere 12
-#define radius 1.4
+#define radius 1.8
 #define ANGLE 5
 #define VERTICAL_ANGLE_PARTS 10
 #define id_hemisphere 13

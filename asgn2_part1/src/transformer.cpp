@@ -125,6 +125,9 @@ void load_textures() {
     Texture t10(texture[10], "images/back_suspension.bmp");
     t10.generate();
 
+    glGenTextures(1, &texture[11]);
+    Texture t11(texture[11], "images/head.bmp");
+    t11.generate();
     glDisable(GL_TEXTURE_2D);
 };
 
@@ -257,11 +260,11 @@ void sphere_layer(float R, float angle1, float angle2){
       float radian = theta * PI/180.0; 
       float radian1 = (theta+ANGLE) * PI/180.0; 
       glBegin(GL_QUADS);
-      glTexCoord2f(theta/360, 0.5*(1+angle1/90)); glVertex3f(r1 * cos(radian), z1, r1 * sin(radian));
-      glTexCoord2f((theta+ANGLE)/360, 0.5*(1+angle1/90)); glVertex3f(r1 * cos(radian1), z1, r1 * sin(radian1));
+      glTexCoord2f((theta-90)/360, 0.5*(1+angle1/90)); glVertex3f(r1 * cos(radian), z1, r1 * sin(radian));
+      glTexCoord2f((theta-90+ANGLE)/360, 0.5*(1+angle1/90)); glVertex3f(r1 * cos(radian1), z1, r1 * sin(radian1));
       
-      glTexCoord2f((theta+ANGLE)/360, 0.5*(1+angle2/90)); glVertex3f(r2 * cos(radian1), z2, r2 * sin(radian1));
-      glTexCoord2f(theta/360, 0.5*(1+angle2/90)); glVertex3f(r2 * cos(radian), z2, r2 * sin(radian));
+      glTexCoord2f((theta-90+ANGLE)/360, 0.5*(1+angle2/90)); glVertex3f(r2 * cos(radian1), z2, r2 * sin(radian1));
+      glTexCoord2f((theta-90)/360, 0.5*(1+angle2/90)); glVertex3f(r2 * cos(radian), z2, r2 * sin(radian));
       glEnd();
     }
 }
@@ -1080,7 +1083,8 @@ void hierarchi(){
       glPopMatrix();
       //head
       glPushMatrix();
-        glTranslatef(0,throat_yl*radius,0);
+        glTranslatef(0,throat_yl*radius*1.3,0);
+        glScalef(1,1.3, 1);
         glColor4f(1,0.2528,0.49,1.0);
         glCallList(id_sphere);
       glPopMatrix();
