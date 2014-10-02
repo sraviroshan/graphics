@@ -148,6 +148,10 @@ void load_textures() {
     Texture t15(texture[15], "images/upper_hand.bmp");
     t15.generate();
 
+    glGenTextures(1, &texture[16]);
+    Texture t16(texture[16], "images/side_glass.bmp");
+    t16.generate();
+
     glDisable(GL_TEXTURE_2D);
 };
 
@@ -1090,22 +1094,29 @@ void truck_ceiling(){
 void side_gate(){
   glNewList(id_side_gate,GL_COMPILE);
 
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture[16]);
+  glColor4f(1, 1, 1, 1);
+
   glScalef(1,1,side_gate_width);
                     //front face
   glBegin(GL_QUADS);
-  glVertex3f(0.0f,0.0f,0.5f);
-  glVertex3f(lower_hand_l*2,0.0f,0.5f);
-  glVertex3f(lower_hand_l*1.5,uper_hand_l,0.5f);
-  glVertex3f(0.0f,uper_hand_l,0.5f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,0.0f,0.5f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(lower_hand_l*2,0.0f,0.5f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(lower_hand_l*1.5,uper_hand_l,0.5f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f,uper_hand_l,0.5f);
   glEnd();
                     //back face
   glBegin(GL_QUADS);
-  glVertex3f(0.0f,0.0f,-0.5f);
-  glVertex3f(lower_hand_l*2,0.0f,-0.5f);
-  glVertex3f(lower_hand_l*1.5,uper_hand_l,-0.5f);
-  glVertex3f(0.0f,uper_hand_l,-0.5f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,0.0f,-0.5f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(lower_hand_l*2,0.0f,-0.5f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(lower_hand_l*1.5,uper_hand_l,-0.5f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f,uper_hand_l,-0.5f);
   glEnd();
+  glDisable(GL_TEXTURE_2D);
+
                     //left face
+
   glBegin(GL_QUADS);
   glVertex3f(0.0f,0.0f,0.5f);
   glVertex3f(0.0f,uper_hand_l,0.5f);
