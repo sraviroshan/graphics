@@ -30,7 +30,7 @@
 #define id_torso 1
 #define torso_xl 2.50 
 #define torso_yl 3.0
-#define torso_zl 1.50
+#define torso_zl 1.70
 
 #define id_uper_hand 2
 #define uper_hand_l 2.5
@@ -74,7 +74,7 @@
 #define id_hood_feet_left 16
 
 #define id_sphere 12
-#define radius 1.8
+#define radius 1.7
 #define ANGLE 60
 #define VERTICAL_ANGLE_PARTS 3
 #define id_hemisphere 13
@@ -90,6 +90,9 @@
 #define front_glass_xl 1.25
 #define front_glass_yl 2.0
 #define front_glass_zl 0.14
+
+#define id_side_gate 17
+#define side_gate_width 0.2f
 
 #define PI 3.14159265359
 

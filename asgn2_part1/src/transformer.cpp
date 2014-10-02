@@ -52,6 +52,8 @@ void hemisphere(void);
 void truck_ceiling(void);
 void front_glass(void);
 void hood_feet_left(void);
+void side_gate(void);
+
 
 /*-----------------------------INIT DISPLAY LISTS------------------------*/
 void init_structures(void)
@@ -73,6 +75,7 @@ void init_structures(void)
   unit_weel();
   weel();
   truck_ceiling();
+  side_gate();
 
 }
 
@@ -1045,6 +1048,58 @@ void truck_ceiling(){
   glEnd();
   glEndList();
 }
+//side gate ot truck
+void side_gate(){
+  glNewList(id_side_gate,GL_COMPILE);
+
+  glScalef(1,1,side_gate_width);
+                    //front face
+  glBegin(GL_QUADS);
+  glVertex3f(0.0f,0.0f,0.5f);
+  glVertex3f(lower_hand_l*2,0.0f,0.5f);
+  glVertex3f(lower_hand_l*1.5,uper_hand_l,0.5f);
+  glVertex3f(0.0f,uper_hand_l,0.5f);
+  glEnd();
+                    //back face
+  glBegin(GL_QUADS);
+  glVertex3f(0.0f,0.0f,-0.5f);
+  glVertex3f(lower_hand_l*2,0.0f,-0.5f);
+  glVertex3f(lower_hand_l*1.5,uper_hand_l,-0.5f);
+  glVertex3f(0.0f,uper_hand_l,-0.5f);
+  glEnd();
+                    //left face
+  glBegin(GL_QUADS);
+  glVertex3f(0.0f,0.0f,0.5f);
+  glVertex3f(0.0f,uper_hand_l,0.5f);
+  glVertex3f(0.0f,uper_hand_l,-0.5f);
+  glVertex3f(0.0f,0.0f,-0.5f);
+  glEnd();
+                    //right face
+  glBegin(GL_QUADS);
+  glVertex3f(lower_hand_l*2,0.0f,0.5f);
+  glVertex3f(lower_hand_l*2,0.0f,-0.5f);
+  glVertex3f(lower_hand_l*1.5,uper_hand_l,-0.5f);
+  glVertex3f(lower_hand_l*1.5,uper_hand_l,0.5f);
+  glEnd();
+                    //top face
+  glBegin(GL_QUADS);
+  glVertex3f(0.0f,uper_hand_l,0.5f);
+  glVertex3f(lower_hand_l*1.5,uper_hand_l,0.5f);
+  glVertex3f(lower_hand_l*1.5,uper_hand_l,-0.5f);
+  glVertex3f(0.0f,uper_hand_l,-0.5f);
+  glEnd();
+                    //bottom face
+  glBegin(GL_QUADS);
+  glVertex3f(0.0f,0.0f,0.5f);
+  glVertex3f(0.0f,0.0f,-0.5f);
+  glVertex3f(lower_hand_l*2,0.0f,-0.5f);
+  glVertex3f(lower_hand_l*2,0.0f,0.5f);
+  glEnd();
+
+  glEndList();
+}
+
+
 
 void hierarchi(){
   glLoadIdentity();
@@ -1140,8 +1195,17 @@ void hierarchi(){
       glPushMatrix();
         glTranslatef(uper_hand_l*2,0.0f,0.0f);
         glRotatef(csX75::elbows_rotation_l,0,0,1);
-        glColor4f(0.0,0.0,1.0,1.0);
-        glCallList(id_lower_hand);
+        
+        glPushMatrix();
+          glColor4f(0.0,0.0,1.0,1.0);
+          glCallList(id_lower_hand);
+        glPopMatrix();
+                //side gate
+        glPushMatrix();
+          glTranslatef(0.0f,0.50f,0.0f);
+          glCallList(id_side_gate);
+        glPopMatrix();
+
       glPopMatrix();
     glPopMatrix();
     //right hand
@@ -1162,7 +1226,15 @@ void hierarchi(){
         glRotatef(csX75::elbows_rotation_r,0,0,1);
         glColor4f(0.0,0.0,1.0,1.0);
         glScalef(-1,1,1);
-        glCallList(id_lower_hand);
+        glPushMatrix();
+          glCallList(id_lower_hand);
+        glPopMatrix();
+                //side gate
+        glPushMatrix();
+          glTranslatef(0,0.50f,0.0f);
+          glCallList(id_side_gate);
+        glPopMatrix();
+
       glPopMatrix();
     glPopMatrix();
     
