@@ -75,12 +75,12 @@
 
 #define id_sphere 12
 #define radius 1.8
-#define ANGLE 5
-#define VERTICAL_ANGLE_PARTS 10
+#define ANGLE 60
+#define VERTICAL_ANGLE_PARTS 3
 #define id_hemisphere 13
 
 #define throat_xl .7
-#define throat_yl 2
+#define throat_yl 1.5
 #define throat_zl .7
 
 #define id_truck_ceiling 14

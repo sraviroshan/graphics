@@ -1076,6 +1076,7 @@ void hierarchi(){
     glPushMatrix();
       glTranslatef(0, csX75::throat_translate_y,0);
       glTranslatef(0,torso_yl,0);
+      glRotatef(180, 0, 1, 0);
       glPushMatrix();
         glScalef(throat_xl,throat_yl,throat_zl);
         glColor4f(0.39,0.1638,0.3033,1.0);
