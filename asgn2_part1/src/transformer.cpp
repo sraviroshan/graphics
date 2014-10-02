@@ -1203,6 +1203,7 @@ void hierarchi(){
                 //side gate
         glPushMatrix();
           glTranslatef(0.0f,0.50f,0.0f);
+          glRotatef(csX75::side_gate_rotation,1,0,0);
           glCallList(id_side_gate);
         glPopMatrix();
 
@@ -1232,6 +1233,7 @@ void hierarchi(){
                 //side gate
         glPushMatrix();
           glTranslatef(0,0.50f,0.0f);
+          glRotatef(csX75::side_gate_rotation,1,0,0);
           glCallList(id_side_gate);
         glPopMatrix();
 

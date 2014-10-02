@@ -52,7 +52,7 @@ namespace csX75
   float throat_translate_y;
   int truck_ceiling_rotation;
   int front_glass_rotation;
-
+  int side_gate_rotation;
 
   //! Initialize GL State
   void initGL(void)
@@ -134,6 +134,7 @@ namespace csX75
     csX75::throat_translate_y = 0;
     csX75::truck_ceiling_rotation = -150;
     csX75::front_glass_rotation =0;
+    csX75::side_gate_rotation=-90;
   }
 
   void reset_car_config(){
@@ -161,6 +162,7 @@ namespace csX75
     csX75::throat_translate_y = -2*torso_yl;
     csX75::truck_ceiling_rotation = 90;
     csX75::front_glass_rotation=120;
+    csX75::side_gate_rotation=0;
   }
 
   void reset_view_angle(){
@@ -306,7 +308,11 @@ namespace csX75
       front_glass_rotation = (front_glass_rotation +5)%360;
     else if (key == GLFW_KEY_B && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
       front_glass_rotation = (front_glass_rotation -5)%360;
-    
+    else if (key == GLFW_KEY_X && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
+      side_gate_rotation = (side_gate_rotation + 5)%360;
+    else if (key == GLFW_KEY_X && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
+      side_gate_rotation = (side_gate_rotation - 5)%360;
+
   }
 };  
   

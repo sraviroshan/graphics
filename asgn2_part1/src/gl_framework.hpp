@@ -140,6 +140,7 @@ namespace csX75
   extern float throat_translate_y; //translation of throat along y axis
   extern int truck_ceiling_rotation; //rotation of truck ceilig about x axis
   extern int front_glass_rotation; //totation of fron glass bout x axis
+  extern int side_gate_rotation; //side gate rotation about x axis
 };
 
 #endif
