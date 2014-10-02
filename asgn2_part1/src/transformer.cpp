@@ -131,6 +131,23 @@ void load_textures() {
     glGenTextures(1, &texture[11]);
     Texture t11(texture[11], "images/head.bmp");
     t11.generate();
+
+    glGenTextures(1, &texture[12]);
+    Texture t12(texture[12], "images/lower_leg.bmp");
+    t12.generate();
+
+    glGenTextures(1, &texture[13]);
+    Texture t13(texture[13], "images/upper_leg.bmp");
+    t13.generate();
+
+    glGenTextures(1, &texture[14]);
+    Texture t14(texture[14], "images/lower_hand.bmp");
+    t14.generate();
+
+    glGenTextures(1, &texture[15]);
+    Texture t15(texture[15], "images/upper_hand.bmp");
+    t15.generate();
+
     glDisable(GL_TEXTURE_2D);
 };
 
@@ -469,25 +486,29 @@ void torso(){
 }
 void uper_hand(){
   glNewList(id_uper_hand,GL_COMPILE);
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture[15]);
+  glColor4f(1, 1, 1, 1);
+
   glTranslatef(uper_hand_l,0,0);
   glScalef(uper_hand_l,1,1);
   //unit_cube();
-  glColor4f(0.1117, 0.34, 0.0816, 1);
   glBegin(GL_QUADS);            //front face
-  glVertex3f(-1.0f,1.0f,1.0f); 
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,1.0f); 
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
   glEnd();
   
-  glColor4f(0.1117, 0.34, 0.0816, 1);
   glBegin(GL_QUADS);          //back face       
-  glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
+  glDisable(GL_TEXTURE_2D);
+
   glColor4f(0.37,0.3647 ,0.0518, 1);
   glBegin(GL_QUADS);          //left face
   glVertex3f(-1.0f,1.0f,1.0f);
@@ -504,21 +525,24 @@ void uper_hand(){
   glVertex3f(1.0f,-1.0f,1.0f);
   glEnd();
   
-  glColor4f(0.35, 0.0956, 0.0385, 1);
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture[15]);
+  glColor4f(1, 1, 1, 1);
+
   glBegin(GL_QUADS);        //top face        
-  glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
-  glColor4f(0.35, 0.0956, 0.0385, 1);
   glBegin(GL_QUADS);        //bottom face
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glEnd();
+  glDisable(GL_TEXTURE_2D);
 
 
   glEndList();
@@ -526,25 +550,30 @@ void uper_hand(){
 
 void lower_hand(){
   glNewList(id_lower_hand,GL_COMPILE);
+
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture[14]);
+  glColor4f(1, 1, 1, 1);
+
   glTranslatef(lower_hand_l,0,0);
   glScalef(lower_hand_l,1,1);
   //unit_cube();
-  glColor4f(0.28,0.0616, 0.1126, 1);
   glBegin(GL_QUADS);            //front face
-  glVertex3f(-1.0f,1.0f,1.0f); 
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,1.0f); 
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
   glEnd();
   
-  glColor4f(0.28,0.0616, 0.1126, 1);
   glBegin(GL_QUADS);          //back face       
-  glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
+  glDisable(GL_TEXTURE_2D);
+
   glColor4f(0.3989,0.1056 ,0.48, 1);
   glBegin(GL_QUADS);          //left face
   glVertex3f(-1.0f,1.0f,1.0f);
@@ -561,22 +590,25 @@ void lower_hand(){
   glVertex3f(1.0f,-1.0f,1.0f);
   glEnd();
   
-  glColor4f(0.2366, 0.1056, 0.48, 1);
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture[14]);
+  glColor4f(1, 1, 1, 1);
+
   glBegin(GL_QUADS);        //top face        
-  glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
-  glColor4f(0.2366, 0.1056, 0.48, 1);
   glBegin(GL_QUADS);        //bottom face
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glEnd();
 
+  glDisable(GL_TEXTURE_2D);
 
   glEndList();
 }
@@ -591,41 +623,45 @@ void waist(){
 //uper_leg
 void uper_leg(){
   glNewList(id_uper_leg,GL_COMPILE);
+
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture[13]);
+  glColor4f(1,1 ,1, 1);
+
   glTranslatef(0,-1*uper_leg_l,0);
   glScalef(1,uper_leg_l,1);
   
-  glColor4f(0.28,0.0616, 0.1126, 1);
   glBegin(GL_QUADS);            //front face
-  glVertex3f(-1.0f,1.0f,1.0f); 
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,1.0f); 
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
   glEnd();
   
-  glColor4f(0.28,0.0616, 0.1126, 1);
   glBegin(GL_QUADS);          //back face       
-  glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
-  glColor4f(0.3989,0.1056 ,0.48, 1);
+
   glBegin(GL_QUADS);          //left face
-  glVertex3f(-1.0f,1.0f,1.0f);
-  glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,-1.0f,1.0f);
   glEnd();
 
-  glColor4f(0.3989,0.1056 ,0.48, 1);
   glBegin(GL_QUADS);          //right face
-  glVertex3f(1.0f,1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
   glEnd();
   
+  glDisable(GL_TEXTURE_2D);
+
   glColor4f(0.2366, 0.1056, 0.48, 1);
   glBegin(GL_QUADS);        //top face        
   glVertex3f(-1.0f,1.0f,-1.0f);
@@ -646,43 +682,45 @@ void uper_leg(){
 
 }
 //lower leg
+  
 void lower_leg(){
   glNewList(id_lower_leg,GL_COMPILE);
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture[12]);
+
   glTranslatef(0,-1*lower_leg_l,0);
   glScalef(lower_leg_xl,lower_leg_l,1);
   
-  glColor4f(0.3989,0.1056 ,0.48, 1);
+  glColor4f(1,1 ,1, 1);
   glBegin(GL_QUADS);            //front face
-  glVertex3f(-1.0f,1.0f,1.0f); 
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,1.0f); 
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
   glEnd();
   
-  glColor4f(0.3989,0.1056 ,0.48, 1);
   glBegin(GL_QUADS);          //back face       
-  glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
-  glColor4f(0.28,0.0616, 0.1126, 1);
   glBegin(GL_QUADS);          //left face
-  glVertex3f(-1.0f,1.0f,1.0f);
-  glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,-1.0f,1.0f);
   glEnd();
 
-  glColor4f(0.28,0.0616, 0.1126, 1);
   glBegin(GL_QUADS);          //right face
-  glVertex3f(1.0f,1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
   glEnd();
-  
+  glDisable(GL_TEXTURE_2D);
+
   glColor4f(0.2366, 0.1056, 0.48, 1);
   glBegin(GL_QUADS);        //top face        
   glVertex3f(-1.0f,1.0f,-1.0f);
