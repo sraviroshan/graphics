@@ -27,17 +27,17 @@ T : Transform directly into human form
 V : Reset whole body angles (thus the view)
 
 // upper left hand
-E and Shift+E : rotate about z axis(w.r.t torso)
 Q and Shift+Q : rotate about x axis(w.r.t torso)
 W and Shift+W : rotate about y axis(w.r.t torso)
+E and Shift+E : rotate about z axis(w.r.t torso)
 
 //lower left hand
 R and Shift+S : rotate about elbow
 
 // upper right hand
-3 and Shift+3 : rotate about z axis(w.r.t torso)
 1 and Shift+1 : rotate about x axis(w.r.t torso)
 2 and Shift+2 : rotate about y axis(w.r.t torso)
+3 and Shift+3 : rotate about z axis(w.r.t torso)
 
 //lower right hand
 4 and Shift+4 : rotate about elbow
