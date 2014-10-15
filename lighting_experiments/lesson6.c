@@ -170,10 +170,10 @@ void InitGL(int Width, int Height)	        // We call this right after our OpenG
     
     glMatrixMode(GL_MODELVIEW);
     
-    GLfloat light_ambient[] = { 1.0, 0.0, 0.0, 1.0 }; //
-	GLfloat light_diffuse[] = { 0.0, 1.0, 0.0, 1.0 }; //this is the most important component as in "color" of the light
+    GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 }; //
+	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 }; //this is the most important component as in "color" of the light
 	GLfloat light_specular[] = { 0.0, 1.0, 0.0, 1.0 };
-	GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 }; //last is zero means directional
+	GLfloat light_position[] = { 0.0, 1.0, 0.0, 0.0 }; //last is zero means directional
 														//last non-zero means positional with omni directional
 														//use spotlight functionalilty to emit in a cone
 
