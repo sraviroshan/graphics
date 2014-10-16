@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include "gl_framework.hpp"
 #include "texture_utils.h"
-
+#define USE_MIPMAP false
 Image::Image(){
     sizeY = 0;
     sizeX = 0;
@@ -38,14 +38,22 @@ int Texture::generate(GLenum format){
     if(!res) return 0;
 
     glBindTexture(GL_TEXTURE_2D, texture_id);
+	if(USE_MIPMAP){
+		glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+		glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+		//GLint gluBuild2DMipmaps(GLenum  target,  GLint  internalFormat,  
+		//GLsizei  width,  GLsizei  height,  GLenum  format,  GLenum  type,  const void *  data);
+		gluBuild2DMipmaps( GL_TEXTURE_2D, 3, image->sizeX, image->sizeY, format, GL_UNSIGNED_BYTE, image->data );
+	}
+	else{
+		//set parameters
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
 
-    //set parameters
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
-
-    // 2d texture, level of detail 0 (normal), 3 components (red, green, blue), x size from image, y size from image, 
-    // border 0 (normal), rgb color data, unsigned byte data, and finally the data itself.
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, image->sizeX, image->sizeY, 0, format, GL_UNSIGNED_BYTE, image->data);
+		// 2d texture, level of detail 0 (normal), 3 components (red, green, blue), x size from image, y size from image, 
+		// border 0 (normal), rgb color data, unsigned byte data, and finally the data itself.
+		glTexImage2D(GL_TEXTURE_2D, 0, 3, image->sizeX, image->sizeY, 0, format, GL_UNSIGNED_BYTE, image->data);
+	}
 
     return 1;
 }
