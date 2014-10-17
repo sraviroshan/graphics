@@ -183,7 +183,7 @@ void optimus_t::hierarchi(){
     //glLoadIdentity(); SHOULD NOT BE HERE. THIS CANCELS THE EFFECT OF GLULOOKAT which also works on modelview stack
 
     //body rotation
-     glScalef(0.04, 0.04, 0.04);
+     // glScalef(0.04, 0.04, 0.04);
   //       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  SHOULD NOT BE HERE.
          glRotatef(body_rotation_x,1,0,0);
          glRotatef(body_rotation_y,0,1,0);

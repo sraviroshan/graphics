@@ -20,6 +20,8 @@
 
 #include "gl_framework.hpp"
 #include "optimus.h"
+
+#define USE_PERSPECTIVE true
 extern optimus_t optimus;
 
 namespace csX75
@@ -67,16 +69,22 @@ namespace csX75
 
     //Keep the aspect ratio fixed
     double aspect;
-    if (width > height)
+
+    if(USE_PERSPECTIVE){
+      gluPerspective(120, (double)width/(double)height, 0.1, 3.0);
+    }
+    else{
+      if (width > height)
       {
-	aspect = (double)width/(double)height;
-	glOrtho(-aspect, aspect, -1.0, 1.0, -5.0, 5.0);
+        aspect = (double)width/(double)height;
+        glOrtho(-aspect, aspect, -1.0, 1.0, 0.0, 5.0);
+            }
+          else
+            {
+        aspect = (double)height/(double)width;
+        glOrtho(-1.0, 1.0, -aspect, aspect, 0.0, 5.0);
       }
-    else
-      {
-	aspect = (double)height/(double)width;
-	glOrtho(-1.0, 1.0, -aspect, aspect, -5.0, 5.0);
-      }
+    }
     
     win_width = width;
     win_height = height;

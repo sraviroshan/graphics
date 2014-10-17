@@ -28,11 +28,23 @@ GLFWwindow* window;
 optimus_t optimus;
 surrounding_t surrounding;
 
+int camera_no = 0; //0 wall, 1 overhead, 2 inside
 
 void set_camera(){
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+  //camera set
+  glScalef(0.5, 0.5, 0.5);
+  glScalef(0.04, 0.04, 0.04);
+
+  if(camera_no == 0){
+    surrounding.set_camera_wall_corner();
+  }
+  else{
+
+  }
+ 
 }
 
 

@@ -17,6 +17,8 @@ public:
 	void right_wall(void);
 	void top_wall(void);
 	void floor_wall(void);
+
+	void set_camera_wall_corner(void);
 };
 
 #endif
