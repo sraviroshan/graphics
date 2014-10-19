@@ -1422,7 +1422,7 @@ void optimus_t::front_glass(){
   
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture[2]);
-  glColor4f(1, 1, 1, 1);
+  glColor4f(1, 1, 1, 0.2);
 
   glTranslatef(0,-1*front_glass_yl,-1*front_glass_zl);
   glScalef(front_glass_xl,front_glass_yl,front_glass_zl);
@@ -1469,7 +1469,7 @@ void optimus_t::front_glass(){
   glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glEnd();
   glDisable(GL_TEXTURE_2D);
-  
+  glColor4f(1, 1, 1, 1);
   glEndList();
 }
 //truck ceiling

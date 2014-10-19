@@ -21,7 +21,7 @@
 #include "gl_framework.hpp"
 #include "optimus.h"
 
-#define USE_PERSPECTIVE true
+#define USE_PERSPECTIVE false
 extern optimus_t optimus;
 
 namespace csX75
@@ -39,11 +39,9 @@ namespace csX75
     //Enable Depth test
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);     // The Type Of Depth Test To Do
-    // //Enable texture
-    // glEnable(GL_TEXTURE_2D);  Dont' enable it here. Enable wherever required and then disable
     
-    // glEnable(GL_POINT_SMOOTH);
-    // glEnable (GL_BLEND);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     //Check if following is needed
     glShadeModel(GL_SMOOTH);      // Enables Smooth Color Shading
@@ -77,12 +75,12 @@ namespace csX75
       if (width > height)
       {
         aspect = (double)width/(double)height;
-        glOrtho(-aspect, aspect, -1.0, 1.0, 0.0, 5.0);
+        glOrtho(-aspect, aspect, -1.0, 1.0, -5.0, 5.0);
             }
           else
             {
         aspect = (double)height/(double)width;
-        glOrtho(-1.0, 1.0, -aspect, aspect, 0.0, 5.0);
+        glOrtho(-1.0, 1.0, -aspect, aspect, -5.0, 5.0);
       }
     }
     

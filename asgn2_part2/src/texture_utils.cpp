@@ -26,7 +26,7 @@ Texture::~Texture(){
 }
 
 int Texture::generate(){
-    generate(GL_RGB);
+    generate(GL_RGBA);
 }
 
 //returns 1 if success, 0 otherwise
@@ -43,16 +43,18 @@ int Texture::generate(GLenum format){
 		glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR );
 		//GLint gluBuild2DMipmaps(GLenum  target,  GLint  internalFormat,  
 		//GLsizei  width,  GLsizei  height,  GLenum  format,  GLenum  type,  const void *  data);
-		gluBuild2DMipmaps( GL_TEXTURE_2D, 3, image->sizeX, image->sizeY, format, GL_UNSIGNED_BYTE, image->data );
+		gluBuild2DMipmaps( GL_TEXTURE_2D, GL_RGBA, image->sizeX, image->sizeY, format, GL_UNSIGNED_BYTE, image->data );
 	}
 	else{
 		//set parameters
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // scale linearly when image bigger than texture
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // scale linearly when image smalled than texture
 
-		// 2d texture, level of detail 0 (normal), 3 components (red, green, blue), x size from image, y size from image, 
-		// border 0 (normal), rgb color data, unsigned byte data, and finally the data itself.
-		glTexImage2D(GL_TEXTURE_2D, 0, 3, image->sizeX, image->sizeY, 0, format, GL_UNSIGNED_BYTE, image->data);
+		// 2d texture, level of detail 0 (normal), RGBA, x size from image, y size from image, 
+		// border 0 (normal), format, unsigned byte data, and finally the data itself.
+        // Specifies the level-of-detail number. Level 0 is the base image level. mip maps
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->sizeX, image->sizeY, 0, format, GL_UNSIGNED_BYTE, image->data);
 	}
 
     return 1;
@@ -66,11 +68,12 @@ int ImageLoad(std::string filename, Image *image) {
     unsigned short int bpp;             // number of bits per pixel (must be 24)
     char temp;                          // temporary color storage for bgr-rgb conversion.
 
+    char * buffer; //to temporarily hold RGB data from file
+
     // make sure the file is there.
-    if ((file = fopen(filename.c_str(), "rb"))==NULL)
-    {
-	printf("File Not Found : %s\n",filename.c_str());
-	return 0;
+    if ((file = fopen(filename.c_str(), "rb"))==NULL){
+	   printf("File Not Found : %s\n",filename.c_str());
+	   return 0;
     }
     
     // seek through the bmp header, up to the width/height:
@@ -78,64 +81,77 @@ int ImageLoad(std::string filename, Image *image) {
 
     // read the width
     if ((i = fread(&image->sizeX, 4, 1, file)) != 1) {
-	printf("Error reading width from %s.\n", filename.c_str());
-	return 0;
+	   printf("Error reading width from %s.\n", filename.c_str());
+	   return 0;
     }
     printf("Width of %s: %lu\n", filename.c_str(), image->sizeX);
     
     // read the height 
     if ((i = fread(&image->sizeY, 4, 1, file)) != 1) {
-	printf("Error reading height from %s.\n", filename.c_str());
-	return 0;
+	   printf("Error reading height from %s.\n", filename.c_str());
+	   return 0;
     }
     printf("Height of %s: %lu\n", filename.c_str(), image->sizeY);
-    
-    // calculate the size (assuming 24 bits or 3 bytes per pixel).
-    size = image->sizeX * image->sizeY * 3;
 
     // read the planes
     if ((fread(&planes, 2, 1, file)) != 1) {
-	printf("Error reading planes from %s.\n", filename.c_str());
-	return 0;
+	   printf("Error reading planes from %s.\n", filename.c_str());
+	   return 0;
     }
     if (planes != 1) {
-	printf("Planes from %s is not 1: %u\n", filename.c_str(), planes);
-	return 0;
+	   printf("Planes from %s is not 1: %u\n", filename.c_str(), planes);
+	   return 0;
     }
 
     // read the bpp
     if ((i = fread(&bpp, 2, 1, file)) != 1) {
-	printf("Error reading bpp from %s.\n", filename.c_str());
-	return 0;
+	   printf("Error reading bpp from %s.\n", filename.c_str());
+	   return 0;
     }
     if (bpp != 24) {
-	printf("Bpp from %s is not 24: %u\n", filename.c_str(), bpp);
-	return 0;
+	   printf("Bpp from %s is not 24: %u\n", filename.c_str(), bpp);
+	   return 0;
     }
 	
     // seek past the rest of the bitmap header.
     fseek(file, 24, SEEK_CUR);
 
-    // read the data. 
-    image->data = (char *) malloc(size);
-    if (image->data == NULL) {
-	printf("Error allocating memory for color-corrected image data");
-	return 0;	
-    }
+    //allocate mem for buffer and image data
+    int size_buffer = image->sizeX * image->sizeY * 3;
+    buffer = (char *) malloc(size_buffer); //for exact RGB as the image is
 
-    if ((i = fread(image->data, size, 1, file)) != 1) {
-	printf("Error reading image data from %s.\n", filename.c_str());
-	return 0;
-    }
-
-    for (i=0;i<size;i+=3) { // reverse all of the colors. (bgr -> rgb) grb
-	temp = image->data[i];
-	image->data[i] = image->data[i+1];
-	image->data[i+1] = temp;
-    unsigned int a = (unsigned char) image->data[i];
-    //printf("%u ", a);
-    }
+    // calculate the size (4 bytes per pixel).
+    size = image->sizeX * image->sizeY * 4;
+    image->data = (char *) malloc(size); //to store RGBA
     
+    if (buffer == NULL || image->data == NULL) {
+	   printf("Error allocating memory for color-corrected image data");
+	   return 0;	
+    }
+
+    //read into temp buffer
+    if ((i = fread(buffer, size_buffer, 1, file)) != 1) {
+	   printf("Error reading image data from %s.\n", filename.c_str());
+	   return 0;
+    }
+
+    //correct adjust GRB => RGB
+    for (i=0;i<size_buffer;i+=3) {
+	   temp = buffer[i];
+	   buffer[i] = buffer[i+1];
+	   buffer[i+1] = temp;
+    }
+
+    //Now store into image->data with alpha value default 1
+    for (int s=0, d=0;s<size_buffer;s+=3, d+=4){
+       image->data[d] = buffer[s];
+       image->data[d+1] = buffer[s+1];
+       image->data[d+2] = buffer[s+2];
+       image->data[d+3] = 255;
+    }
+
+    //free the temp buffer
+    free(buffer);
     // we're done.
     return 1;
 }
