@@ -41,6 +41,7 @@ void surrounding_t::set_camera_wall_corner(void){
             0,1, 0);
 }
 
+
 // Load bitmap images to form textures
 void surrounding_t::load_textures() { 
     glEnable(GL_TEXTURE_2D);

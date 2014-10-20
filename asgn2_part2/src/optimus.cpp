@@ -176,6 +176,21 @@ void optimus_t::load_textures() {
 
     glDisable(GL_TEXTURE_2D);
 };
+///camera
+void optimus_t::set_camera_head(void){
+  float cx_wall = 0;
+  float cy_wall =  torso_yl + 2*radius +throat_yl*  radius*1.3;
+  float cz_wall =   torso_zl;
+  float c_dx = 0;
+  float c_dy =  torso_yl - cy_wall;
+  float c_dz =  uper_leg_l +  lower_leg_l - cz_wall;
+  gluLookAt(cx_wall,cy_wall,cz_wall,
+      c_dx, c_dy, c_dz,
+      c_dx, c_dz, -1*c_dy);
+}
+
+
+
 
 
 void optimus_t::hierarchi(){

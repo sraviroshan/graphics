@@ -28,7 +28,7 @@ GLFWwindow* window;
 optimus_t optimus;
 surrounding_t surrounding;
 
-int camera_no = 0; //0 wall, 1 overhead, 2 inside
+int camera_no = 1; //0 wall, 1 overhead, 2 inside
 
 void set_camera(){
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -40,6 +40,15 @@ void set_camera(){
 
   if(camera_no == 0){
     surrounding.set_camera_wall_corner();
+  }
+  else if(camera_no== 1){
+    glRotatef(-1*optimus.body_rotation_x,1,0,0);
+    glRotatef(-1*optimus.body_rotation_y,0,1,0);
+    glRotatef(-1*optimus.body_rotation_z,0,0,1);
+    glTranslatef(0, -1*optimus.throat_translate_y,0);
+        
+
+    optimus.set_camera_head();
   }
   else{
 

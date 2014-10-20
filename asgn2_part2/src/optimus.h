@@ -67,6 +67,9 @@ public:
 	void front_glass(void);
 	void hood_feet_left(void);
 	void side_gate(void);
+
+	//camera
+	void set_camera_head(void);
 };
 
 #endif
