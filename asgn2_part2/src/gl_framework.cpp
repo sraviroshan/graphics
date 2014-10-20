@@ -21,7 +21,7 @@
 #include "gl_framework.hpp"
 #include "optimus.h"
 
-#define USE_PERSPECTIVE false
+#define USE_PERSPECTIVE true
 extern optimus_t optimus;
 
 namespace csX75
@@ -75,12 +75,12 @@ namespace csX75
       if (width > height)
       {
         aspect = (double)width/(double)height;
-        glOrtho(-aspect, aspect, -1.0, 1.0, -5.0, 5.0);
+        glOrtho(-aspect, aspect, -1.0, 1.0, 0.0, 5.0);
             }
           else
             {
         aspect = (double)height/(double)width;
-        glOrtho(-1.0, 1.0, -aspect, aspect, -5.0, 5.0);
+        glOrtho(-1.0, 1.0, -aspect, aspect, 0.0, 5.0);
       }
     }
     

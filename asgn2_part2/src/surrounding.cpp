@@ -134,9 +134,9 @@ void surrounding_t::surround_all(){
 	glPushMatrix();
 	  // glScalef(0.04, 0.04, 0.04);
 
-	  glRotatef(optimus.body_rotation_x,1,0,0);
-      glRotatef(optimus.body_rotation_y,0,1,0);
-      glRotatef(optimus.body_rotation_z,0,0,1);
+	  // glRotatef(optimus.body_rotation_x,1,0,0);
+   //    glRotatef(optimus.body_rotation_y,0,1,0);
+   //    glRotatef(optimus.body_rotation_z,0,0,1);
       glPushMatrix();
       	glCallList(id_back_wall);
       glPopMatrix();
