@@ -176,17 +176,24 @@ void optimus_t::load_textures() {
 
     glDisable(GL_TEXTURE_2D);
 };
+
 ///camera
 void optimus_t::set_camera_head(void){
-  float cx_wall = 0;
-  float cy_wall =  torso_yl + 2*radius +throat_yl*  radius*1.3;
-  float cz_wall =   torso_zl;
-  float c_dx = 0;
-  float c_dy =  torso_yl - cy_wall;
-  float c_dz =  uper_leg_l +  lower_leg_l - cz_wall;
-  gluLookAt(cx_wall,cy_wall,cz_wall,
-      c_dx, c_dy, c_dz,
-      c_dx, c_dz, -1*c_dy);
+  float pos_x = 0;
+  float pos_y =  torso_yl + 2*radius*throat_yl; //center of head looking horizontal front
+  float pos_z =  torso_zl;
+  float center_x = 0;
+  float center_y =  pos_y;
+  float center_z =  2*torso_zl;
+
+  gluLookAt(pos_x,pos_y,pos_z,
+      center_x, center_y, center_z,
+      0, 1, 0); //vertical is y direction
+
+  glTranslatef(0, -1*throat_translate_y,0);
+  glRotatef(-1*body_rotation_z,0,0,1);
+  glRotatef(-1*body_rotation_y,0,1,0);
+  glRotatef(-1*body_rotation_x,1,0,0);
 }
 
 
@@ -1437,7 +1444,7 @@ void optimus_t::front_glass(){
   
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture[2]);
-  glColor4f(1, 1, 1, 0.2);
+  glColor4f(1, 1, 1, 0.5);
 
   glTranslatef(0,-1*front_glass_yl,-1*front_glass_zl);
   glScalef(front_glass_xl,front_glass_yl,front_glass_zl);

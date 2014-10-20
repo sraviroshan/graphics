@@ -69,7 +69,7 @@ namespace csX75
     double aspect;
 
     if(USE_PERSPECTIVE){
-      gluPerspective(120, (double)width/(double)height, 0.1, 4.0);
+      gluPerspective(70, (double)width/(double)height, 0.1, 4.0);
     }
     else{
       if (width > height)

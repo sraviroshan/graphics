@@ -42,12 +42,6 @@ void set_camera(){
     surrounding.set_camera_wall_corner();
   }
   else if(camera_no== 1){
-    glRotatef(-1*optimus.body_rotation_x,1,0,0);
-    glRotatef(-1*optimus.body_rotation_y,0,1,0);
-    glRotatef(-1*optimus.body_rotation_z,0,0,1);
-    glTranslatef(0, -1*optimus.throat_translate_y,0);
-        
-
     optimus.set_camera_head();
   }
   else{
