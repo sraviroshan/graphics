@@ -1661,12 +1661,12 @@ void optimus_t::truck_ceiling(){
   glEnd();
   
   glBegin(GL_QUADS);          //back face       
-  calculate_normal(-1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(-1.0f,1.0f,-1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
   glEnd();
   glDisable(GL_TEXTURE_2D);
   
