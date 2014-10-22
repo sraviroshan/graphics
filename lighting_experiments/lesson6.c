@@ -19,6 +19,7 @@
 
 /* The number of our GLUT window */
 int window; 
+GLdouble normal_buffer[3];
 
 /* floats for x rotation, y rotation, z rotation */
 int xrot, yrot, zrot;
@@ -161,6 +162,7 @@ void InitGL(int Width, int Height)	        // We call this right after our OpenG
     glClearDepth(1.0);				// Enables Clearing Of The Depth Buffer
     glDepthFunc(GL_LESS);			// The Type Of Depth Test To Do
     glEnable(GL_DEPTH_TEST);			// Enables Depth Testing
+    glEnable(GL_NORMALIZE);			//Enable force normalization of normals by open gl
     glShadeModel(GL_SMOOTH);			// Enables Smooth Color Shading
     
     glMatrixMode(GL_PROJECTION);
@@ -173,14 +175,10 @@ void InitGL(int Width, int Height)	        // We call this right after our OpenG
     GLfloat light_ambient[] = { 0.0, 0.0, 0.0, 1.0 }; //
 	GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 }; //this is the most important component as in "color" of the light
 	GLfloat light_specular[] = { 0.0, 1.0, 0.0, 1.0 };
-	GLfloat light_position[] = { 0.0, 1.0, 0.0, 0.0 }; //last is zero means directional
-														//last non-zero means positional with omni directional
-														//use spotlight functionalilty to emit in a cone
-
+	
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 }
 
 /* The function called when our window is resized (which shouldn't happen, because we're fullscreen) */
@@ -199,6 +197,24 @@ void ReSizeGLScene(int Width, int Height)
     
 }
 
+//components 1,2,3 are x,y,z respectively
+void calculate_normal(GLdouble a1, GLdouble a2, GLdouble a3,
+						  GLdouble b1, GLdouble b2, GLdouble b3,
+						  GLdouble c1, GLdouble c2, GLdouble c3,
+						  GLdouble * normal){
+	GLdouble u1 = b1 - a1;
+	GLdouble u2 = b2 - a2;
+	GLdouble u3 = b3 - a3;
+
+	GLdouble v1 = c1 - b1;
+	GLdouble v2 = c2 - b2;
+	GLdouble v3 = c3 - b3;
+
+    normal[0] = (u2*v3 - u3*v2);
+    normal[1] = (u3*v1 - u1*v3);
+    normal[2] = (u1*v2 - u2*v1); //done
+}
+
 /* The main drawing function. */
 void DrawGLScene()
 {
@@ -206,11 +222,24 @@ void DrawGLScene()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// Clear The Screen And The Depth Buffer
     glLoadIdentity();				// Reset The View
 
+    /**********/
+    GLfloat light_position[] = { 0.0, 10.0, 0.0, 1.0 }; //last is zero means directional
+														//last non-zero means positional with omni directional
+														//use spotlight functionalilty to emit in a cone
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	
+	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0);
+	GLfloat spot_direction[] = { 0.0, -1.0, 0.0 };
+	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
+    /**********/
+
     glTranslatef(0.0f,0.0f,-5.0f);              // move 5 units into the screen.
     
     glRotatef(xrot,1.0f,0.0f,0.0f);		// Rotate On The X Axis
     glRotatef(yrot,0.0f,1.0f,0.0f);		// Rotate On The Y Axis
     glRotatef(zrot,0.0f,0.0f,1.0f);		// Rotate On The Z Axis
+    
+    
 
     glBindTexture(GL_TEXTURE_2D, texture[0]);   // choose the texture to use.
 
@@ -224,42 +253,59 @@ void DrawGLScene()
    GLdouble e[] = {0, 1, 0};
    GLdouble f[] = {0, -1, 0};
    
-    glNormal3dv(d);
+   GLfloat mat_specular[] = { 0.0, 1.0, 0.0, 1.0 };
+   GLfloat mat_shininess[] = { 120.0 };
+   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+   
+
+   calculate_normal(-1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f,  1.0f,  1.0f,  1.0f, normal_buffer);
+   glNormal3dv(normal_buffer);
     glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Left Of The Texture and Quad
     glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Right Of The Texture and Quad
     glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Right Of The Texture and Quad
     glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);	// Top Left Of The Texture and Quad
     
     // Back Face
-    glNormal3dv(b);
+
+    calculate_normal(-1.0f, -1.0f, -1.0f, -1.0f,  1.0f, -1.0f,  1.0f,  1.0f, -1.0f, normal_buffer);
+    glNormal3dv(normal_buffer);
     glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);	// Bottom Right Of The Texture and Quad
     glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Right Of The Texture and Quad
     glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Left Of The Texture and Quad
     glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f, -1.0f);	// Bottom Left Of The Texture and Quad
 	
     // Top Face
-    glNormal3dv(e);
+
+    calculate_normal(-1.0f,  1.0f, -1.0f, -1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f, normal_buffer);
+    glNormal3dv(normal_buffer);
     glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);	// Top Left Of The Texture and Quad
     glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,  1.0f,  1.0f);	// Bottom Left Of The Texture and Quad
     glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,  1.0f,  1.0f);	// Bottom Right Of The Texture and Quad
     glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Right Of The Texture and Quad
     
     // Bottom Face  
-    glNormal3dv(f);     
+    
+    calculate_normal(-1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f,  1.0f, normal_buffer);
+    glNormal3dv(normal_buffer);
     glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f, -1.0f, -1.0f);	// Top Right Of The Texture and Quad
     glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f, -1.0f, -1.0f);	// Top Left Of The Texture and Quad
     glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Left Of The Texture and Quad
     glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Right Of The Texture and Quad
     
     // Right face
-    glNormal3dv(a);
+
+    calculate_normal( 1.0f, -1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f,  1.0f,  1.0f, normal_buffer);
+    glNormal3dv(normal_buffer);
     glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f, -1.0f);	// Bottom Right Of The Texture and Quad
     glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);	// Top Right Of The Texture and Quad
     glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Left Of The Texture and Quad
     glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Left Of The Texture and Quad
     
     // Left Face
-    glNormal3dv(c);
+    
+    calculate_normal(-1.0f, -1.0f, -1.0f, -1.0f, -1.0f,  1.0f, -1.0f,  1.0f,  1.0f, normal_buffer);
+    glNormal3dv(normal_buffer);
     glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);	// Bottom Left Of The Texture and Quad
     glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);	// Bottom Right Of The Texture and Quad
     glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);	// Top Right Of The Texture and Quad
