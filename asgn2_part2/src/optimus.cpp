@@ -191,10 +191,10 @@ void optimus_t::set_camera_head(void){
       0, 1, 0); //vertical is y direction
 
   glTranslatef(0, -1*throat_translate_y,0);
-  glTranslatef(0,0,-1*forword_backword_movement_z);
-  glRotatef(-1*body_rotation_z,0,0,1);
   glRotatef(-1*body_rotation_y,0,1,0);
-  glRotatef(-1*body_rotation_x,1,0,0);
+  glTranslatef(0,0,-1*forword_backword_movement_z);
+  // glRotatef(-1*body_rotation_z,0,0,1);
+  // glRotatef(-1*body_rotation_x,1,0,0);
 }
 
 
@@ -207,13 +207,13 @@ void optimus_t::hierarchi(){
 
     //body rotation
      // glScalef(0.04, 0.04, 0.04);
+      glTranslatef(0,0,forword_backword_movement_z);
   //       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  SHOULD NOT BE HERE.
-         glRotatef(body_rotation_x,1,0,0);
+         // glRotatef(body_rotation_x,1,0,0);
          glRotatef(body_rotation_y,0,1,0);
-         glRotatef(body_rotation_z,0,0,1);
+         // glRotatef(body_rotation_z,0,0,1);
         
       //move body forword
-      glTranslatef(0,0,forword_backword_movement_z);
 
       glPushMatrix();
         glColor4f(1.0,0.0,0.0,1.0);
@@ -677,11 +677,11 @@ void optimus_t::optimus_key_callback(int key, int scancode, int action, int mods
     else if (key == GLFW_KEY_X && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
       side_gate_rotation = (side_gate_rotation - 10)%360;
     //weel rotation about z axis
-    else if (key == GLFW_KEY_UP && action == GLFW_PRESS /*&& !(mods & GLFW_MOD_SHIFT)*/){
+    else if (key == GLFW_KEY_UP /*&& action == GLFW_PRESS*/ /*&& !(mods & GLFW_MOD_SHIFT)*/){
       weel_rotation = (weel_rotation + 10)%360;
       forword_backword_movement_z = forword_backword_movement_z + 2.0*PI*weel_radius*(1.0/18.0);
     }
-    else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS /*&& (mods & GLFW_MOD_SHIFT)*/){
+    else if (key == GLFW_KEY_DOWN /*&& action == GLFW_PRESS*/ /*&& (mods & GLFW_MOD_SHIFT)*/){
       weel_rotation = (weel_rotation - 10)%360;
       forword_backword_movement_z = forword_backword_movement_z - 2.0*PI*weel_radius*(1.0/18.0);
     }
