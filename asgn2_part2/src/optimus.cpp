@@ -191,7 +191,7 @@ void optimus_t::set_camera_head(void){
       0, 1, 0); //vertical is y direction
 
   glTranslatef(0, -1*throat_translate_y,0);
-  glTranslatef(0,0,-1*forword_backword_movement);
+  glTranslatef(0,0,-1*forword_backword_movement_z);
   glRotatef(-1*body_rotation_z,0,0,1);
   glRotatef(-1*body_rotation_y,0,1,0);
   glRotatef(-1*body_rotation_x,1,0,0);
@@ -213,7 +213,7 @@ void optimus_t::hierarchi(){
          glRotatef(body_rotation_z,0,0,1);
         
       //move body forword
-      glTranslatef(0,0,forword_backword_movement);
+      glTranslatef(0,0,forword_backword_movement_z);
 
       glPushMatrix();
         glColor4f(1.0,0.0,0.0,1.0);
@@ -502,7 +502,7 @@ void optimus_t::reset_transformer_config(){
     front_glass_rotation =0;
     side_gate_rotation=-90;
     weel_rotation=0;
-    forword_backword_movement=0;
+    forword_backword_movement_z=0.0;
 }
 
 void optimus_t::reset_car_config(){
@@ -532,7 +532,7 @@ void optimus_t::reset_car_config(){
 	front_glass_rotation=120;
 	side_gate_rotation=0;
   weel_rotation=0;
-  forword_backword_movement=0;
+  forword_backword_movement_z=0.0;
 }
 
 void optimus_t::reset_view_angle(){
@@ -542,18 +542,18 @@ void optimus_t::reset_view_angle(){
 }
 
 void optimus_t::optimus_key_callback(int key, int scancode, int action, int mods){
-	if(key==GLFW_KEY_DOWN && action == GLFW_PRESS)
-      body_rotation_x = (body_rotation_x - 10)%360;
-    else if(key==GLFW_KEY_UP && action == GLFW_PRESS)
-      body_rotation_x = (body_rotation_x + 10)%360;    
-    else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS)
+	// if(key==GLFW_KEY_DOWN && action == GLFW_PRESS)
+ //      body_rotation_x = (body_rotation_x - 10)%360;
+ //    else if(key==GLFW_KEY_UP && action == GLFW_PRESS)
+ //      body_rotation_x = (body_rotation_x + 10)%360;    
+    if(key==GLFW_KEY_LEFT && action == GLFW_PRESS)
       body_rotation_y = (body_rotation_y - 10)%360;
     else if(key==GLFW_KEY_RIGHT && action == GLFW_PRESS)
       body_rotation_y = (body_rotation_y + 10)%360;    
-    else if(key==GLFW_KEY_Z && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      body_rotation_z = (body_rotation_z - 10)%360;
-    else if(key==GLFW_KEY_Z && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      body_rotation_z = (body_rotation_z + 10)%360;    
+    // else if(key==GLFW_KEY_Z && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
+    //   body_rotation_z = (body_rotation_z - 10)%360;
+    // else if(key==GLFW_KEY_Z && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
+    //   body_rotation_z = (body_rotation_z + 10)%360;    
     
     // uper left hand rotation
     else if(key==GLFW_KEY_E && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
@@ -677,13 +677,13 @@ void optimus_t::optimus_key_callback(int key, int scancode, int action, int mods
     else if (key == GLFW_KEY_X && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
       side_gate_rotation = (side_gate_rotation - 10)%360;
     //weel rotation about z axis
-    else if (key == GLFW_KEY_TAB && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)){
+    else if (key == GLFW_KEY_UP && action == GLFW_PRESS /*&& !(mods & GLFW_MOD_SHIFT)*/){
       weel_rotation = (weel_rotation + 10)%360;
-      forword_backword_movement = forword_backword_movement + 2*PI*weel_radius;
+      forword_backword_movement_z = forword_backword_movement_z + 2.0*PI*weel_radius*(1.0/18.0);
     }
-    else if (key == GLFW_KEY_TAB && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)){
+    else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS /*&& (mods & GLFW_MOD_SHIFT)*/){
       weel_rotation = (weel_rotation - 10)%360;
-      forword_backword_movement = forword_backword_movement - 2*PI*weel_radius;
+      forword_backword_movement_z = forword_backword_movement_z - 2.0*PI*weel_radius*(1.0/18.0);
     }
 }
 
