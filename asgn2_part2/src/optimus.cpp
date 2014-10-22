@@ -191,6 +191,7 @@ void optimus_t::set_camera_head(void){
       0, 1, 0); //vertical is y direction
 
   glTranslatef(0, -1*throat_translate_y,0);
+  glTranslatef(0,0,-1*forword_backword_movement);
   glRotatef(-1*body_rotation_z,0,0,1);
   glRotatef(-1*body_rotation_y,0,1,0);
   glRotatef(-1*body_rotation_x,1,0,0);
@@ -211,6 +212,8 @@ void optimus_t::hierarchi(){
          glRotatef(body_rotation_y,0,1,0);
          glRotatef(body_rotation_z,0,0,1);
         
+      //move body forword
+      glTranslatef(0,0,forword_backword_movement);
 
       glPushMatrix();
         glColor4f(1.0,0.0,0.0,1.0);
@@ -239,7 +242,7 @@ void optimus_t::hierarchi(){
         glPopMatrix();
         //head
         glPushMatrix();
-          glTranslatef(0,throat_yl*radius*1.3,0);
+          glTranslatef(0,throat_yl+radius*1.3,0);
           glScalef(1,1.3, 1);
           glColor4f(1,0.2528,0.49,1.0);
           glCallList(id_sphere);
@@ -259,6 +262,7 @@ void optimus_t::hierarchi(){
           glPushMatrix();
             glTranslatef(back_weel_slab_xl,0,-2*back_weel_slab_zl);
             glRotatef(90,0,1,0);
+            glRotatef(weel_rotation,0,0,1);
             glColor4f(0.0588,0.2528,0.49,1.0);
             glCallList(id_weel);
           glPopMatrix();
@@ -275,6 +279,7 @@ void optimus_t::hierarchi(){
           glPushMatrix();
             glTranslatef(-1*back_weel_slab_xl,0,-2*back_weel_slab_zl);
             glRotatef(90,0,1,0);
+            glRotatef(weel_rotation,0,0,1);
             glColor4f(0.0588,0.2528,0.49,1.0);
             glCallList(id_weel);
           glPopMatrix();
@@ -375,6 +380,7 @@ void optimus_t::hierarchi(){
               glPushMatrix();
                 glTranslatef(front_weel_slab_xl+weel_width/2,-1*front_weel_slab_yl,0);
                 glRotatef(90,0,1,0);
+                glRotatef(weel_rotation,0,0,1);
                 glColor4f(0.0588,0.2528,0.49,1.0);
                 glCallList(id_weel);
               glPopMatrix();  
@@ -433,6 +439,7 @@ void optimus_t::hierarchi(){
               glPushMatrix();
                 glTranslatef(-1*(front_weel_slab_xl+weel_width/2),-1*front_weel_slab_yl,0);
                 glRotatef(90,0,1,0);
+                glRotatef(weel_rotation,0,0,1);
                 glColor4f(0.0588,0.2528,0.49,1.0);
                 glCallList(id_weel);
               glPopMatrix();
@@ -494,6 +501,8 @@ void optimus_t::reset_transformer_config(){
     truck_ceiling_rotation = -150;
     front_glass_rotation =0;
     side_gate_rotation=-90;
+    weel_rotation=0;
+    forword_backword_movement=0;
 }
 
 void optimus_t::reset_car_config(){
@@ -522,6 +531,8 @@ void optimus_t::reset_car_config(){
 	truck_ceiling_rotation = 90;
 	front_glass_rotation=120;
 	side_gate_rotation=0;
+  weel_rotation=0;
+  forword_backword_movement=0;
 }
 
 void optimus_t::reset_view_angle(){
@@ -616,7 +627,7 @@ void optimus_t::optimus_key_callback(int key, int scancode, int action, int mods
     else if (key==GLFW_KEY_I && action== GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
       lower_leg_rotation_l = (lower_leg_rotation_l - 10)%360;
     //lower right leg
-    else if (key==GLFW_KEY_8 && action== GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
+    else if (key==GLFW_KEY_8 && action== GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))  
       lower_leg_rotation_r = (lower_leg_rotation_r + 10)%360;
     else if (key==GLFW_KEY_8 && action== GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
       lower_leg_rotation_r = (lower_leg_rotation_r - 10)%360;
@@ -665,6 +676,15 @@ void optimus_t::optimus_key_callback(int key, int scancode, int action, int mods
       side_gate_rotation = (side_gate_rotation + 10)%360;
     else if (key == GLFW_KEY_X && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
       side_gate_rotation = (side_gate_rotation - 10)%360;
+    //weel rotation about z axis
+    else if (key == GLFW_KEY_TAB && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)){
+      weel_rotation = (weel_rotation + 10)%360;
+      forword_backword_movement = forword_backword_movement + 2*PI*weel_radius;
+    }
+    else if (key == GLFW_KEY_TAB && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)){
+      weel_rotation = (weel_rotation - 10)%360;
+      forword_backword_movement = forword_backword_movement - 2*PI*weel_radius;
+    }
 }
 
 
