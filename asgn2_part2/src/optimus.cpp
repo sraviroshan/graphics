@@ -77,6 +77,7 @@
 
 #define PI 3.14159265359
 
+GLdouble normal_buffer[3];
 
 void optimus_t::init_structures(void)
 {

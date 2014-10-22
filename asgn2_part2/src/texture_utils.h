@@ -24,4 +24,9 @@ public:
 
 int ImageLoad(std::string filename, Image *image);
 
+void calculate_normal(GLdouble a1, GLdouble a2, GLdouble a3,
+                          GLdouble b1, GLdouble b2, GLdouble b3,
+                          GLdouble c1, GLdouble c2, GLdouble c3,
+                          GLdouble * normal);
+
 #endif

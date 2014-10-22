@@ -39,6 +39,7 @@ namespace csX75
     //Enable Depth test
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);     // The Type Of Depth Test To Do
+    glEnable(GL_NORMALIZE);      //Enable force normalization of normals by open gl
     
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -94,6 +95,14 @@ namespace csX75
     //!Close the window if the ESC key was pressed
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
+    else if (key == GLFW_KEY_F1 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)) //f1 without shift
+      glEnable(GL_LIGHTING);
+    else if (key == GLFW_KEY_F1 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)) //shift+F1
+      glDisable(GL_LIGHTING);
+    else if (key == GLFW_KEY_F2 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)) //f2 without shift
+      glEnable(GL_LIGHT0);
+    else if (key == GLFW_KEY_F2 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)) //shift+F2
+      glDisable(GL_LIGHT0);
     //whole body rotation
     else 
       optimus.optimus_key_callback(key, scancode, action, mods);

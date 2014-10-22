@@ -155,3 +155,21 @@ int ImageLoad(std::string filename, Image *image) {
     // we're done.
     return 1;
 }
+
+//components 1,2,3 are x,y,z respectively
+void calculate_normal(GLdouble a1, GLdouble a2, GLdouble a3,
+                          GLdouble b1, GLdouble b2, GLdouble b3,
+                          GLdouble c1, GLdouble c2, GLdouble c3,
+                          GLdouble * normal){
+    GLdouble u1 = b1 - a1;
+    GLdouble u2 = b2 - a2;
+    GLdouble u3 = b3 - a3;
+
+    GLdouble v1 = c1 - b1;
+    GLdouble v2 = c2 - b2;
+    GLdouble v3 = c3 - b3;
+
+    normal[0] = (u2*v3 - u3*v2);
+    normal[1] = (u3*v1 - u1*v3);
+    normal[2] = (u1*v2 - u2*v1); //done
+}
