@@ -96,8 +96,9 @@ void optimus_t::configure_headlights(void){ //LIGTH2 and LIGHT3
 }
 
 void optimus_t::set_lights(void){ //set the position of the headlights LIGHT2 AND LIGHT3
-  GLfloat light_position[] = { 0.0, -1.0, 0.0, 1.0 };
-  GLfloat spot_direction[] = { 0.0, -1.0, 0.0 };
+  GLfloat light_position[] = { 0.0, 0.0, 0.0, 1.0 };
+  GLfloat spot_direction[] = { 0.0, 0.0,-1.0 };
+  GLfloat spot_cutoff = 30.0;
 
   //left headlight
   glPushMatrix();
@@ -119,7 +120,7 @@ void optimus_t::set_lights(void){ //set the position of the headlights LIGHT2 AN
 
     //set position of positional lightsource(LIGHT2) pointing negative y axis at bottom face
     glLightfv(GL_LIGHT2, GL_POSITION, light_position);
-    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 30.0);
+    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, spot_cutoff);
     glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, spot_direction);
   glPopMatrix();
 
@@ -143,10 +144,9 @@ void optimus_t::set_lights(void){ //set the position of the headlights LIGHT2 AN
 
     //set position of positional lightsource(LIGHT3) pointing negative y axis at bottom face
     glLightfv(GL_LIGHT3, GL_POSITION, light_position);
-    glLightf(GL_LIGHT3, GL_SPOT_CUTOFF, 30.0);
+    glLightf(GL_LIGHT3, GL_SPOT_CUTOFF, spot_cutoff);
     glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, spot_direction);
   glPopMatrix();
-
 }
 
 void optimus_t::init_structures(void)

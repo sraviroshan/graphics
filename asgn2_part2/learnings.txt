@@ -1,0 +1,9 @@
+NOTE:
+Consider a simple, large rectangular polygon.  Lighting will only
+be evaluated at the four corners and if your spotlight points at
+the center you probably won't see any hint of a spotlight effect.
+If you tessellate the polygon into many small polygons then lighting
+will be sampled more frequently and you'll see the spotlight effect.
+
+That's why spotlight was working when pointed at corners of wall and not when
+pointed at center
