@@ -18,8 +18,32 @@
 #define id_floor_wall 103
 
 extern optimus_t optimus;
+static GLdouble normal_buffer[3];
+
+void configure_light0(){
+	GLfloat light0_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+	GLfloat light0_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat light0_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light0_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light0_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light0_specular);
+}
+
+void configure_light1(){
+	GLfloat light1_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+	GLfloat light1_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat light1_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+
+	glLightfv(GL_LIGHT1, GL_AMBIENT, light1_ambient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_diffuse);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, light1_specular);
+}
 
 void surrounding_t::init_surrounding(void){
+	configure_light0();
+	configure_light1();
+
 	back_wall();
 	// front_wall();
 	left_wall();
@@ -29,14 +53,11 @@ void surrounding_t::init_surrounding(void){
 }
 
 void surrounding_t::set_camera_wall_corner(void){
-	float cx_wall = x_wall*1;//0.02;//
-	float cy_wall = y_wall*1;//0.02;//
-	float cz_wall = z_wall*1;//0.02;//
-
+	
 	// gluLookAt(-cx_wall, cy_wall, cz_wall,
  //            0, 0, 0,
  //            cx_wall, (cx_wall*cx_wall + cz_wall*cz_wall)/1.0 * cy_wall, -1*cz_wall);
-	gluLookAt(-cx_wall, 0, 0,
+	gluLookAt(-x_wall, y_wall, 0,
             0, 0, 0,
             0,1, 0);
 }
@@ -64,11 +85,13 @@ void surrounding_t::back_wall(){
   	glBindTexture(GL_TEXTURE_2D, texture[0]);
 
 	glColor4f(1, 1, 1, 1);
-	glBegin(GL_QUADS);            //front face
+	glBegin(GL_QUADS);
+    calculate_normal(-1* x_wall,-1* y_wall,-1*z_wall, x_wall,-1* y_wall,-1*z_wall, x_wall,y_wall,-1*z_wall, normal_buffer);
+    glNormal3dv(normal_buffer);
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-1* x_wall,-1* y_wall,-1*z_wall); 
-	glTexCoord2f(0.0f, 1.0f); glVertex3f(-1* x_wall,y_wall,-1*z_wall);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(x_wall,y_wall,-1*z_wall);
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(x_wall,-1* y_wall,-1*z_wall);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(x_wall,y_wall,-1*z_wall);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-1* x_wall,y_wall,-1*z_wall);
 	glEnd();
 
   	glDisable(GL_TEXTURE_2D);
@@ -83,10 +106,12 @@ void surrounding_t::left_wall(){
 
 	glColor4f(1, 1, 1, 1);
 	glBegin(GL_QUADS);            //front face
+    calculate_normal(1* x_wall,-1* y_wall,-1*z_wall, x_wall,-1* y_wall,1*z_wall, x_wall,y_wall,1*z_wall, normal_buffer);
+    glNormal3dv(normal_buffer);
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(1* x_wall,-1* y_wall,-1*z_wall); 
-	glTexCoord2f(0.0f, 1.0f); glVertex3f(1* x_wall,y_wall,-1*z_wall);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(x_wall,y_wall,1*z_wall);
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(x_wall,-1* y_wall,1*z_wall);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(x_wall,y_wall,1*z_wall);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(1* x_wall,y_wall,-1*z_wall);
 	glEnd();
 
   	glDisable(GL_TEXTURE_2D);
@@ -101,10 +126,12 @@ void surrounding_t::right_wall(){
 
 	glColor4f(1, 1, 1, 1);
 	glBegin(GL_QUADS);            //front face
+    calculate_normal(-1* x_wall,-1* y_wall,1*z_wall, -1*x_wall,-1* y_wall,-1*z_wall, -1*x_wall,y_wall,-1*z_wall, normal_buffer);
+    glNormal3dv(normal_buffer);
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-1* x_wall,-1* y_wall,1*z_wall); 
-	glTexCoord2f(0.0f, 1.0f); glVertex3f(-1* x_wall,y_wall,1*z_wall);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(-1*x_wall,y_wall,-1*z_wall);
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(-1*x_wall,-1* y_wall,-1*z_wall);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(-1*x_wall,y_wall,-1*z_wall);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-1* x_wall,y_wall,1*z_wall);
 	glEnd();
 
   	glDisable(GL_TEXTURE_2D);
@@ -119,10 +146,12 @@ void surrounding_t::floor_wall(){
 
 	glColor4f(1, 1, 1, 1);
 	glBegin(GL_QUADS);            //front face
+    calculate_normal(-1* x_wall,-1* y_wall,-1*z_wall, -1*x_wall,-1* y_wall,1*z_wall, x_wall,-1*y_wall,1*z_wall, normal_buffer);
+    glNormal3dv(normal_buffer);
 	glTexCoord2f(0.0f, 0.0f); glVertex3f(-1* x_wall,-1* y_wall,-1*z_wall); 
-	glTexCoord2f(0.0f, 1.0f); glVertex3f(1* x_wall,-1*y_wall,-1*z_wall);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(x_wall,-1*y_wall,1*z_wall);
 	glTexCoord2f(1.0f, 0.0f); glVertex3f(-1*x_wall,-1* y_wall,1*z_wall);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(x_wall,-1*y_wall,1*z_wall);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(1* x_wall,-1*y_wall,-1*z_wall);
 	glEnd();
 
   	glDisable(GL_TEXTURE_2D);
@@ -139,8 +168,11 @@ void surrounding_t::surround_all(){
    //    glRotatef(optimus.body_rotation_y,0,1,0);
    //    glRotatef(optimus.body_rotation_z,0,0,1);
 
-      GLfloat light_position[] = {-x_wall, 0, 0, 0.0 }; //last is zero means directional
-	  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+      GLfloat light0_position[] = {-x_wall, y_wall, 0, 0.0 }; //last is zero means directional
+	  glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+
+	  GLfloat light1_position[] = {0, y_wall, z_wall, 0.0 }; //last is zero means directional
+	  glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
 	  
       
       glPushMatrix();

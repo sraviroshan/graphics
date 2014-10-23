@@ -29,4 +29,8 @@ void calculate_normal(GLdouble a1, GLdouble a2, GLdouble a3,
                           GLdouble c1, GLdouble c2, GLdouble c3,
                           GLdouble * normal);
 
+void set_normal_material();
+
+void set_glass_material();
+
 #endif

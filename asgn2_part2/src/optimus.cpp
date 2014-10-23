@@ -77,7 +77,7 @@
 
 #define PI 3.14159265359
 
-GLdouble normal_buffer[3];
+static GLdouble normal_buffer[3];
 
 void optimus_t::init_structures(void)
 {
@@ -400,7 +400,7 @@ void optimus_t::hierarchi(){
               glPushMatrix();
                 glTranslatef(front_weel_slab_xl+weel_width/2,-1*front_weel_slab_yl,0);
                 glRotatef(90,0,1,0);
-                glRotatef(weel_rotation,0,0,1);
+                glRotatef(-weel_rotation,0,0,1);
                 glColor4f(0.0588,0.2528,0.49,1.0);
                 glCallList(id_weel);
               glPopMatrix();  
@@ -459,7 +459,7 @@ void optimus_t::hierarchi(){
               glPushMatrix();
                 glTranslatef(-1*(front_weel_slab_xl+weel_width/2),-1*front_weel_slab_yl,0);
                 glRotatef(90,0,1,0);
-                glRotatef(weel_rotation,0,0,1);
+                glRotatef(-weel_rotation,0,0,1);
                 glColor4f(0.0588,0.2528,0.49,1.0);
                 glCallList(id_weel);
               glPopMatrix();
@@ -569,9 +569,9 @@ void optimus_t::optimus_key_callback(int key, int scancode, int action, int mods
  //    else if(key==GLFW_KEY_UP && action == GLFW_PRESS)
  //      body_rotation_x = (body_rotation_x + 10)%360;    
     if(key==GLFW_KEY_LEFT && action == GLFW_PRESS)
-      body_rotation_y = (body_rotation_y - 10)%360;
+      body_rotation_y = (body_rotation_y + 10)%360;
     else if(key==GLFW_KEY_RIGHT && action == GLFW_PRESS)
-      body_rotation_y = (body_rotation_y + 10)%360;    
+      body_rotation_y = (body_rotation_y - 10)%360;    
     // else if(key==GLFW_KEY_Z && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
     //   body_rotation_z = (body_rotation_z - 10)%360;
     // else if(key==GLFW_KEY_Z && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
@@ -812,11 +812,11 @@ void optimus_t::weel(){
     for(int i=0;i<360;i+=weel_angle){
       float radian = i* PI/180.0;
       float radian2 = (i+weel_angle) * PI/180.0;
-      calculate_normal(0,0,0, weel_radius*cos(radian),weel_radius*sin(radian),-weel_width/2, weel_radius*cos(radian2),weel_radius*sin(radian2),-weel_width/2, normal_buffer);
+      calculate_normal(0,0,0, weel_radius*cos(radian2),weel_radius*sin(radian2),-weel_width/2, weel_radius*cos(radian),weel_radius*sin(radian),-weel_width/2, normal_buffer);
       glNormal3dv(normal_buffer);
       glTexCoord2f(0.5f, 0.5f); glVertex3f(0,0,0);
-      glTexCoord2f((cos(radian)+1)/2, (sin(radian)+1)/2); glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),-weel_width/2);
       glTexCoord2f((cos(radian2)+1)/2, (sin(radian2)+1)/2); glVertex3f(weel_radius*cos(radian2),weel_radius*sin(radian2),-weel_width/2);
+      glTexCoord2f((cos(radian)+1)/2, (sin(radian)+1)/2); glVertex3f(weel_radius*cos(radian),weel_radius*sin(radian),-weel_width/2);
     }
   glEnd();
 
@@ -1622,7 +1622,8 @@ void optimus_t::front_glass(){
   
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture[2]);
-  glColor4f(1, 1, 1, 0.5);
+  glColor4f(1, 1, 1, 0.2);
+  set_glass_material();
 
   glTranslatef(0,-1*front_glass_yl,-1*front_glass_zl);
   glScalef(front_glass_xl,front_glass_yl,front_glass_zl);
@@ -1682,6 +1683,7 @@ void optimus_t::front_glass(){
   glEnd();
   glDisable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
+  set_normal_material();
   glEndList();
 }
 //truck ceiling

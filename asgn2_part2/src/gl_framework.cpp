@@ -103,6 +103,10 @@ namespace csX75
       glEnable(GL_LIGHT0);
     else if (key == GLFW_KEY_F2 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)) //shift+F2
       glDisable(GL_LIGHT0);
+    else if (key == GLFW_KEY_F3 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)) //f2 without shift
+      glEnable(GL_LIGHT1);
+    else if (key == GLFW_KEY_F3 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)) //shift+F2
+      glDisable(GL_LIGHT1);
     //whole body rotation
     else 
       optimus.optimus_key_callback(key, scancode, action, mods);
