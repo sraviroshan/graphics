@@ -134,10 +134,15 @@ void surrounding_t::floor_wall(){
 void surrounding_t::surround_all(){
 	glPushMatrix();
 	  // glScalef(0.04, 0.04, 0.04);
-
+	  
 	  // glRotatef(optimus.body_rotation_x,1,0,0);
    //    glRotatef(optimus.body_rotation_y,0,1,0);
    //    glRotatef(optimus.body_rotation_z,0,0,1);
+
+      GLfloat light_position[] = {-x_wall, 0, 0, 0.0 }; //last is zero means directional
+	  glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	  
+      
       glPushMatrix();
       	glCallList(id_back_wall);
       glPopMatrix();
