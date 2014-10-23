@@ -50,6 +50,7 @@ public:
   	void optimus_key_callback(int key, int scancode, int action, int mods);
 
 	void configure_headlights(void);
+	void set_lights();
 
 	//structures parts
 	void unit_cube(void);

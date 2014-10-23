@@ -19,6 +19,7 @@ public:
 	void floor_wall(void);
 
 	void set_camera_wall_corner(void);
+	void set_lights();
 	
 };
 

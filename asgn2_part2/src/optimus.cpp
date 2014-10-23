@@ -93,7 +93,61 @@ void optimus_t::configure_headlights(void){ //LIGTH2 and LIGHT3
   glLightfv(GL_LIGHT3, GL_DIFFUSE, diffuse);
   glLightfv(GL_LIGHT3, GL_SPECULAR, specular);
 
-  }
+}
+
+void optimus_t::set_lights(void){ //set the position of the headlights LIGHT2 AND LIGHT3
+  GLfloat light_position[] = { 0.0, -1.0, 0.0, 1.0 };
+  GLfloat spot_direction[] = { 0.0, -1.0, 0.0 };
+
+  //left headlight
+  glPushMatrix();
+    glTranslatef(forword_backword_movement_x,0,forword_backword_movement_z);
+    glRotatef(body_rotation_y,0,1,0);
+
+    glTranslatef(0,-1*torso_yl,0);
+    glRotatef(waist_rotation,0,1,0);
+
+    glTranslatef(torso_xl/2,-2*waist_yl,0); //diff
+
+    glRotatef(uper_leg_rotation_xl,1,0,0);
+    glRotatef(uper_leg_rotation_zl,0,0,1);
+    glTranslatef(0,-2*uper_leg_l,0);
+    glRotatef(lower_leg_rotation_l,1,0,0);
+
+    glTranslatef(0,-1*lower_leg_l,0);
+    glScalef(lower_leg_xl,lower_leg_l,1);
+
+    //set position of positional lightsource(LIGHT2) pointing negative y axis at bottom face
+    glLightfv(GL_LIGHT2, GL_POSITION, light_position);
+    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 30.0);
+    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, spot_direction);
+  glPopMatrix();
+
+  //right headlight
+  glPushMatrix();
+    glTranslatef(forword_backword_movement_x,0,forword_backword_movement_z);
+    glRotatef(body_rotation_y,0,1,0);
+
+    glTranslatef(0,-1*torso_yl,0);
+    glRotatef(waist_rotation,0,1,0);
+
+    glTranslatef(-1*torso_xl/2,-2*waist_yl,0); //diff
+
+    glRotatef(uper_leg_rotation_xl,1,0,0);
+    glRotatef(uper_leg_rotation_zl,0,0,1);
+    glTranslatef(0,-2*uper_leg_l,0);
+    glRotatef(lower_leg_rotation_l,1,0,0);
+
+    glTranslatef(0,-1*lower_leg_l,0);
+    glScalef(lower_leg_xl,lower_leg_l,1);
+
+    //set position of positional lightsource(LIGHT3) pointing negative y axis at bottom face
+    glLightfv(GL_LIGHT3, GL_POSITION, light_position);
+    glLightf(GL_LIGHT3, GL_SPOT_CUTOFF, 30.0);
+    glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, spot_direction);
+  glPopMatrix();
+
+}
 
 void optimus_t::init_structures(void)
 {
@@ -1354,13 +1408,7 @@ void optimus_t::left_lower_leg(){
   glEnd();
   glDisable(GL_TEXTURE_2D);
 
-  //set position of positional lightsource(LIGHT2) pointing negative y axis at bottom face
-  GLfloat light_position[] = { 0.0, -1.0, 0.0, 1.0 };
-  glLightfv(GL_LIGHT2, GL_POSITION, light_position);
-  glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 30.0);
-  GLfloat spot_direction[] = { 0.0, -1.0, 0.0 };
-  glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, spot_direction);
-
+  
   glEndList();
 
 }
@@ -1437,12 +1485,6 @@ void optimus_t::right_lower_leg(){
   glEnd();
   glDisable(GL_TEXTURE_2D);
 
-  //set position of positional lightsource(LIGHT3) pointing negative y axis at bottom face
-  GLfloat light_position[] = { 0.0, -1.0, 0.0, 1.0 };
-  glLightfv(GL_LIGHT3, GL_POSITION, light_position);
-  glLightf(GL_LIGHT3, GL_SPOT_CUTOFF, 30.0);
-  GLfloat spot_direction[] = { 0.0, -1.0, 0.0 };
-  glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, spot_direction);
   glEndList();
 }
 //front weel slab
