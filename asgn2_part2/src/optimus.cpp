@@ -93,10 +93,7 @@ void optimus_t::configure_headlights(void){ //LIGTH2 and LIGHT3
   glLightfv(GL_LIGHT3, GL_DIFFUSE, diffuse);
   glLightfv(GL_LIGHT3, GL_SPECULAR, specular);
 
-  glEnable(GL_LIGHT2);
-  glEnable(GL_LIGHT3);
-
-}
+  }
 
 void optimus_t::init_structures(void)
 {
