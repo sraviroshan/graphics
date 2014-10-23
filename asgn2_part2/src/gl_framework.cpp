@@ -23,6 +23,7 @@
 
 #define USE_PERSPECTIVE true
 extern optimus_t optimus;
+extern int camera_no;
 
 namespace csX75
 {
@@ -103,14 +104,27 @@ namespace csX75
       glEnable(GL_LIGHT0);
     else if (key == GLFW_KEY_F2 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)) //shift+F2
       glDisable(GL_LIGHT0);
-    else if (key == GLFW_KEY_F3 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)) //f2 without shift
+    else if (key == GLFW_KEY_F3 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)) //f3 without shift
       glEnable(GL_LIGHT1);
-    else if (key == GLFW_KEY_F3 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)) //shift+F2
-      glDisable(GL_LIGHT1);
+    else if (key == GLFW_KEY_F3 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)) //shift+F3
+          glDisable(GL_LIGHT1);
+    else if (key == GLFW_KEY_F4 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)){ //f4 without shift
+      glEnable(GL_LIGHT2);
+      glEnable(GL_LIGHT3);
+    }
+    else if (key == GLFW_KEY_F4 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)){ //shift+f4
+      glDisable(GL_LIGHT2);
+      glDisable(GL_LIGHT3);
+    }
+    else if (key == GLFW_KEY_F8 && action == GLFW_PRESS) //f8
+      camera_no = 0;
+    else if (key == GLFW_KEY_F9 && action == GLFW_PRESS) //f9
+      camera_no = 1;
+    else if (key == GLFW_KEY_F10 && action == GLFW_PRESS) //f10
+      camera_no = 2;
     //whole body rotation
     else 
       optimus.optimus_key_callback(key, scancode, action, mods);
-
   }
 };  
   

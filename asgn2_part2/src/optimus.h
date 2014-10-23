@@ -49,6 +49,7 @@ public:
 
   	void optimus_key_callback(int key, int scancode, int action, int mods);
 
+	void configure_headlights(void);
 
 	//structures parts
 	void unit_cube(void);
@@ -57,7 +58,8 @@ public:
 	void lower_hand(void);
 	void waist(void);
 	void uper_leg(void);
-	void lower_leg(void);
+	void left_lower_leg(void);
+	void right_lower_leg(void);
 	void unit_weel(void);
 	void front_weel_slab(void);
 	void weel(void);

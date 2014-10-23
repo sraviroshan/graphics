@@ -27,7 +27,8 @@
 #define id_uper_leg 5
 #define uper_leg_l 2.0
 
-#define id_lower_leg 6
+#define id_left_lower_leg 6
+#define id_right_lower_leg 36
 #define lower_leg_l 4.0
 #define lower_leg_xl 0.8
 
@@ -79,14 +80,34 @@
 
 static GLdouble normal_buffer[3];
 
+void optimus_t::configure_headlights(void){ //LIGTH2 and LIGHT3
+  GLfloat ambient[] = { 0.0, 0.0, 0.0, 1.0 };
+  GLfloat diffuse[] = { 0, 0, 1, 1.0 };
+  GLfloat specular[] = { 0.1, 0.1, 0.1, 1.0 };
+
+  glLightfv(GL_LIGHT2, GL_AMBIENT, ambient);
+  glLightfv(GL_LIGHT2, GL_DIFFUSE, diffuse);
+  glLightfv(GL_LIGHT2, GL_SPECULAR, specular);
+
+  glLightfv(GL_LIGHT3, GL_AMBIENT, ambient);
+  glLightfv(GL_LIGHT3, GL_DIFFUSE, diffuse);
+  glLightfv(GL_LIGHT3, GL_SPECULAR, specular);
+
+  glEnable(GL_LIGHT2);
+  glEnable(GL_LIGHT3);
+
+}
+
 void optimus_t::init_structures(void)
 {
+  configure_headlights();
   torso();
   uper_hand();
   lower_hand();
   waist();
   uper_leg();
-  lower_leg();
+  left_lower_leg();
+  right_lower_leg();
   front_weel_slab();
   back_weel_slab();
   hood_feet();
@@ -387,7 +408,7 @@ void optimus_t::hierarchi(){
             glTranslatef(0,-2*uper_leg_l,0);
             glRotatef(lower_leg_rotation_l,1,0,0);
             glPushMatrix();
-              glCallList(id_lower_leg);
+              glCallList(id_left_lower_leg);
             glPopMatrix();
             glPushMatrix();
               glTranslatef(lower_leg_xl+front_weel_slab_xl,(-1*lower_leg_l),0);
@@ -448,7 +469,7 @@ void optimus_t::hierarchi(){
             glTranslatef(0,-2*uper_leg_l,0);
             glRotatef(lower_leg_rotation_r,1,0,0);
             glPushMatrix();
-              glCallList(id_lower_leg);
+              glCallList(id_right_lower_leg);
             glPopMatrix();
             glPushMatrix();
               glTranslatef(-1*(lower_leg_xl+front_weel_slab_xl),(-1*lower_leg_l),0);
@@ -1264,8 +1285,8 @@ void optimus_t::uper_leg(){
 }
 //lower leg
   
-void optimus_t::lower_leg(){
-  glNewList(id_lower_leg,GL_COMPILE);
+void optimus_t::left_lower_leg(){
+  glNewList(id_left_lower_leg,GL_COMPILE);
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture[12]);
 
@@ -1324,7 +1345,7 @@ void optimus_t::lower_leg(){
 
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
-  glBindTexture(GL_TEXTURE_2D, texture[5]);
+  glBindTexture(GL_TEXTURE_2D, texture[5]); //headlights
   glBegin(GL_QUADS);        //bottom face
   calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
@@ -1336,8 +1357,96 @@ void optimus_t::lower_leg(){
   glEnd();
   glDisable(GL_TEXTURE_2D);
 
+  //set position of positional lightsource(LIGHT2) pointing negative y axis at bottom face
+  GLfloat light_position[] = { 0.0, -1.0, 0.0, 1.0 };
+  glLightfv(GL_LIGHT2, GL_POSITION, light_position);
+  glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 30.0);
+  GLfloat spot_direction[] = { 0.0, -1.0, 0.0 };
+  glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, spot_direction);
+
   glEndList();
 
+}
+
+void optimus_t::right_lower_leg(){
+  glNewList(id_right_lower_leg,GL_COMPILE);
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, texture[12]);
+
+  glTranslatef(0,-1*lower_leg_l,0);
+  glScalef(lower_leg_xl,lower_leg_l,1);
+  
+  glColor4f(1,1 ,1, 1);
+  glBegin(GL_QUADS);            //front face
+  calculate_normal(-1.0f,1.0f,1.0f, -1.0f,-1.0f,1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  glNormal3dv(normal_buffer);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,1.0f); 
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);          //back face       
+  calculate_normal(-1.0f,1.0f,-1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  glNormal3dv(normal_buffer);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glEnd();
+  
+  glBegin(GL_QUADS);          //left face
+  calculate_normal(-1.0f,1.0f,1.0f, -1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, normal_buffer);
+  glNormal3dv(normal_buffer);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+  glEnd();
+
+  glBegin(GL_QUADS);          //right face
+  calculate_normal(1.0f,1.0f,1.0f, 1.0f,-1.0f,1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  glNormal3dv(normal_buffer);
+  glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  glDisable(GL_TEXTURE_2D);
+
+  glColor4f(0.2366, 0.1056, 0.48, 1);
+  glBegin(GL_QUADS);        //top face        
+  calculate_normal(-1.0f,1.0f,-1.0f, -1.0f,1.0f,1.0f, 1.0f,1.0f,1.0f, normal_buffer);
+  glNormal3dv(normal_buffer);
+  glVertex3f(-1.0f,1.0f,-1.0f);
+  glVertex3f(-1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
+  glEnd();
+  
+  // glColor4f(0.2366, 0.1056, 0.48, 1);
+
+  glEnable(GL_TEXTURE_2D);
+  glColor4f(1, 1, 1, 1);
+  glBindTexture(GL_TEXTURE_2D, texture[5]); //headlights
+  glBegin(GL_QUADS);        //bottom face
+  calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  glNormal3dv(normal_buffer);
+  glTexCoord2f(0.0f, 1.0f);glVertex3f(-1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
+   
+  glEnd();
+  glDisable(GL_TEXTURE_2D);
+
+  //set position of positional lightsource(LIGHT3) pointing negative y axis at bottom face
+  GLfloat light_position[] = { 0.0, -1.0, 0.0, 1.0 };
+  glLightfv(GL_LIGHT3, GL_POSITION, light_position);
+  glLightf(GL_LIGHT3, GL_SPOT_CUTOFF, 30.0);
+  GLfloat spot_direction[] = { 0.0, -1.0, 0.0 };
+  glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, spot_direction);
+  glEndList();
 }
 //front weel slab
 void optimus_t::front_weel_slab(){
