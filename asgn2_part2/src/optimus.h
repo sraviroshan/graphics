@@ -35,7 +35,8 @@ public:
 	int front_glass_rotation; //totation of fron glass bout x axis
 	int side_gate_rotation; //side gate rotation about x axis
 	int weel_rotation; //roatation of weel about z axis
-	float forword_backword_movement_z; // translate whole body alonf z axis
+	float forword_backword_movement_z; // translate whole body along z axis
+	float forword_backword_movement_x; // translate whole body along x axis
 
 //Methods
 	void init_structures(void);
@@ -72,6 +73,7 @@ public:
 
 	//camera
 	void set_camera_head(void);
+	void set_camera_top(void);
 };
 
 #endif

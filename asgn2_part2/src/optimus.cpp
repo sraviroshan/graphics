@@ -192,11 +192,28 @@ void optimus_t::set_camera_head(void){
 
   glTranslatef(0, -1*throat_translate_y,0);
   glRotatef(-1*body_rotation_y,0,1,0);
-  glTranslatef(0,0,-1*forword_backword_movement_z);
+  glTranslatef(-1*forword_backword_movement_x,0,-1*forword_backword_movement_z);
   // glRotatef(-1*body_rotation_z,0,0,1);
   // glRotatef(-1*body_rotation_x,1,0,0);
 }
 
+void optimus_t::set_camera_top(void){
+  float pos_x = 0;
+  float pos_y =  torso_yl + 10*radius*throat_yl; //center of head looking horizontal front
+  float pos_z =  -14*torso_zl;
+  float center_x = 0;
+  float center_y =  pos_y -2*radius*throat_yl;
+  float center_z =  torso_zl + lower_leg_l + uper_leg_l;
+
+  gluLookAt(pos_x,pos_y,pos_z,
+      center_x, center_y, center_z,
+      0, (center_z - pos_z) , -1*(center_y-pos_y)); //vertical is y direction
+
+  glTranslatef(0, -1*throat_translate_y,0);
+  glRotatef(-1*body_rotation_y,0,1,0);
+  glTranslatef(-1*forword_backword_movement_x,0,-1*forword_backword_movement_z);
+  
+}
 
 
 
@@ -207,14 +224,16 @@ void optimus_t::hierarchi(){
 
     //body rotation
      // glScalef(0.04, 0.04, 0.04);
-      glTranslatef(0,0,forword_backword_movement_z);
+    
+      //move body forword
+    glTranslatef(forword_backword_movement_x,0,forword_backword_movement_z);
+  
   //       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  SHOULD NOT BE HERE.
          // glRotatef(body_rotation_x,1,0,0);
          glRotatef(body_rotation_y,0,1,0);
          // glRotatef(body_rotation_z,0,0,1);
         
-      //move body forword
-
+      
       glPushMatrix();
         glColor4f(1.0,0.0,0.0,1.0);
         glCallList(id_torso);
@@ -503,6 +522,7 @@ void optimus_t::reset_transformer_config(){
     side_gate_rotation=-90;
     weel_rotation=0;
     forword_backword_movement_z=0.0;
+    forword_backword_movement_x=0.0;
 }
 
 void optimus_t::reset_car_config(){
@@ -533,6 +553,7 @@ void optimus_t::reset_car_config(){
 	side_gate_rotation=0;
   weel_rotation=0;
   forword_backword_movement_z=0.0;
+  forword_backword_movement_x=0.0;
 }
 
 void optimus_t::reset_view_angle(){
@@ -679,11 +700,13 @@ void optimus_t::optimus_key_callback(int key, int scancode, int action, int mods
     //weel rotation about z axis
     else if (key == GLFW_KEY_UP /*&& action == GLFW_PRESS*/ /*&& !(mods & GLFW_MOD_SHIFT)*/){
       weel_rotation = (weel_rotation + 10)%360;
-      forword_backword_movement_z = forword_backword_movement_z + 2.0*PI*weel_radius*(1.0/18.0);
+      forword_backword_movement_z = forword_backword_movement_z + 2.0*PI*weel_radius*(1.0/18.0)*cos(body_rotation_y*PI/180.0);
+      forword_backword_movement_x = forword_backword_movement_x + 2.0*PI*weel_radius*(1.0/18.0)*sin(body_rotation_y*PI/180.0);
     }
     else if (key == GLFW_KEY_DOWN /*&& action == GLFW_PRESS*/ /*&& (mods & GLFW_MOD_SHIFT)*/){
       weel_rotation = (weel_rotation - 10)%360;
-      forword_backword_movement_z = forword_backword_movement_z - 2.0*PI*weel_radius*(1.0/18.0);
+      forword_backword_movement_z = forword_backword_movement_z - 2.0*PI*weel_radius*(1.0/18.0)*cos(body_rotation_y*PI/180.0);
+      forword_backword_movement_x = forword_backword_movement_x - 2.0*PI*weel_radius*(1.0/18.0)*sin(body_rotation_y*PI/180.0);
     }
 }
 

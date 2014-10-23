@@ -28,7 +28,7 @@ GLFWwindow* window;
 optimus_t optimus;
 surrounding_t surrounding;
 
-int camera_no = 1; //0 wall, 1 overhead, 2 inside
+int camera_no = 2; //0 wall, 1 overhead, 2 inside
 
 void set_camera(){
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -43,6 +43,9 @@ void set_camera(){
   }
   else if(camera_no== 1){
     optimus.set_camera_head();
+  }
+  else if(camera_no==2){
+    optimus.set_camera_top();
   }
   else{
 
