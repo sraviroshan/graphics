@@ -1,0 +1,26 @@
+Lights
+=======
+F1 			: Enable lighting
+Shift + F1 	: Disable lighting 					// DEFAULT
+
+F2 			: Enable LIGHT0 (wall)
+Shift + F2 	: Disable LIGHT0 					// DEFAULT
+
+F3 			: Enable LIGHT1	(wall)
+Shift + F3 	: Disable LIGHT1 					// DEFAULT
+
+F4 			: Enable LIGHT2 & LIGHT3(headlights)
+Shift + F4 	: Disable LIGHT2 & LIGHT3			// DEFAULT
+
+Cameras
+========
+F8			: Activate camera on the wall(global view) 	// DEFAULT
+F9			: Activate camera inside the vehicle(first person view)
+F10			: Activate camera over the vehicle (third person view)
+
+Movement 
+=========
+UP			: Move forward
+DOWN		: Move backward
+LEFT		: Turn left
+RIGHT		: Turn right
