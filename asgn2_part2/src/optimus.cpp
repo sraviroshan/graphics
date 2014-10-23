@@ -854,13 +854,13 @@ void optimus_t::sphere_layer(float R, float angle1, float angle2){
       float radian = theta * PI/180.0; 
       float radian1 = (theta+ANGLE) * PI/180.0; 
       glBegin(GL_QUADS);
-      calculate_normal(r1 * cos(radian), z1, r1 * sin(radian), r1 * cos(radian1), z1, r1 * sin(radian1), r2 * cos(radian1), z2, r2 * sin(radian1), normal_buffer);
+      calculate_normal(r1 * cos(radian), z1, r1 * sin(radian), r2 * cos(radian), z2, r2 * sin(radian), r2 * cos(radian1), z2, r2 * sin(radian1), normal_buffer);
       glNormal3dv(normal_buffer);
       glTexCoord2f((theta-90)/360, 0.5*(1+angle1/90)); glVertex3f(r1 * cos(radian), z1, r1 * sin(radian));
+      glTexCoord2f((theta-90)/360, 0.5*(1+angle2/90)); glVertex3f(r2 * cos(radian), z2, r2 * sin(radian));
+      glTexCoord2f((theta-90+ANGLE)/360, 0.5*(1+angle2/90)); glVertex3f(r2 * cos(radian1), z2, r2 * sin(radian1));
       glTexCoord2f((theta-90+ANGLE)/360, 0.5*(1+angle1/90)); glVertex3f(r1 * cos(radian1), z1, r1 * sin(radian1));
       
-      glTexCoord2f((theta-90+ANGLE)/360, 0.5*(1+angle2/90)); glVertex3f(r2 * cos(radian1), z2, r2 * sin(radian1));
-      glTexCoord2f((theta-90)/360, 0.5*(1+angle2/90)); glVertex3f(r2 * cos(radian), z2, r2 * sin(radian));
       glEnd();
     }
 }
@@ -881,7 +881,7 @@ void optimus_t::sphere(){
   
   v_angle=0;
   for(int i=0; i < VERTICAL_ANGLE_PARTS; i++){
-      sphere_layer(radius, v_angle, v_angle-delta_angle);
+      sphere_layer(radius, v_angle-delta_angle, v_angle);
       v_angle -= delta_angle;
   }
   glDisable(GL_TEXTURE_2D);
@@ -912,12 +912,12 @@ void optimus_t::unit_cube(){
   glEnd();
   
   glBegin(GL_QUADS);          //back face       
-  calculate_normal(-1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(-1.0f,1.0f,-1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
   glVertex3f(1.0f,1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
   glEnd();
   
   glBegin(GL_QUADS);          //left face
@@ -930,12 +930,12 @@ void optimus_t::unit_cube(){
   glEnd();
 
   glBegin(GL_QUADS);          //right face
-  calculate_normal(1.0f,1.0f,1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(1.0f,1.0f,1.0f, 1.0f,-1.0f,1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(1.0f,1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
   glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
   glBegin(GL_QUADS);        //top face        
@@ -948,12 +948,12 @@ void optimus_t::unit_cube(){
   glEnd();
   
   glBegin(GL_QUADS);        //bottom face
-  calculate_normal(-1.0f,-1.0f,-1.0f, -1.0f,-1.0f,1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
   glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
   glEnd();
 
 }
@@ -977,12 +977,12 @@ void optimus_t::torso(){
   glBindTexture(GL_TEXTURE_2D, texture[8]);
   //glColor4f(1, 0, 0, 1);
   glBegin(GL_QUADS);          //back face       
-  calculate_normal(-1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(-1.0f,1.0f,-1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
   glEnd();
   
   glBindTexture(GL_TEXTURE_2D, texture[0]);
@@ -998,12 +998,12 @@ void optimus_t::torso(){
 
   //glColor4f(0, 1, 0, 1);
   glBegin(GL_QUADS);          //right face
-  calculate_normal(1.0f,1.0f,1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(1.0f,1.0f,1.0f, 1.0f,-1.0f,1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
-  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
   //glColor4f(0, 0, 1, 1);
@@ -1018,12 +1018,12 @@ void optimus_t::torso(){
   
   //glColor4f(0, 0,1, 1);
   glBegin(GL_QUADS);        //bottom face
-  calculate_normal(-1.0f,-1.0f,-1.0f, -1.0f,-1.0f,1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
-  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
   glEnd();
   glDisable(GL_TEXTURE_2D);
 
@@ -1048,12 +1048,12 @@ void optimus_t::uper_hand(){
   glEnd();
   
   glBegin(GL_QUADS);          //back face       
-  calculate_normal(-1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(-1.0f,1.0f,-1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
   glEnd();
   
   glDisable(GL_TEXTURE_2D);
@@ -1070,12 +1070,12 @@ void optimus_t::uper_hand(){
 
   glColor4f(0.37,0.3647 ,0.0518, 1);
   glBegin(GL_QUADS);          //right face
-  calculate_normal(1.0f,1.0f,1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(1.0f,1.0f,1.0f, 1.0f,-1.0f,1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(1.0f,1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
   glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
   glEnable(GL_TEXTURE_2D);
@@ -1092,12 +1092,12 @@ void optimus_t::uper_hand(){
   glEnd();
   
   glBegin(GL_QUADS);        //bottom face
-  calculate_normal(-1.0f,-1.0f,-1.0f, -1.0f,-1.0f,1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
   glEnd();
   glDisable(GL_TEXTURE_2D);
 
@@ -1125,12 +1125,12 @@ void optimus_t::lower_hand(){
   glEnd();
   
   glBegin(GL_QUADS);          //back face       
-  calculate_normal(-1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(-1.0f,1.0f,-1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
   glEnd();
   
   glDisable(GL_TEXTURE_2D);
@@ -1147,12 +1147,12 @@ void optimus_t::lower_hand(){
 
   glColor4f(0.3989,0.1056 ,0.48, 1);
   glBegin(GL_QUADS);          //right face
-  calculate_normal(1.0f,1.0f,1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(1.0f,1.0f,1.0f, 1.0f,-1.0f,1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(1.0f,1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
   glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
   glEnable(GL_TEXTURE_2D);
@@ -1169,12 +1169,12 @@ void optimus_t::lower_hand(){
   glEnd();
   
   glBegin(GL_QUADS);        //bottom face
-  calculate_normal(-1.0f,-1.0f,-1.0f, -1.0f,-1.0f,1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
   glEnd();
 
   glDisable(GL_TEXTURE_2D);
@@ -1210,12 +1210,12 @@ void optimus_t::uper_leg(){
   glEnd();
   
   glBegin(GL_QUADS);          //back face       
-  calculate_normal(-1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(-1.0f,1.0f,-1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
   glEnd();
   
 
@@ -1229,12 +1229,12 @@ void optimus_t::uper_leg(){
   glEnd();
 
   glBegin(GL_QUADS);          //right face
-  calculate_normal(1.0f,1.0f,1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(1.0f,1.0f,1.0f, 1.0f,-1.0f,1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
   glDisable(GL_TEXTURE_2D);
@@ -1251,12 +1251,12 @@ void optimus_t::uper_leg(){
   
   glColor4f(0.2366, 0.1056, 0.48, 1);
   glBegin(GL_QUADS);        //bottom face
-  calculate_normal(-1.0f,-1.0f,-1.0f, -1.0f,-1.0f,1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
   glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
   glEnd();
 
   glEndList();
@@ -1283,12 +1283,12 @@ void optimus_t::lower_leg(){
   glEnd();
   
   glBegin(GL_QUADS);          //back face       
-  calculate_normal(-1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(-1.0f,1.0f,-1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
   glEnd();
   
   glBegin(GL_QUADS);          //left face
@@ -1301,12 +1301,12 @@ void optimus_t::lower_leg(){
   glEnd();
 
   glBegin(GL_QUADS);          //right face
-  calculate_normal(1.0f,1.0f,1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(1.0f,1.0f,1.0f, 1.0f,-1.0f,1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   glDisable(GL_TEXTURE_2D);
 
@@ -1326,12 +1326,12 @@ void optimus_t::lower_leg(){
   glColor4f(1, 1, 1, 1);
   glBindTexture(GL_TEXTURE_2D, texture[5]);
   glBegin(GL_QUADS);        //bottom face
-  calculate_normal(-1.0f,-1.0f,-1.0f, -1.0f,-1.0f,1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f);glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
    
   glEnd();
   glDisable(GL_TEXTURE_2D);
@@ -1357,12 +1357,12 @@ void optimus_t::front_weel_slab(){
   
   glColor4f(0.28,0.0616, 1, 1);
   glBegin(GL_QUADS);          //back face       
-  calculate_normal(-1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(-1.0f,1.0f,-1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
   glVertex3f(1.0f,1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
   glEnd();
   
   glColor4f(0.3989,0.1056 ,0.8, 1);
@@ -1377,12 +1377,12 @@ void optimus_t::front_weel_slab(){
 
   glColor4f(0.3989,0.1056 ,0.8, 1);
   glBegin(GL_QUADS);          //right face
-  calculate_normal(1.0f,1.0f,1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(1.0f,1.0f,1.0f, 1.0f,-1.0f,1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(1.0f,1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
   glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
   glColor4f(0.2366, 0.1056, 0.48, 1);
@@ -1397,12 +1397,12 @@ void optimus_t::front_weel_slab(){
   
   glColor4f(0.2366, 0.1056, 0.48, 1);
   glBegin(GL_QUADS);        //bottom face
-  calculate_normal(-1.0f,-1.0f,-1.0f, -1.0f,-1.0f,1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
   glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
   glEnd();
 
   glEndList();
@@ -1425,12 +1425,12 @@ void optimus_t::back_weel_slab(){
   glEnd();
   
   glBegin(GL_QUADS);          //back face       
-  calculate_normal(-1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(-1.0f,1.0f,-1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
   glVertex3f(1.0f,1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
   glEnd();
   
 
@@ -1450,12 +1450,12 @@ void optimus_t::back_weel_slab(){
   glEnd();
 
   glBegin(GL_QUADS);          //right face
-  calculate_normal(1.0f,1.0f,1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(1.0f,1.0f,1.0f, 1.0f,-1.0f,1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f,1.0f,1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
   glBegin(GL_QUADS);        //top face        
@@ -1468,12 +1468,12 @@ void optimus_t::back_weel_slab(){
   glEnd();
   
   glBegin(GL_QUADS);        //bottom face
-  calculate_normal(-1.0f,-1.0f,-1.0f, -1.0f,-1.0f,1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
   glEnd();
   glDisable(GL_TEXTURE_2D);
   glEndList();
@@ -1495,12 +1495,12 @@ void optimus_t::hood_feet(){
   glEnd();
   
   glBegin(GL_QUADS);          //back face       
-  calculate_normal(-1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(-1.0f,1.0f,-1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(-1.0f,1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
   glVertex3f(1.0f,1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(-1.0f,-1.0f,-1.0f);
   glEnd();
   
   glBegin(GL_QUADS);          //left face
@@ -1513,12 +1513,12 @@ void optimus_t::hood_feet(){
   glEnd();
 
   glBegin(GL_QUADS);          //right face
-  calculate_normal(1.0f,1.0f,1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(1.0f,1.0f,1.0f, 1.0f,-1.0f,1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(1.0f,1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
   glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
   glBegin(GL_QUADS);        //top face        
@@ -1531,12 +1531,12 @@ void optimus_t::hood_feet(){
   glEnd();
   
   glBegin(GL_QUADS);        //bottom face
-  calculate_normal(-1.0f,-1.0f,-1.0f, -1.0f,-1.0f,1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
   glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
   glEnd();
 
   glEndList();
@@ -1561,12 +1561,12 @@ void optimus_t::hood_feet_left(){
   glColor4f(1, 1, 1, 1);
   glBindTexture(GL_TEXTURE_2D, texture[6]);
   glBegin(GL_QUADS);          //back face       
-  calculate_normal(-1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(-1.0f,1.0f,-1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f);glVertex3f(-1.0f,1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f);glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(1.0f, 0.0f);glVertex3f(1.0f,-1.0f,-1.0f);
   glTexCoord2f(1.0f, 1.0f);glVertex3f(1.0f,1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f);glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 0.0f);glVertex3f(-1.0f,-1.0f,-1.0f);
   glEnd();
   
   glBegin(GL_QUADS);          //left face
@@ -1579,12 +1579,12 @@ void optimus_t::hood_feet_left(){
   glEnd();
 
   glBegin(GL_QUADS);          //right face
-  calculate_normal(1.0f,1.0f,1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(1.0f,1.0f,1.0f, 1.0f,-1.0f,1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.5f, 1.0f);glVertex3f(1.0f,1.0f,1.0f);
-  glTexCoord2f(0.0f, 1.0f);glVertex3f(1.0f,1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f);glVertex3f(1.0f,-1.0f,-1.0f);
   glTexCoord2f(0.5f, 0.0f);glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f);glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(0.0f, 1.0f);glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   glDisable(GL_TEXTURE_2D);
   
@@ -1602,12 +1602,12 @@ void optimus_t::hood_feet_left(){
   glColor4f(1, 1, 1, 1);
   glBindTexture(GL_TEXTURE_2D, texture[4]);
   glBegin(GL_QUADS);        //bottom face
-  calculate_normal(-1.0f,-1.0f,-1.0f, -1.0f,-1.0f,1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f);glVertex3f(-1.0f,-1.0f,-1.0f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f,-1.0f,-1.0f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f,-1.0f,1.0f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,-1.0f,1.0f);
    
   glEnd();
   glDisable(GL_TEXTURE_2D);
@@ -1726,12 +1726,12 @@ void optimus_t::truck_ceiling(){
   glEnd();
 
   glBegin(GL_QUADS);          //right face
-  calculate_normal(1.0f,1.0f,1.0f, 1.0f,1.0f,-1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
+  calculate_normal(1.0f,1.0f,1.0f, 1.0f,-1.0f,1.0f, 1.0f,-1.0f,-1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(1.0f,1.0f,1.0f);
-  glVertex3f(1.0f,1.0f,-1.0f);
-  glVertex3f(1.0f,-1.0f,-1.0f);
   glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
   
   glBegin(GL_QUADS);        //top face        
@@ -1744,12 +1744,12 @@ void optimus_t::truck_ceiling(){
   glEnd();
   
   glBegin(GL_QUADS);        //bottom face
-  calculate_normal(-1.0f,-1.0f,-1.0f, -1.0f,-1.0f,1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
+  calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(-1.0f,-1.0f,-1.0f);
-  glVertex3f(-1.0f,-1.0f,1.0f);
-  glVertex3f(1.0f,-1.0f,1.0f);
   glVertex3f(1.0f,-1.0f,-1.0f);
+  glVertex3f(1.0f,-1.0f,1.0f);
+  glVertex3f(-1.0f,-1.0f,1.0f);
   glEnd();
   glEndList();
 }
@@ -1773,12 +1773,12 @@ void optimus_t::side_gate(){
   glEnd();
                     //back face
   glBegin(GL_QUADS);
-  calculate_normal(0.0f,0.0f,-0.5f, lower_hand_l*2,0.0f,-0.5f, lower_hand_l*1.5,uper_hand_l,-0.5f, normal_buffer);
+  calculate_normal(0.0f,0.0f,-0.5f, 0.0f,uper_hand_l,-0.5f, lower_hand_l*1.5,uper_hand_l,-0.5f, normal_buffer);
   glNormal3dv(normal_buffer);
   glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,0.0f,-0.5f);
-  glTexCoord2f(0.0f, 0.0f); glVertex3f(lower_hand_l*2,0.0f,-0.5f);
-  glTexCoord2f(1.0f, 0.0f); glVertex3f(lower_hand_l*1.5,uper_hand_l,-0.5f);
   glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f,uper_hand_l,-0.5f);
+  glTexCoord2f(1.0f, 0.0f); glVertex3f(lower_hand_l*1.5,uper_hand_l,-0.5f);
+  glTexCoord2f(0.0f, 0.0f); glVertex3f(lower_hand_l*2,0.0f,-0.5f);
   glEnd();
   glDisable(GL_TEXTURE_2D);
 
@@ -1794,12 +1794,12 @@ void optimus_t::side_gate(){
   glEnd();
                     //right face
   glBegin(GL_QUADS);
-  calculate_normal(lower_hand_l*2,0.0f,0.5f, lower_hand_l*2,0.0f,-0.5f, lower_hand_l*1.5,uper_hand_l,-0.5f, normal_buffer);
+  calculate_normal(lower_hand_l*2,0.0f,0.5f, lower_hand_l*1.5,uper_hand_l,0.5f, lower_hand_l*1.5,uper_hand_l,-0.5f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(lower_hand_l*2,0.0f,0.5f);
-  glVertex3f(lower_hand_l*2,0.0f,-0.5f);
-  glVertex3f(lower_hand_l*1.5,uper_hand_l,-0.5f);
   glVertex3f(lower_hand_l*1.5,uper_hand_l,0.5f);
+  glVertex3f(lower_hand_l*1.5,uper_hand_l,-0.5f);
+  glVertex3f(lower_hand_l*2,0.0f,-0.5f);
   glEnd();
                     //top face
   glBegin(GL_QUADS);
@@ -1812,12 +1812,12 @@ void optimus_t::side_gate(){
   glEnd();
                     //bottom face
   glBegin(GL_QUADS);
-  calculate_normal(0.0f,0.0f,0.5f, 0.0f,0.0f,-0.5f, lower_hand_l*2,0.0f,-0.5f, normal_buffer);
+  calculate_normal(0.0f,0.0f,0.5f, lower_hand_l*2,0.0f,0.5f, lower_hand_l*2,0.0f,-0.5f, normal_buffer);
   glNormal3dv(normal_buffer);
   glVertex3f(0.0f,0.0f,0.5f);
-  glVertex3f(0.0f,0.0f,-0.5f);
-  glVertex3f(lower_hand_l*2,0.0f,-0.5f);
   glVertex3f(lower_hand_l*2,0.0f,0.5f);
+  glVertex3f(lower_hand_l*2,0.0f,-0.5f);
+  glVertex3f(0.0f,0.0f,-0.5f);
   glEnd();
 
   glEndList();
