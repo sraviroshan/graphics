@@ -111,10 +111,12 @@ namespace csX75
     else if (key == GLFW_KEY_F4 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)){ //f4 without shift
       glEnable(GL_LIGHT2);
       glEnable(GL_LIGHT3);
+      optimus.headlight_on = true;
     }
     else if (key == GLFW_KEY_F4 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)){ //shift+f4
       glDisable(GL_LIGHT2);
       glDisable(GL_LIGHT3);
+      optimus.headlight_on = false;
     }
     else if (key == GLFW_KEY_F8 && action == GLFW_PRESS) //f8
       camera_no = 0;

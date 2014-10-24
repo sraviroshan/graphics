@@ -152,6 +152,7 @@ void optimus_t::set_lights(void){ //set the position of the headlights LIGHT2 AN
 
 void optimus_t::init_structures(void)
 {
+  headlight_on = false;
   configure_headlights();
   torso();
   uper_hand();
@@ -247,6 +248,10 @@ void optimus_t::load_textures() {
     glGenTextures(1, &texture[16]);
     Texture t16(texture[16], "images/side_glass.bmp");
     t16.generate();
+
+    glGenTextures(1, &texture[17]);
+    Texture t17(texture[17], "images/headlight_on.bmp");
+    t17.generate();
 
     glDisable(GL_TEXTURE_2D);
 };
@@ -461,6 +466,7 @@ void optimus_t::hierarchi(){
             glRotatef(lower_leg_rotation_l,1,0,0);
             glPushMatrix();
               glCallList(id_left_lower_leg);
+              headlight_left();
             glPopMatrix();
             glPushMatrix();
               glTranslatef(lower_leg_xl+front_weel_slab_xl,(-1*lower_leg_l),0);
@@ -522,6 +528,7 @@ void optimus_t::hierarchi(){
             glRotatef(lower_leg_rotation_r,1,0,0);
             glPushMatrix();
               glCallList(id_right_lower_leg);
+              headlight_right();
             glPopMatrix();
             glPushMatrix();
               glTranslatef(-1*(lower_leg_xl+front_weel_slab_xl),(-1*lower_leg_l),0);
@@ -1394,10 +1401,18 @@ void optimus_t::left_lower_leg(){
   glEnd();
   
   // glColor4f(0.2366, 0.1056, 0.48, 1);
+  glEndList();
+}
 
+void optimus_t::headlight_left(){
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
-  glBindTexture(GL_TEXTURE_2D, texture[5]); //headlights
+  if(headlight_on){
+    glBindTexture(GL_TEXTURE_2D, texture[17]); //headlights
+  }
+  else{
+    glBindTexture(GL_TEXTURE_2D, texture[5]); //headlights
+  }
   glBegin(GL_QUADS);        //bottom face
   calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
@@ -1408,10 +1423,6 @@ void optimus_t::left_lower_leg(){
    
   glEnd();
   glDisable(GL_TEXTURE_2D);
-
-  
-  glEndList();
-
 }
 
 void optimus_t::right_lower_leg(){
@@ -1469,12 +1480,19 @@ void optimus_t::right_lower_leg(){
   glVertex3f(1.0f,1.0f,1.0f);
   glVertex3f(1.0f,1.0f,-1.0f);
   glEnd();
-  
-  // glColor4f(0.2366, 0.1056, 0.48, 1);
+  glEndList();
+}
 
+void optimus_t::headlight_right(){
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
-  glBindTexture(GL_TEXTURE_2D, texture[5]); //headlights
+  if(headlight_on){
+    glBindTexture(GL_TEXTURE_2D, texture[17]); //headlights
+  }
+  else{
+    glBindTexture(GL_TEXTURE_2D, texture[5]); //headlights
+  }
+
   glBegin(GL_QUADS);        //bottom face
   calculate_normal(-1.0f,-1.0f,-1.0f, 1.0f,-1.0f,-1.0f, 1.0f,-1.0f,1.0f, normal_buffer);
   glNormal3dv(normal_buffer);
@@ -1485,9 +1503,8 @@ void optimus_t::right_lower_leg(){
    
   glEnd();
   glDisable(GL_TEXTURE_2D);
-
-  glEndList();
 }
+
 //front weel slab
 void optimus_t::front_weel_slab(){
   glNewList(id_front_weel_slab, GL_COMPILE);

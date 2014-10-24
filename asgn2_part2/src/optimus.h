@@ -38,6 +38,8 @@ public:
 	float forword_backword_movement_z; // translate whole body along z axis
 	float forword_backword_movement_x; // translate whole body along x axis
 
+	bool headlight_on;
+
 //Methods
 	void init_structures(void);
 	void load_textures();
@@ -51,6 +53,8 @@ public:
 
 	void configure_headlights(void);
 	void set_lights();
+	void headlight_left();
+	void headlight_right();
 
 	//structures parts
 	void unit_cube(void);
