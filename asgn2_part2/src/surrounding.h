@@ -11,6 +11,7 @@ public:
 
 
 	//structure
+    void unit_wall_without_texture();
 	void back_wall(void);
 	void front_wall(void);
 	void left_wall(void);
