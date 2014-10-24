@@ -1,3 +1,12 @@
+CS 475 Assignment 2 Part 2
+
+Ravi Kumar Roshan 110050033
+Ashish Sonone 110050022
+
+
+Link to html report:
+    http://www.cse.iitb.ac.in/~sraviroshan/cs475/asgn2_p1/cs475_A2_p2.html
+    
 Lights
 =======
 F1 			: Enable lighting
@@ -24,3 +33,71 @@ UP			: Move forward
 DOWN		: Move backward
 LEFT		: Turn left
 RIGHT		: Turn right
+
+
+Old key controls(asgn 2 part 1)
+===============================
+
+//Direct Transformations
+C : Transform directly into car form
+T : Transform directly into human form
+
+// upper left hand
+Q and Shift+Q : rotate about x axis(w.r.t torso)
+W and Shift+W : rotate about y axis(w.r.t torso)
+E and Shift+E : rotate about z axis(w.r.t torso)
+
+//lower left hand
+R and Shift+S : rotate about elbow
+
+// upper right hand
+1 and Shift+1 : rotate about x axis(w.r.t torso)
+2 and Shift+2 : rotate about y axis(w.r.t torso)
+3 and Shift+3 : rotate about z axis(w.r.t torso)
+
+//lower right hand
+4 and Shift+4 : rotate about elbow
+
+
+//back wheel slab (which holds rear wheels)
+F and Shift+F : rotate w.r.t torso
+
+//Waist
+M and Shift+M : rotate about y axis(w.r.t torso)
+
+//upper left leg
+P and Shift+P : rotate about x axis(w.r.t torso)
+O and Shift+O : rotate about z axis(w.r.t torso)
+
+//upper right leg
+0 and Shift+0 : rotate about x axis(w.r.t torso)
+9 and Shift+9 : rotate about z axis(w.r.t torso)
+
+//lower left leg
+I and Shift+I : rotate about left knee
+
+//lower right leg
+8 and Shift+8 : rotate about right knee
+
+//front leg slabs (both rotate in sync containing front wheels)
+L and Shift+L : rotate (w.r.t lower leg)
+
+//left feet(divided into front and rear halves. rear half in attached to front half which is attached to lower leg)
+K and Shift+K (front half w.r.t lower leg)
+J and Shift+J (rear half w.r.t front half feet)
+
+//right feet
+H and Shift+H (front half w.r.t lower leg)
+G and Shift+G (rear half w.r.t front half feet)
+
+neck(+head)
+A and Shift+A : translate neck vertical direction
+
+//truck ceiling cover
+D and Shift+D : rotate (w.r.t torso)
+
+//front glasses(attached to both feet)
+B and Shift+B : Rotate w.r.t feet
+
+//Side gates(attached to both lower arms)
+X and Shift+X : rotate about the edge of lower arm

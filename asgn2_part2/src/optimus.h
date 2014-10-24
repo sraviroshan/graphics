@@ -38,6 +38,8 @@ public:
 	float forword_backword_movement_z; // translate whole body along z axis
 	float forword_backword_movement_x; // translate whole body along x axis
 
+	float vertical_movement;
+
 	bool headlight_on;
 
 //Methods
