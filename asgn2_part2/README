@@ -12,10 +12,10 @@ Lights
 F1 			: Enable lighting
 Shift + F1 	: Disable lighting 					// DEFAULT
 
-F2 			: Enable LIGHT0 (wall)
+F2 			: Enable LIGHT0 (left wall top center)
 Shift + F2 	: Disable LIGHT0 					// DEFAULT
 
-F3 			: Enable LIGHT1	(wall)
+F3 			: Enable LIGHT1	(front wall top center)
 Shift + F3 	: Disable LIGHT1 					// DEFAULT
 
 F4 			: Enable LIGHT2 & LIGHT3(headlights)
