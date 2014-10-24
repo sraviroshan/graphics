@@ -16,6 +16,7 @@
 #define id_left_wall 101
 #define id_right_wall 102
 #define id_floor_wall 103
+#define id_front_wall 104
 
 #define WALL_TESSALATION 20
 
@@ -47,7 +48,7 @@ void surrounding_t::init_surrounding(void){
 	configure_light1();
 
 	back_wall();
-	// front_wall();
+	front_wall();
 	left_wall();
 	right_wall();
 	// top_wall();
@@ -83,12 +84,30 @@ void surrounding_t::load_textures() {
 
 void surrounding_t::back_wall(){
 	glNewList(id_back_wall, GL_COMPILE);
+    //calculate_normal(-1* x_wall,-1* y_wall,-1*z_wall, x_wall,-1* y_wall,-1*z_wall, x_wall,y_wall,-1*z_wall, normal_buffer);
+    GLdouble normal[3] = {0,0,1};
+    glNormal3dv(normal);
+    
     glTranslatef(0,0,-z_wall);
     glScalef(x_wall,y_wall,0);
 
     unit_wall_without_texture();
 
 	glEndList();
+}
+
+void surrounding_t::front_wall(){
+  glNewList(id_front_wall, GL_COMPILE);
+    GLdouble normal[3] = {0,0,1};
+    glNormal3dv(normal);
+
+    glTranslatef(0,0,z_wall);
+    glRotatef(180, 0, 1, 0);
+    glScalef(x_wall,y_wall,0);
+
+    unit_wall_without_texture();
+
+  glEndList();
 }
 
 void surrounding_t::unit_wall_without_texture(){
@@ -98,8 +117,6 @@ void surrounding_t::unit_wall_without_texture(){
     for(int i=0; i<WALL_TESSALATION; i++){
         for(int j=0; j<WALL_TESSALATION; j++){
             glBegin(GL_QUADS);
-            calculate_normal(-1+i*2.0/WALL_TESSALATION, -1+j*2.0/WALL_TESSALATION,0, -1+(i+1)*2.0/WALL_TESSALATION, -1+j*2.0/WALL_TESSALATION,0, -1+(i+1)*2.0/WALL_TESSALATION, -1+(j+1)*2.0/WALL_TESSALATION,0, normal_buffer);
-            glNormal3dv(normal_buffer);
             glTexCoord2f(i*1.0/WALL_TESSALATION, j*1.0/WALL_TESSALATION); glVertex3f(-1+i*2.0/WALL_TESSALATION, -1+j*2.0/WALL_TESSALATION,0); 
             glTexCoord2f((i+1)*1.0/WALL_TESSALATION, j*1.0/WALL_TESSALATION); glVertex3f(-1+(i+1)*2.0/WALL_TESSALATION, -1+j*2.0/WALL_TESSALATION,0);
             glTexCoord2f((i+1)*1.0/WALL_TESSALATION, (j+1)*1.0/WALL_TESSALATION); glVertex3f(-1+(i+1)*2.0/WALL_TESSALATION, -1+(j+1)*2.0/WALL_TESSALATION,0);
@@ -113,6 +130,12 @@ void surrounding_t::unit_wall_without_texture(){
 //left wall
 void surrounding_t::left_wall(){
 	glNewList(id_left_wall, GL_COMPILE);
+    // calculate_normal(1* x_wall,-1* y_wall,-1*z_wall, x_wall,-1* y_wall,1*z_wall, x_wall,y_wall,1*z_wall, normal_buffer);
+    // glNormal3dv(normal_buffer);
+
+    GLdouble normal[3] = {-1,0,0};
+    glNormal3dv(normal);
+    
     glTranslatef(x_wall, 0, 0);
     glRotatef(-90, 0, 1, 0);
     glScalef(z_wall,y_wall,0);
@@ -124,6 +147,11 @@ void surrounding_t::left_wall(){
 //right wall
 void surrounding_t::right_wall(){
 	glNewList(id_right_wall, GL_COMPILE);
+    // calculate_normal(-1* x_wall,-1* y_wall,1*z_wall, -1*x_wall,-1* y_wall,-1*z_wall, -1*x_wall,y_wall,-1*z_wall, normal_buffer);
+    // glNormal3dv(normal_buffer);
+    GLdouble normal[3] = {1,0,0};
+    glNormal3dv(normal);
+
     glTranslatef(-x_wall, 0, 0);
     glRotatef(90, 0, 1, 0);
     glScalef(z_wall,y_wall,0);
@@ -174,6 +202,9 @@ void surrounding_t::surround_all(){
    // 	 glRotatef(optimus.body_rotation_z,0,0,1);
       glPushMatrix();
       	glCallList(id_back_wall);
+      glPopMatrix();
+      glPushMatrix();
+        glCallList(id_front_wall);
       glPopMatrix();
       glPushMatrix();
       	glCallList(id_left_wall);
