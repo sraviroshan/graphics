@@ -174,16 +174,29 @@ void calculate_normal(GLdouble a1, GLdouble a2, GLdouble a3,
     normal[2] = (u1*v2 - u2*v1); //done
 }
 
-void set_normal_material(){
+void set_optimus_material(){
     GLfloat mat_ambient[] = { 0.1, 0.1, 0.1, 1.0 };
     GLfloat mat_diffuse[] = { 1, 1, 1, 1.0 };
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat shininess[] = { 100.0 };
+    GLfloat shininess[] = { 128.0 };
 
-    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
+}
+
+void set_wall_material(){
+    GLfloat mat_ambient[] = { 0.3, 0.3, 0.3, 1.0 };
+    GLfloat mat_diffuse[] = { 1, 1, 1, 1.0 };
+    GLfloat mat_specular[] = { 0.0, 0.0, 0.0, 1.0 };
+    // GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat shininess[] = { 30.0 };
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
 }
 
 void set_glass_material(){

@@ -1832,7 +1832,7 @@ void optimus_t::front_glass(){
   glEnd();
   glDisable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
-  set_normal_material();
+  set_optimus_material();
   glEndList();
 }
 //truck ceiling

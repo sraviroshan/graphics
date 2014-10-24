@@ -35,7 +35,7 @@ void configure_light0(){
 void configure_light1(){
 	GLfloat light1_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
 	GLfloat light1_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-	GLfloat light1_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+  GLfloat light1_specular[] = { 1.0, 1.0, 1.0, 1.0 };
 
 	glLightfv(GL_LIGHT1, GL_AMBIENT, light1_ambient);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_diffuse);
@@ -93,7 +93,7 @@ void surrounding_t::back_wall(){
 
 void surrounding_t::unit_wall_without_texture(){
 	glEnable(GL_TEXTURE_2D);
-  	glBindTexture(GL_TEXTURE_2D, texture[0]);
+  glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glColor4f(1, 1, 1, 1);
     for(int i=0; i<WALL_TESSALATION; i++){
         for(int j=0; j<WALL_TESSALATION; j++){
@@ -114,7 +114,7 @@ void surrounding_t::unit_wall_without_texture(){
 void surrounding_t::left_wall(){
 	glNewList(id_left_wall, GL_COMPILE);
     glTranslatef(x_wall, 0, 0);
-    glRotatef(90, 0, 1, 0);
+    glRotatef(-90, 0, 1, 0);
     glScalef(z_wall,y_wall,0);
 
     unit_wall_without_texture();
@@ -125,7 +125,7 @@ void surrounding_t::left_wall(){
 void surrounding_t::right_wall(){
 	glNewList(id_right_wall, GL_COMPILE);
     glTranslatef(-x_wall, 0, 0);
-    glRotatef(-90, 0, 1, 0);
+    glRotatef(90, 0, 1, 0);
     glScalef(z_wall,y_wall,0);
 
     unit_wall_without_texture();
@@ -156,10 +156,10 @@ void surrounding_t::floor_wall(){
 void surrounding_t::set_lights(){
 	glPushMatrix();
 
-		GLfloat light0_position[] = {-x_wall, y_wall, 0, 0.0 }; //last is zero means directional
+		GLfloat light0_position[] = {-x_wall, y_wall, 0, 0 }; //left wall top center
 		glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 
-		GLfloat light1_position[] = {0, y_wall, z_wall, 0.0 }; //last is zero means directional
+		GLfloat light1_position[] = {0, y_wall, z_wall, 0 }; //front wall top center
 		glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
 
 	glPopMatrix();
