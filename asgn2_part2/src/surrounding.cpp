@@ -17,6 +17,8 @@
 #define id_right_wall 102
 #define id_floor_wall 103
 
+#define WALL_TESSALATION 20
+
 extern optimus_t optimus;
 static GLdouble normal_buffer[3];
 
@@ -83,36 +85,48 @@ void surrounding_t::back_wall(){
 	glNewList(id_back_wall, GL_COMPILE);
 	glEnable(GL_TEXTURE_2D);
   	glBindTexture(GL_TEXTURE_2D, texture[0]);
+    glScalef(x_wall,y_wall,z_wall);
 
 	glColor4f(1, 1, 1, 1);
-	glBegin(GL_QUADS);
-    calculate_normal(-1* x_wall,-1* y_wall,-1*z_wall, x_wall,-1* y_wall,-1*z_wall, x_wall,y_wall,-1*z_wall, normal_buffer);
-    glNormal3dv(normal_buffer);
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(-1* x_wall,-1* y_wall,-1*z_wall); 
-	glTexCoord2f(1.0f, 0.0f); glVertex3f(x_wall,-1* y_wall,-1*z_wall);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(x_wall,y_wall,-1*z_wall);
-	glTexCoord2f(0.0f, 1.0f); glVertex3f(-1* x_wall,y_wall,-1*z_wall);
-	glEnd();
+	
+    for(int i=0; i<WALL_TESSALATION; i++){
+        for(int j=0; j<WALL_TESSALATION; j++){
+            glBegin(GL_QUADS);
+            calculate_normal(-1+i*2.0/WALL_TESSALATION, -1+j*2.0/WALL_TESSALATION,-1, -1+(i+1)*2.0/WALL_TESSALATION, -1+j*2.0/WALL_TESSALATION,-1, -1+(i+1)*2.0/WALL_TESSALATION, -1+(j+1)*2.0/WALL_TESSALATION,-1, normal_buffer);
+            glNormal3dv(normal_buffer);
+            glTexCoord2f(i*1.0/WALL_TESSALATION, j*1.0/WALL_TESSALATION); glVertex3f(-1+i*2.0/WALL_TESSALATION, -1+j*2.0/WALL_TESSALATION,-1); 
+            glTexCoord2f((i+1)*1.0/WALL_TESSALATION, j*1.0/WALL_TESSALATION); glVertex3f(-1+(i+1)*2.0/WALL_TESSALATION, -1+j*2.0/WALL_TESSALATION,-1);
+            glTexCoord2f((i+1)*1.0/WALL_TESSALATION, (j+1)*1.0/WALL_TESSALATION); glVertex3f(-1+(i+1)*2.0/WALL_TESSALATION, -1+(j+1)*2.0/WALL_TESSALATION,-1);
+            glTexCoord2f(i*1.0/WALL_TESSALATION, (j+1)*1.0/WALL_TESSALATION); glVertex3f(-1+i*2.0/WALL_TESSALATION, -1+(j+1)*2.0/WALL_TESSALATION,-1);
+            glEnd();
+        }
+    }
 
   	glDisable(GL_TEXTURE_2D);
 	glEndList();
-  	
 }
+
 //left wall
 void surrounding_t::left_wall(){
 	glNewList(id_left_wall, GL_COMPILE);
 	glEnable(GL_TEXTURE_2D);
   	glBindTexture(GL_TEXTURE_2D, texture[0]);
 
+    glScalef(x_wall,y_wall,z_wall);
 	glColor4f(1, 1, 1, 1);
-	glBegin(GL_QUADS);            //front face
-    calculate_normal(1* x_wall,-1* y_wall,-1*z_wall, x_wall,-1* y_wall,1*z_wall, x_wall,y_wall,1*z_wall, normal_buffer);
-    glNormal3dv(normal_buffer);
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(1* x_wall,-1* y_wall,-1*z_wall); 
-	glTexCoord2f(1.0f, 0.0f); glVertex3f(x_wall,-1* y_wall,1*z_wall);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(x_wall,y_wall,1*z_wall);
-	glTexCoord2f(0.0f, 1.0f); glVertex3f(1* x_wall,y_wall,-1*z_wall);
-	glEnd();
+
+	for(int i=0; i<WALL_TESSALATION; i++){
+        for(int j=0; j<WALL_TESSALATION; j++){
+            glBegin(GL_QUADS);            //front face
+            calculate_normal(1,-1+i*2.0/WALL_TESSALATION,-1+j*2.0/WALL_TESSALATION, 1,-1+i*2.0/WALL_TESSALATION,-1+(j+1)*2.0/WALL_TESSALATION, 1,-1+(i+1)*2.0/WALL_TESSALATION,-1+(j+1)*2.0/WALL_TESSALATION, normal_buffer);
+            glNormal3dv(normal_buffer);
+			glTexCoord2f(i*1.0/WALL_TESSALATION, j*1.0/WALL_TESSALATION); glVertex3f(1,-1+i*2.0/WALL_TESSALATION,-1+j*2.0/WALL_TESSALATION); 
+			glTexCoord2f((i+1)*1.0/WALL_TESSALATION, j*1.0/WALL_TESSALATION); glVertex3f(1,-1+i*2.0/WALL_TESSALATION,-1+(j+1)*2.0/WALL_TESSALATION);
+			glTexCoord2f((i+1)*1.0/WALL_TESSALATION, (j+1)*1.0/WALL_TESSALATION); glVertex3f(1,-1+(i+1)*2.0/WALL_TESSALATION,-1+(j+1)*2.0/WALL_TESSALATION);
+			glTexCoord2f(i*1.0/WALL_TESSALATION, (j+1)*1.0/WALL_TESSALATION); glVertex3f(1,-1+(i+1)*2.0/WALL_TESSALATION, -1+j*2.0/WALL_TESSALATION);
+			glEnd();
+		}
+    }
 
   	glDisable(GL_TEXTURE_2D);
 	glEndList();
@@ -124,15 +138,21 @@ void surrounding_t::right_wall(){
 	glEnable(GL_TEXTURE_2D);
   	glBindTexture(GL_TEXTURE_2D, texture[0]);
 
+    glScalef(x_wall,y_wall,z_wall);
 	glColor4f(1, 1, 1, 1);
-	glBegin(GL_QUADS);            //front face
-    calculate_normal(-1* x_wall,-1* y_wall,1*z_wall, -1*x_wall,-1* y_wall,-1*z_wall, -1*x_wall,y_wall,-1*z_wall, normal_buffer);
-    glNormal3dv(normal_buffer);
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(-1* x_wall,-1* y_wall,1*z_wall); 
-	glTexCoord2f(1.0f, 0.0f); glVertex3f(-1*x_wall,-1* y_wall,-1*z_wall);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(-1*x_wall,y_wall,-1*z_wall);
-	glTexCoord2f(0.0f, 1.0f); glVertex3f(-1* x_wall,y_wall,1*z_wall);
-	glEnd();
+
+	for(int i=0; i<WALL_TESSALATION; i++){
+        for(int j=0; j<WALL_TESSALATION; j++){
+            glBegin(GL_QUADS);            //front face
+            calculate_normal(-1,-1+i*2.0/WALL_TESSALATION,-1+j*2.0/WALL_TESSALATION, -1,-1+(i+1)*2.0/WALL_TESSALATION, -1+j*2.0/WALL_TESSALATION, -1,-1+(i+1)*2.0/WALL_TESSALATION,-1+(j+1)*2.0/WALL_TESSALATION, normal_buffer);
+            glNormal3dv(normal_buffer);
+			glTexCoord2f(i*1.0/WALL_TESSALATION, j*1.0/WALL_TESSALATION); glVertex3f(-1,-1+i*2.0/WALL_TESSALATION,-1+j*2.0/WALL_TESSALATION); 
+			glTexCoord2f(i*1.0/WALL_TESSALATION, (j+1)*1.0/WALL_TESSALATION); glVertex3f(-1,-1+(i+1)*2.0/WALL_TESSALATION, -1+j*2.0/WALL_TESSALATION);
+			glTexCoord2f((i+1)*1.0/WALL_TESSALATION, (j+1)*1.0/WALL_TESSALATION); glVertex3f(-1,-1+(i+1)*2.0/WALL_TESSALATION,-1+(j+1)*2.0/WALL_TESSALATION);
+			glTexCoord2f((i+1)*1.0/WALL_TESSALATION, j*1.0/WALL_TESSALATION); glVertex3f(-1,-1+i*2.0/WALL_TESSALATION,-1+(j+1)*2.0/WALL_TESSALATION);
+			glEnd();
+		}
+    }
 
   	glDisable(GL_TEXTURE_2D);
 	glEndList();
