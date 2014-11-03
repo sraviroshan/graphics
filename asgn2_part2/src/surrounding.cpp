@@ -98,7 +98,7 @@ void surrounding_t::back_wall(){
 
 void surrounding_t::front_wall(){
   glNewList(id_front_wall, GL_COMPILE);
-    GLdouble normal[3] = {0,0,1};
+    GLdouble normal[3] = {0,0,-1};
     glNormal3dv(normal);
 
     glTranslatef(0,0,z_wall);
