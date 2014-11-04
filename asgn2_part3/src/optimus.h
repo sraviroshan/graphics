@@ -19,6 +19,7 @@ public:
 	int solder_rotation_xr; // right solder rotation angle about x axis
 	int elbows_rotation_r; //right elbows rotarion angle about z axis
 	int waist_rotation; // rotation of waist about y axis
+	int upper_body_rotation; //rotation of upper body about x axis
 	int lower_leg_rotation_l; //rotation of left lower leg about x axis
 	int lower_leg_rotation_r; //rotation of right lower leg about x axis
 	int front_weel_slab_rotation; //rotarion of slab contain weel around x axis

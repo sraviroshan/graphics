@@ -22,6 +22,9 @@ public:
 	void set_camera_wall_corner(void);
 	void set_lights();
 	
+	void stage_floor();
+	void stage_front();
+
 };
 
 #endif

@@ -10,13 +10,15 @@
 #include "optimus.h"
 
 #define id_back_wall 100
-#define x_wall 50
-#define y_wall 19
-#define z_wall 50
+#define x_wall 50*4
+#define y_wall 19*4
+#define z_wall 50*4
 #define id_left_wall 101
 #define id_right_wall 102
 #define id_floor_wall 103
 #define id_front_wall 104
+#define id_stage_floor 105
+#define id_stage_front 106
 
 #define WALL_TESSALATION 20
 
@@ -53,6 +55,9 @@ void surrounding_t::init_surrounding(void){
 	right_wall();
 	// top_wall();
 	floor_wall();
+  //stage
+  stage_floor();
+  stage_front();
 }
 
 void surrounding_t::set_camera_wall_corner(void){
@@ -60,8 +65,8 @@ void surrounding_t::set_camera_wall_corner(void){
 	// gluLookAt(-cx_wall, cy_wall, cz_wall,
  //            0, 0, 0,
  //            cx_wall, (cx_wall*cx_wall + cz_wall*cz_wall)/1.0 * cy_wall, -1*cz_wall);
-	gluLookAt(-x_wall, y_wall, 0,
-            0, 0, 0,
+	gluLookAt(0, y_wall,z_wall,
+            0, -y_wall, -z_wall,
             0,1, 0);
 }
 
@@ -72,8 +77,21 @@ void surrounding_t::load_textures() {
 
     //texture for torso
     glGenTextures(1, &texture[0]);
-    Texture t0(texture[0], "images/wall.bmp");
+    Texture t0(texture[0], "images/hall_wall.bmp");
     t0.generate();
+
+    glGenTextures(1, &texture[2]);
+    Texture t2(texture[2], "images/stage_b.bmp");
+    t2.generate();
+
+    glGenTextures(1, &texture[3]);
+    Texture t3(texture[3], "images/stage_floor.bmp");
+    t3.generate();
+
+    glGenTextures(1, &texture[4]);
+    Texture t4(texture[4], "images/stage_front.bmp");
+    t4.generate();
+
 
     glGenTextures(1, &texture[1]);
     Texture t1(texture[1], "images/floor.bmp");
@@ -88,13 +106,43 @@ void surrounding_t::back_wall(){
     GLdouble normal[3] = {0,0,1};
     glNormal3dv(normal);
     
-    glTranslatef(0,0,-z_wall);
-    glScalef(x_wall,y_wall,0);
+    glTranslatef(0,y_wall/6.0,-z_wall);
+    glScalef(x_wall,y_wall*5/6.0,0);
 
+    glBindTexture(GL_TEXTURE_2D, texture[2]);
     unit_wall_without_texture();
 
 	glEndList();
 }
+void surrounding_t::stage_floor(){
+  glNewList(id_stage_floor, GL_COMPILE);
+  GLdouble normal[3] = {0,1,0};
+  glNormal3dv(normal);
+
+  glTranslatef(0,-y_wall*4/6.0,-z_wall*(1-1/8.0));
+  glRotatef(90,1,0,0);
+  glScalef(x_wall,z_wall/8.0,0);
+
+  glBindTexture(GL_TEXTURE_2D, texture[3]);
+  unit_wall_without_texture();  
+  
+  glEndList();
+}
+void surrounding_t::stage_front(){
+ glNewList(id_stage_front, GL_COMPILE);
+    //calculate_normal(-1* x_wall,-1* y_wall,-1*z_wall, x_wall,-1* y_wall,-1*z_wall, x_wall,y_wall,-1*z_wall, normal_buffer);
+    GLdouble normal[3] = {0,0,1};
+    glNormal3dv(normal);
+    
+    glTranslatef(0,-y_wall*5/6.0,-z_wall*6/8);
+    glScalef(x_wall,y_wall/6.0,0);
+
+    glBindTexture(GL_TEXTURE_2D, texture[4]);
+    unit_wall_without_texture();
+
+  glEndList(); 
+}
+
 
 void surrounding_t::front_wall(){
   glNewList(id_front_wall, GL_COMPILE);
@@ -104,15 +152,15 @@ void surrounding_t::front_wall(){
     glTranslatef(0,0,z_wall);
     glRotatef(180, 0, 1, 0);
     glScalef(x_wall,y_wall,0);
-
+    glBindTexture(GL_TEXTURE_2D, texture[0]);
     unit_wall_without_texture();
 
   glEndList();
 }
 
+
 void surrounding_t::unit_wall_without_texture(){
 	glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glColor4f(1, 1, 1, 1);
     for(int i=0; i<WALL_TESSALATION; i++){
         for(int j=0; j<WALL_TESSALATION; j++){
@@ -140,6 +188,7 @@ void surrounding_t::left_wall(){
     glRotatef(-90, 0, 1, 0);
     glScalef(z_wall,y_wall,0);
 
+    glBindTexture(GL_TEXTURE_2D, texture[0]);
     unit_wall_without_texture();
 
 	glEndList();
@@ -156,6 +205,7 @@ void surrounding_t::right_wall(){
     glRotatef(90, 0, 1, 0);
     glScalef(z_wall,y_wall,0);
 
+    glBindTexture(GL_TEXTURE_2D, texture[0]);
     unit_wall_without_texture();
 	glEndList();
   	
@@ -193,7 +243,7 @@ void surrounding_t::set_lights(){
 	glPopMatrix();
 }
 
-
+//hierarchy of surrounding
 void surrounding_t::surround_all(){
 	glPushMatrix();
 	  
@@ -203,6 +253,13 @@ void surrounding_t::surround_all(){
       glPushMatrix();
       	glCallList(id_back_wall);
       glPopMatrix();
+      glPushMatrix();
+        glCallList(id_stage_floor);
+      glPopMatrix();
+      glPushMatrix();
+        glCallList(id_stage_front);
+      glPopMatrix();
+      
       glPushMatrix();
         glCallList(id_front_wall);
       glPopMatrix();
