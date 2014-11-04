@@ -207,7 +207,7 @@ void surrounding_t::left_wall(){
     glNormal3dv(normal);
     
     glTranslatef(x_wall, 0, 0);
-    glRotatef(-90, 0, 1, 0);
+    glRotatef(90, 0, 1, 0);
     glScalef(z_wall,y_wall,0);
 
     glBindTexture(GL_TEXTURE_2D, texture[0]);
@@ -224,7 +224,7 @@ void surrounding_t::right_wall(){
     glNormal3dv(normal);
 
     glTranslatef(-x_wall, 0, 0);
-    glRotatef(90, 0, 1, 0);
+    glRotatef(-90, 0, 1, 0);
     glScalef(z_wall,y_wall,0);
 
     glBindTexture(GL_TEXTURE_2D, texture[0]);
@@ -254,6 +254,28 @@ void surrounding_t::floor_wall(){
 }
 
 void surrounding_t::set_lights(){
+  //manage lights
+  if(lighting_enabled){
+    glEnable(GL_LIGHTING);
+  }
+  else{
+    glDisable(GL_LIGHTING);
+  }
+
+  if(light0_enabled){
+    glEnable(GL_LIGHT0);
+  }
+  else{
+    glDisable(GL_LIGHT0);
+  }
+
+  if(light1_enabled){
+    glEnable(GL_LIGHT1);
+  }
+  else{
+    glDisable(GL_LIGHT1);
+  }
+
 	glPushMatrix();
 
 		GLfloat light0_position[] = {-x_wall, y_wall, 0, 0 }; //left wall top center

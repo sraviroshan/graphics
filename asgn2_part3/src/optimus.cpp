@@ -96,10 +96,18 @@ void optimus_t::configure_headlights(void){ //LIGTH2 and LIGHT3
   glLightfv(GL_LIGHT3, GL_AMBIENT, ambient);
   glLightfv(GL_LIGHT3, GL_DIFFUSE, diffuse);
   glLightfv(GL_LIGHT3, GL_SPECULAR, specular);
-
 }
 
 void optimus_t::set_lights(void){ //set the position of the headlights LIGHT2 AND LIGHT3
+  if(headlight_on){
+    glEnable(GL_LIGHT2);
+    glEnable(GL_LIGHT3);
+  }
+  else{
+    glEnable(GL_LIGHT2);
+    glEnable(GL_LIGHT3);
+  }
+
   GLfloat light_position[] = { 0.0, -1.0, 0.0, 1.0 };
   GLfloat left_spot_direction[] = { -0.9, -1.0, 0.0 };
   GLfloat right_spot_direction[] = { 0.9, -1.0, 0.0 };

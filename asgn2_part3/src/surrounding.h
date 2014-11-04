@@ -3,6 +3,10 @@
 
 class surrounding_t{
 public:
+	bool lighting_enabled;
+	bool light0_enabled;
+	bool light1_enabled;
+
 	GLuint texture[10];
 	//method
 	void init_surrounding(void);

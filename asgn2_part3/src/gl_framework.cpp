@@ -20,9 +20,12 @@
 
 #include "gl_framework.hpp"
 #include "optimus.h"
+#include "surrounding.h"
 
 #define USE_PERSPECTIVE true
 extern optimus_t optimus;
+extern surrounding_t surrounding;
+
 extern int camera_no;
 
 namespace csX75
@@ -97,25 +100,21 @@ namespace csX75
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
     else if (key == GLFW_KEY_F1 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)) //f1 without shift
-      glEnable(GL_LIGHTING);
+      surrounding.lighting_enabled = true;
     else if (key == GLFW_KEY_F1 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)) //shift+F1
-      glDisable(GL_LIGHTING);
+      surrounding.lighting_enabled = false;
     else if (key == GLFW_KEY_F2 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)) //f2 without shift
-      glEnable(GL_LIGHT0);
+      surrounding.light0_enabled = true;
     else if (key == GLFW_KEY_F2 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)) //shift+F2
-      glDisable(GL_LIGHT0);
+      surrounding.light0_enabled = false;
     else if (key == GLFW_KEY_F3 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)) //f3 without shift
-      glEnable(GL_LIGHT1);
+      surrounding.light1_enabled = true;
     else if (key == GLFW_KEY_F3 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)) //shift+F3
-          glDisable(GL_LIGHT1);
+      surrounding.light1_enabled = false;
     else if (key == GLFW_KEY_F4 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT)){ //f4 without shift
-      glEnable(GL_LIGHT2);
-      glEnable(GL_LIGHT3);
       optimus.headlight_on = true;
     }
     else if (key == GLFW_KEY_F4 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)){ //shift+f4
-      glDisable(GL_LIGHT2);
-      glDisable(GL_LIGHT3);
       optimus.headlight_on = false;
     }
     else if (key == GLFW_KEY_F8 && action == GLFW_PRESS) //f8
