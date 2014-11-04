@@ -10,15 +10,17 @@
 #include "optimus.h"
 
 #define id_back_wall 100
-#define x_wall 50*4
-#define y_wall 19*4
-#define z_wall 50*4
+#define x_wall 50*2.5
+#define y_wall 19*2.5
+#define z_wall 50*2.5
 #define id_left_wall 101
 #define id_right_wall 102
 #define id_floor_wall 103
 #define id_front_wall 104
 #define id_stage_floor 105
 #define id_stage_front 106
+#define id_stage_slop 107
+#define stage_slop_w (1/6.0)*x_wall
 
 #define WALL_TESSALATION 20
 
@@ -58,6 +60,7 @@ void surrounding_t::init_surrounding(void){
   //stage
   stage_floor();
   stage_front();
+  stage_slop();
 }
 
 void surrounding_t::set_camera_wall_corner(void){
@@ -143,6 +146,25 @@ void surrounding_t::stage_front(){
   glEndList(); 
 }
 
+void surrounding_t::stage_slop(){
+  glNewList(id_stage_slop, GL_COMPILE);
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[3]);
+  
+    glBegin(GL_QUADS);          //left face
+    // calculate_normal(-1.0f,1.0f,1.0f, -1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, normal_buffer);
+    // glNormal3dv(normal_buffer);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-stage_slop_w,-y_wall,-z_wall*4/8.0);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(stage_slop_w,-y_wall,-z_wall*4/8.0);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(stage_slop_w,-y_wall*4/6.0,-z_wall*6/8.0);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-stage_slop_w,-y_wall*4/6.0,-z_wall*6/8.0);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+
+
+  glEndList();
+}
 
 void surrounding_t::front_wall(){
   glNewList(id_front_wall, GL_COMPILE);
@@ -258,6 +280,9 @@ void surrounding_t::surround_all(){
       glPopMatrix();
       glPushMatrix();
         glCallList(id_stage_front);
+      glPopMatrix();
+      glPushMatrix();
+        glCallList(id_stage_slop);
       glPopMatrix();
       
       glPushMatrix();

@@ -24,6 +24,7 @@ public:
 	
 	void stage_floor();
 	void stage_front();
+	void stage_slop();
 
 };
 

@@ -4,6 +4,8 @@
 #include <string>
 #include <cmath>
 
+#define y_wall 19*2.5
+
 #include "gl_framework.hpp"
 #include "texture_utils.h"
 #include "optimus.h"
@@ -620,7 +622,7 @@ void optimus_t::reset_transformer_config(){
     weel_rotation=0;
     forword_backword_movement_z=0.0;
     forword_backword_movement_x=0.0;
-    vertical_movement = 0;
+    // vertical_movement = 0;
 }
 
 void optimus_t::reset_car_config(){
@@ -653,7 +655,7 @@ void optimus_t::reset_car_config(){
   weel_rotation=0;
   forword_backword_movement_z=0.0;
   forword_backword_movement_x=0.0;
-  vertical_movement = -(2*uper_leg_l + 2*lower_leg_l);
+  vertical_movement = -y_wall + (torso_yl+ waist_yl*2 + weel_radius);
 }
 
 void optimus_t::reset_view_angle(){
@@ -808,6 +810,10 @@ void optimus_t::optimus_key_callback(int key, int scancode, int action, int mods
       forword_backword_movement_z = forword_backword_movement_z - 2.0*PI*weel_radius*(1.0/18.0)*cos(body_rotation_y*PI/180.0);
       forword_backword_movement_x = forword_backword_movement_x - 2.0*PI*weel_radius*(1.0/18.0)*sin(body_rotation_y*PI/180.0);
     }
+    else if (key == GLFW_KEY_Y && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
+      vertical_movement = vertical_movement + 2.0*PI*weel_radius*(1.0/18.0);
+    else if (key == GLFW_KEY_Y && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
+      vertical_movement = vertical_movement - 2.0*PI*weel_radius*(1.0/18.0);
 }
 
 

@@ -35,7 +35,7 @@ void set_camera(){
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   //camera set
-  glScalef(0.125, 0.125, 0.125);
+  glScalef(0.2, 0.2, 0.2);
   glScalef(0.04, 0.04, 0.04);
 
   if(camera_no == 0){
