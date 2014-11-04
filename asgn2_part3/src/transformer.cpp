@@ -30,14 +30,16 @@ surrounding_t surrounding;
 
 int camera_no = 0; //0 wall, 1 overhead, 2 inside
 
-void set_camera(){
+void set_base_view(){
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   //camera set
   glScalef(0.2, 0.2, 0.2);
   glScalef(0.04, 0.04, 0.04);
+}
 
+void set_camera(){
   if(camera_no == 0){
     surrounding.set_camera_wall_corner();
   }
@@ -50,13 +52,13 @@ void set_camera(){
   else{
 
   }
- 
 }
 
 
 void renderGL(void){
-  set_camera();
+  set_base_view();
   surrounding.set_lights();
+  set_camera();
   optimus.set_lights();
   set_wall_material();
   surrounding.surround_all();

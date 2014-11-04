@@ -68,8 +68,8 @@ void surrounding_t::set_camera_wall_corner(void){
 	// gluLookAt(-cx_wall, cy_wall, cz_wall,
  //            0, 0, 0,
  //            cx_wall, (cx_wall*cx_wall + cz_wall*cz_wall)/1.0 * cy_wall, -1*cz_wall);
-	gluLookAt(0, y_wall,z_wall,
-            0, -y_wall, -z_wall,
+	gluLookAt(-x_wall, y_wall,z_wall,
+            x_wall, -y_wall, -z_wall,
             0,1, 0);
 }
 
@@ -153,8 +153,8 @@ void surrounding_t::stage_slop(){
     glBindTexture(GL_TEXTURE_2D, texture[3]);
   
     glBegin(GL_QUADS);          //left face
-    // calculate_normal(-1.0f,1.0f,1.0f, -1.0f,1.0f,-1.0f, -1.0f,-1.0f,-1.0f, normal_buffer);
-    // glNormal3dv(normal_buffer);
+    calculate_normal(-stage_slop_w,-y_wall,-z_wall*4/8.0, stage_slop_w,-y_wall,-z_wall*4/8.0, stage_slop_w,-y_wall*4/6.0,-z_wall*6/8.0, normal_buffer);
+    glNormal3dv(normal_buffer);
     glTexCoord2f(0.0f, 0.0f); glVertex3f(-stage_slop_w,-y_wall,-z_wall*4/8.0);
     glTexCoord2f(0.0f, 1.0f); glVertex3f(stage_slop_w,-y_wall,-z_wall*4/8.0);
     glTexCoord2f(1.0f, 1.0f); glVertex3f(stage_slop_w,-y_wall*4/6.0,-z_wall*6/8.0);
@@ -234,22 +234,21 @@ void surrounding_t::right_wall(){
 }
 //floor
 void surrounding_t::floor_wall(){
-	glNewList(id_floor_wall, GL_COMPILE);
-	glEnable(GL_TEXTURE_2D);
-  	glBindTexture(GL_TEXTURE_2D, texture[1]);
+  glNewList(id_floor_wall, GL_COMPILE);
+    // calculate_normal(1* x_wall,-1* y_wall,-1*z_wall, x_wall,-1* y_wall,1*z_wall, x_wall,y_wall,1*z_wall, normal_buffer);
+    // glNormal3dv(normal_buffer);
 
-	glColor4f(1, 1, 1, 1);
-	glBegin(GL_QUADS);            //front face
-    calculate_normal(-1* x_wall,-1* y_wall,-1*z_wall, -1*x_wall,-1* y_wall,1*z_wall, x_wall,-1*y_wall,1*z_wall, normal_buffer);
-    glNormal3dv(normal_buffer);
-	glTexCoord2f(0.0f, 0.0f); glVertex3f(-1* x_wall,-1* y_wall,-1*z_wall); 
-	glTexCoord2f(1.0f, 0.0f); glVertex3f(-1*x_wall,-1* y_wall,1*z_wall);
-	glTexCoord2f(1.0f, 1.0f); glVertex3f(x_wall,-1*y_wall,1*z_wall);
-	glTexCoord2f(0.0f, 1.0f); glVertex3f(1* x_wall,-1*y_wall,-1*z_wall);
-	glEnd();
+    GLdouble normal[3] = {0,1,0};
+    glNormal3dv(normal);
+    
+    glTranslatef(0, -y_wall, 0);
+    glRotatef(-90, 1, 0, 0);
+    glScalef(x_wall,z_wall,0);
 
-  	glDisable(GL_TEXTURE_2D);
-	glEndList();
+    glBindTexture(GL_TEXTURE_2D, texture[1]);
+    unit_wall_without_texture();
+
+  glEndList();
   	
 }
 

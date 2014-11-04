@@ -86,7 +86,7 @@ static GLdouble normal_buffer[3];
 
 void optimus_t::configure_headlights(void){ //LIGTH2 and LIGHT3
   GLfloat ambient[] = { 0.0, 0.0, 0.0, 1.0 };
-  GLfloat diffuse[] = { 0, 0, 1, 1.0 };
+  GLfloat diffuse[] = { 1, 0, 1, 1.0 };
   GLfloat specular[] = { 0.1, 0.1, 0.1, 1.0 };
 
   glLightfv(GL_LIGHT2, GL_AMBIENT, ambient);
@@ -104,8 +104,8 @@ void optimus_t::set_lights(void){ //set the position of the headlights LIGHT2 AN
     glEnable(GL_LIGHT3);
   }
   else{
-    glEnable(GL_LIGHT2);
-    glEnable(GL_LIGHT3);
+    glDisable(GL_LIGHT2);
+    glDisable(GL_LIGHT3);
   }
 
   GLfloat light_position[] = { 0.0, -1.0, 0.0, 1.0 };
@@ -115,6 +115,7 @@ void optimus_t::set_lights(void){ //set the position of the headlights LIGHT2 AN
 
   //left headlight
   glPushMatrix();
+    glTranslatef(0, vertical_movement, 0);
     glTranslatef(forword_backword_movement_x,0,forword_backword_movement_z);
     glRotatef(body_rotation_y,0,1,0);
 
@@ -139,6 +140,7 @@ void optimus_t::set_lights(void){ //set the position of the headlights LIGHT2 AN
 
   //right headlight
   glPushMatrix();
+    glTranslatef(0, vertical_movement, 0);
     glTranslatef(forword_backword_movement_x,0,forword_backword_movement_z);
     glRotatef(body_rotation_y,0,1,0);
 
