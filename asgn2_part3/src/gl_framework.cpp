@@ -259,7 +259,8 @@ namespace csX75
       cout << "#######################################falsifying" << endl;
       playback_mode = false; //playback is over if was on earlier
       animation_on = false; //animation has ended. Last frame has been dumped 
-      return false;
+      load_state(saved_keyframes[saved_keyframes.size()-1]); //Load the last state
+      return true;
     }
 
     double delta = 1.0/FPS; //seconds
@@ -389,7 +390,7 @@ namespace csX75
           output_frame_number = 0; //reset it
           curr_keyframe_index = 0; //reset
           interpolated_index_number = 0;
-          
+
           animation_on = true; //animation is on
           playback_mode = false; //default unless replayed after dumping the frames
 

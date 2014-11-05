@@ -630,8 +630,9 @@ void optimus_t::reset_transformer_config(){
     front_glass_rotation =0;
     side_gate_rotation=-90;
     weel_rotation=0;
-    forword_backword_movement_z=0.0;
-    forword_backword_movement_x=0.0;
+    
+    //forword_backword_movement_z=0.0;
+    //forword_backword_movement_x=0.0;
     // vertical_movement = 0;
 }
 
@@ -663,9 +664,9 @@ void optimus_t::reset_car_config(){
 	front_glass_rotation=120;
 	side_gate_rotation=0;
   weel_rotation=0;
-  forword_backword_movement_z=0.0;
-  forword_backword_movement_x=0.0;
-  vertical_movement = -y_wall + (torso_yl+ waist_yl*2 + weel_radius);
+  //forword_backword_movement_z=0.0;
+  //forword_backword_movement_x=0.0;
+  //vertical_movement = -y_wall + (torso_yl+ waist_yl*2 + weel_radius);
 }
 
 void optimus_t::reset_view_angle(){
