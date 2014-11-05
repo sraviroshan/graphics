@@ -57,8 +57,8 @@ void set_camera(){
 
 void renderGL(void){
   set_base_view();
-  surrounding.set_lights();
   set_camera();
+  surrounding.set_lights();
   optimus.set_lights();
   set_wall_material();
   surrounding.surround_all();

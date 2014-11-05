@@ -277,10 +277,10 @@ void surrounding_t::set_lights(){
 
 	glPushMatrix();
 
-		GLfloat light0_position[] = {-x_wall, y_wall, 0, 0 }; //left wall top center
+		GLfloat light0_position[] = {-x_wall, y_wall, 0, 0 }; //left wall top center direction
 		glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 
-		GLfloat light1_position[] = {0, y_wall, z_wall, 0 }; //front wall top center
+		GLfloat light1_position[] = {0, y_wall, z_wall, 0 }; //front wall top center direction
 		glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
 
 	glPopMatrix();
