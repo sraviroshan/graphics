@@ -26,11 +26,14 @@
 #include <GL/glu.h>
 
 #include <iostream>
-
-
+#include <vector>
+#include "texture_utils.h"
 
 namespace csX75
 {
+  extern int MODE; //3 modes (0)recording, (1)testing, (2)playback(animation). Change using key <F12>
+  extern vector<keyframe_t> saved_keyframes;
+  extern int curr_keyframe_index;
   //! Initialize GL State
   void initGL(void);
  

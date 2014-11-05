@@ -2,6 +2,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstdlib>
+#include <iostream>
+#include <fstream>
 #include "gl_framework.hpp"
 #include "texture_utils.h"
 #define USE_MIPMAP false
@@ -209,4 +211,99 @@ void set_glass_material(){
     glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
+}
+
+void keyframe_t::write(string filename){
+    ofstream myfile;
+    myfile.open (filename.c_str(), ios::out | ios::app);
+
+    myfile << camera_no << " ";
+
+    myfile << rotation_angle << " "; //angle for rotation about axis
+    myfile << body_rotation_x << " "; //rotate body about x axis
+    myfile << body_rotation_y << " "; //rotate body about x axis
+    myfile << body_rotation_z << " "; //rotate body about x axis
+    myfile << back_weel_slab_rotation << " "; //rotation of back weel slab bout x axis
+    myfile << solder_rotation_zl << " "; //left solder rotation angle about z axis
+    myfile << solder_rotation_yl << " "; //left solder rotation angle about y axis
+    myfile << solder_rotation_xl << " "; // left solder rotation angle about x axis
+    myfile << elbows_rotation_l << " "; //left elbows rotarion angle about z axis
+    myfile << solder_rotation_zr << " "; // right solder rotation angle about z axis
+    myfile << solder_rotation_yr << " "; // right solder rotation angle about y axis
+    myfile << solder_rotation_xr << " "; // right solder rotation angle about x axis
+    myfile << elbows_rotation_r << " "; //right elbows rotarion angle about z axis
+    myfile << waist_rotation << " "; // rotation of waist about y axis
+    myfile << upper_body_rotation << " "; //rotation of upper body about x axis
+    myfile << lower_leg_rotation_l << " "; //rotation of left lower leg about x axis
+    myfile << lower_leg_rotation_r << " "; //rotation of right lower leg about x axis
+    myfile << front_weel_slab_rotation << " "; //rotarion of slab contain weel around x axis
+    myfile << uper_leg_rotation_xl << " "; //rotation of uper left leg about x axis
+    myfile << uper_leg_rotation_zl << " "; //rotation of uper left leg about z axis
+    myfile << uper_leg_rotation_xr << " "; //rotation of uper right leg about x axis
+    myfile << uper_leg_rotation_zr << " "; //rotation of uper right leg about z axis
+    myfile << hood_feet_rotation_xl1 << " "; //rotation of left whole feet about x axis
+    myfile << hood_feet_rotation_xl2 << " "; //rotation of left uper feet about x axis
+    myfile << hood_feet_rotation_xr1 << " "; //rotation of right whole feet about x axis
+    myfile << hood_feet_rotation_xr2 << " "; //rotation of right uper feet about x axis
+    myfile << throat_translate_y << " "; //translation of throat along y axis
+    myfile << truck_ceiling_rotation << " "; //rotation of truck ceilig about x axis
+    myfile << front_glass_rotation << " "; //totation of fron glass bout x axis
+    myfile << side_gate_rotation << " "; //side gate rotation about x axis
+    myfile << weel_rotation << " "; //roatation of weel about z axis
+    myfile << forword_backword_movement_z << " "; // translate whole body along z axis
+    myfile << forword_backword_movement_x << " "; // translate whole body along x axis
+
+    myfile << vertical_movement << " "; // vertical movement of transformer(independent)
+
+    myfile << headlight_on << " ";  // whether headlight on (decide which texture to load)
+    myfile << lighting_enabled << " ";
+    myfile << light0_enabled << " ";
+    myfile << light1_enabled << endl;
+    myfile.close();
+}
+
+bool keyframe_t::read(ifstream &myfile){
+    if(!(myfile >> camera_no)) return false;
+
+    myfile >> rotation_angle ; //angle for rotation about axis
+    myfile >> body_rotation_x ; //rotate body about x axis
+    myfile >> body_rotation_y ; //rotate body about x axis
+    myfile >> body_rotation_z ; //rotate body about x axis
+    myfile >> back_weel_slab_rotation ; //rotation of back weel slab bout x axis
+    myfile >> solder_rotation_zl ; //left solder rotation angle about z axis
+    myfile >> solder_rotation_yl ; //left solder rotation angle about y axis
+    myfile >> solder_rotation_xl ; // left solder rotation angle about x axis
+    myfile >> elbows_rotation_l ; //left elbows rotarion angle about z axis
+    myfile >> solder_rotation_zr ; // right solder rotation angle about z axis
+    myfile >> solder_rotation_yr ; // right solder rotation angle about y axis
+    myfile >> solder_rotation_xr ; // right solder rotation angle about x axis
+    myfile >> elbows_rotation_r ; //right elbows rotarion angle about z axis
+    myfile >> waist_rotation ; // rotation of waist about y axis
+    myfile >> upper_body_rotation ; //rotation of upper body about x axis
+    myfile >> lower_leg_rotation_l ; //rotation of left lower leg about x axis
+    myfile >> lower_leg_rotation_r ; //rotation of right lower leg about x axis
+    myfile >> front_weel_slab_rotation ; //rotarion of slab contain weel around x axis
+    myfile >> uper_leg_rotation_xl ; //rotation of uper left leg about x axis
+    myfile >> uper_leg_rotation_zl ; //rotation of uper left leg about z axis
+    myfile >> uper_leg_rotation_xr ; //rotation of uper right leg about x axis
+    myfile >> uper_leg_rotation_zr ; //rotation of uper right leg about z axis
+    myfile >> hood_feet_rotation_xl1 ; //rotation of left whole feet about x axis
+    myfile >> hood_feet_rotation_xl2 ; //rotation of left uper feet about x axis
+    myfile >> hood_feet_rotation_xr1 ; //rotation of right whole feet about x axis
+    myfile >> hood_feet_rotation_xr2 ; //rotation of right uper feet about x axis
+    myfile >> throat_translate_y ; //translation of throat along y axis
+    myfile >> truck_ceiling_rotation ; //rotation of truck ceilig about x axis
+    myfile >> front_glass_rotation ; //totation of fron glass bout x axis
+    myfile >> side_gate_rotation ; //side gate rotation about x axis
+    myfile >> weel_rotation ; //roatation of weel about z axis
+    myfile >> forword_backword_movement_z ; // translate whole body along z axis
+    myfile >> forword_backword_movement_x ; // translate whole body along x axis
+
+    myfile >> vertical_movement ; // vertical movement of transformer(independent)
+
+    myfile >> headlight_on ;  // whether headlight on (decide which texture to load)
+    myfile >> lighting_enabled; 
+    myfile >> light0_enabled; 
+    myfile >> light1_enabled; 
+    return true;
 }
