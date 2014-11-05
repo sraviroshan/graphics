@@ -21,6 +21,8 @@
 #define id_stage_front 106
 #define id_stage_slop 107
 #define stage_slop_w (1/6.0)*x_wall
+#define id_people 108
+#define id_floor_slop 109
 
 #define WALL_TESSALATION 20
 
@@ -61,6 +63,8 @@ void surrounding_t::init_surrounding(void){
   stage_floor();
   stage_front();
   stage_slop();
+  people();
+  floor_slop();
 }
 
 void surrounding_t::set_camera_wall_corner(void){
@@ -68,8 +72,11 @@ void surrounding_t::set_camera_wall_corner(void){
 	// gluLookAt(-cx_wall, cy_wall, cz_wall,
  //            0, 0, 0,
  //            cx_wall, (cx_wall*cx_wall + cz_wall*cz_wall)/1.0 * cy_wall, -1*cz_wall);
-	gluLookAt(-x_wall, y_wall,z_wall,
-            x_wall, -y_wall, -z_wall,
+	// gluLookAt(-x_wall, y_wall,z_wall,
+ //            x_wall, -y_wall, -z_wall,
+ //            0,1, 0);
+  gluLookAt(0, y_wall,z_wall,
+            0, -y_wall, -z_wall,
             0,1, 0);
 }
 
@@ -95,6 +102,10 @@ void surrounding_t::load_textures() {
     Texture t4(texture[4], "images/stage_front.bmp");
     t4.generate();
 
+    glGenTextures(1, &texture[5]);
+    Texture t5(texture[5], "images/people.bmp");
+    t5.generate();
+
 
     glGenTextures(1, &texture[1]);
     Texture t1(texture[1], "images/floor.bmp");
@@ -102,6 +113,19 @@ void surrounding_t::load_textures() {
 
     glDisable(GL_TEXTURE_2D);
 };
+
+void surrounding_t::people(){
+  glNewList(id_people, GL_COMPILE);
+
+    GLdouble normal[3] = {0,0,1};
+    glNormal3dv(normal);
+
+    glScalef((x_wall/2)-stage_slop_w,y_wall/5,0);
+    glBindTexture(GL_TEXTURE_2D, texture[5]);
+    unit_wall_without_texture();
+  glEndList();
+}
+
 
 void surrounding_t::back_wall(){
 	glNewList(id_back_wall, GL_COMPILE);
@@ -165,6 +189,26 @@ void surrounding_t::stage_slop(){
 
   glEndList();
 }
+void surrounding_t::floor_slop(){
+  glNewList(id_floor_slop, GL_COMPILE);
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture[3]);
+  
+    glBegin(GL_QUADS);          //left face
+    GLdouble normal[3] = {0,1,0};
+    glNormal3dv(normal);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-stage_slop_w,-y_wall+1,z_wall);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(stage_slop_w,-y_wall+1,z_wall);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(stage_slop_w,-y_wall+1,-z_wall*4/8.0);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-stage_slop_w,-y_wall+1,-z_wall*4/8.0);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+
+
+  glEndList();
+}
+
 
 void surrounding_t::front_wall(){
   glNewList(id_front_wall, GL_COMPILE);
@@ -305,6 +349,27 @@ void surrounding_t::surround_all(){
       glPushMatrix();
         glCallList(id_stage_slop);
       glPopMatrix();
+      glPushMatrix();
+        glCallList(id_floor_slop);
+      glPopMatrix();
+      //people
+      float i= -z_wall*3/8.0;
+      float delta = z_wall/25.0;
+      while(i<z_wall){
+        glPushMatrix();
+          glTranslatef(-((x_wall/2)-stage_slop_w)-stage_slop_w,-y_wall+y_wall/5,i);
+          glCallList(id_people);
+        glPopMatrix();
+        i=i+delta;
+      }      
+      i= -z_wall*3/8.0;
+      while(i<z_wall){
+        glPushMatrix();
+          glTranslatef(((x_wall/2)-stage_slop_w)+stage_slop_w,-y_wall+y_wall/5,i);
+          glCallList(id_people);
+        glPopMatrix();
+        i=i+delta;
+      }      
       
       glPushMatrix();
         glCallList(id_front_wall);
