@@ -19,10 +19,11 @@ public:
 	Texture(GLuint tex_id, std::string fname);
 	~Texture();
 	int generate();
-	int generate(GLenum format);
+	int generate(GLenum format, bool white_is_transparent);
+  int generate_white_is_transparent();
 };
 
-int ImageLoad(std::string filename, Image *image);
+int ImageLoad(std::string filename, Image *image, bool white_is_transparent);
 
 void calculate_normal(GLdouble a1, GLdouble a2, GLdouble a3,
                           GLdouble b1, GLdouble b2, GLdouble b3,

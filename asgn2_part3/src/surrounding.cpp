@@ -104,7 +104,7 @@ void surrounding_t::load_textures() {
 
     glGenTextures(1, &texture[5]);
     Texture t5(texture[5], "images/people.bmp");
-    t5.generate();
+    t5.generate_white_is_transparent();
 
 
     glGenTextures(1, &texture[1]);

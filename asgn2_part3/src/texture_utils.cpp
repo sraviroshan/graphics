@@ -26,15 +26,19 @@ Texture::~Texture(){
 }
 
 int Texture::generate(){
-    generate(GL_RGBA);
+    generate(GL_RGBA, false);
+}
+
+int Texture::generate_white_is_transparent(){
+    generate(GL_RGBA, true);
 }
 
 //returns 1 if success, 0 otherwise
-int Texture::generate(GLenum format){
+int Texture::generate(GLenum format, bool white_is_transparent){
     image = new Image();
     if(image == NULL) return 0;
 
-    int res = ImageLoad(filename, image);
+    int res = ImageLoad(filename, image, white_is_transparent);
     if(!res) return 0;
 
     glBindTexture(GL_TEXTURE_2D, texture_id);
@@ -60,7 +64,7 @@ int Texture::generate(GLenum format){
     return 1;
 }
 
-int ImageLoad(std::string filename, Image *image) {
+int ImageLoad(std::string filename, Image *image, bool white_is_transparent) {
     FILE *file;
     unsigned long size;                 // size of the image in bytes.
     unsigned long i;                    // standard counter.
@@ -144,10 +148,20 @@ int ImageLoad(std::string filename, Image *image) {
 
     //Now store into image->data with alpha value default 1
     for (int s=0, d=0;s<size_buffer;s+=3, d+=4){
-       image->data[d] = buffer[s];
-       image->data[d+1] = buffer[s+1];
-       image->data[d+2] = buffer[s+2];
-       image->data[d+3] = 255;
+        image->data[d] = buffer[s];
+        image->data[d+1] = buffer[s+1];
+        image->data[d+2] = buffer[s+2];
+        if(white_is_transparent){
+            if(image->data[d] == -1 && image->data[d+1] == -1 && image->data[d+2] == -1){
+                image->data[d+3] = 0;
+            }
+            else{
+                image->data[d+3] = 255;
+            }
+        }
+        else{
+            image->data[d+3] = 255;
+        }
     }
 
     //free the temp buffer
