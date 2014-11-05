@@ -27,13 +27,26 @@
 
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
 #include "texture_utils.h"
+
+extern GLFWwindow* window;
 
 namespace csX75
 {
   extern int MODE; //3 modes (0)recording, (1)testing, (2)playback(animation). Change using key <F12>
   extern vector<keyframe_t> saved_keyframes;
   extern int curr_keyframe_index;
+
+  extern bool animation_on;
+  extern int FPS;
+  extern int NUM_INTER_FRAMES;
+  extern string output_folder;
+  extern string image_file_prefix;
+  extern int interpolated_index_number; //from [0,NUM_INTER_FRAMES-1]
+  extern int output_frame_number; //used for naming output images
+
+
   //! Initialize GL State
   void initGL(void);
  
@@ -43,6 +56,10 @@ namespace csX75
   void framebuffer_size_callback(GLFWwindow* window, int width, int height);
   //!GLFW keyboard callback
   void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+  bool animate(); //returns true if success, false if last frame has been rendered
+
+  void dump();
 
 };
 

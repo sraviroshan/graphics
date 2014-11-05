@@ -307,3 +307,66 @@ bool keyframe_t::read(ifstream &myfile){
     myfile >> light1_enabled; 
     return true;
 }
+
+
+keyframe_t interpolate(keyframe_t current, keyframe_t next, float fraction){
+    keyframe_t result;
+
+    result.camera_no = (fraction > 0.5) ? current.camera_no : next.camera_no;
+
+    result.rotation_angle = current.rotation_angle + (next.rotation_angle - current.rotation_angle)*fraction;
+    result.body_rotation_x = current.body_rotation_x + (next.body_rotation_x - current.body_rotation_x)*fraction;
+    result.body_rotation_y = current.body_rotation_y + (next.body_rotation_y - current.body_rotation_y)*fraction;
+    result.body_rotation_z = current.body_rotation_z + (next.body_rotation_z - current.body_rotation_z)*fraction;
+    result.back_weel_slab_rotation = current.back_weel_slab_rotation + (next.back_weel_slab_rotation - current.back_weel_slab_rotation)*fraction;
+    result.solder_rotation_zl = current.solder_rotation_zl + (next.solder_rotation_zl - current.solder_rotation_zl)*fraction;
+    result.solder_rotation_yl = current.solder_rotation_yl + (next.solder_rotation_yl - current.solder_rotation_yl)*fraction;
+    result.solder_rotation_xl = current.solder_rotation_xl + (next.solder_rotation_xl - current.solder_rotation_xl)*fraction;
+    result.elbows_rotation_l = current.elbows_rotation_l + (next.elbows_rotation_l - current.elbows_rotation_l)*fraction;
+    result.solder_rotation_zr = current.solder_rotation_zr + (next.solder_rotation_zr - current.solder_rotation_zr)*fraction;
+    result.solder_rotation_yr = current.solder_rotation_yr + (next.solder_rotation_yr - current.solder_rotation_yr)*fraction;
+    result.solder_rotation_xr = current.solder_rotation_xr + (next.solder_rotation_xr - current.solder_rotation_xr)*fraction;
+    result.elbows_rotation_r = current.elbows_rotation_r + (next.elbows_rotation_r - current.elbows_rotation_r)*fraction;
+    result.waist_rotation = current.waist_rotation + (next.waist_rotation - current.waist_rotation)*fraction;
+    result.upper_body_rotation = current.upper_body_rotation + (next.upper_body_rotation - current.upper_body_rotation)*fraction;
+    result.lower_leg_rotation_l = current.lower_leg_rotation_l + (next.lower_leg_rotation_l - current.lower_leg_rotation_l)*fraction;
+    result.lower_leg_rotation_r = current.lower_leg_rotation_r + (next.lower_leg_rotation_r - current.lower_leg_rotation_r)*fraction;
+    result.front_weel_slab_rotation = current.front_weel_slab_rotation + (next.front_weel_slab_rotation - current.front_weel_slab_rotation)*fraction;
+    result.uper_leg_rotation_xl = current.uper_leg_rotation_xl + (next.uper_leg_rotation_xl - current.uper_leg_rotation_xl)*fraction;
+    result.uper_leg_rotation_zl = current.uper_leg_rotation_zl + (next.uper_leg_rotation_zl - current.uper_leg_rotation_zl)*fraction;
+    result.uper_leg_rotation_xr = current.uper_leg_rotation_xr + (next.uper_leg_rotation_xr - current.uper_leg_rotation_xr)*fraction;
+    result.uper_leg_rotation_zr = current.uper_leg_rotation_zr + (next.uper_leg_rotation_zr - current.uper_leg_rotation_zr)*fraction;
+    result.hood_feet_rotation_xl1 = current.hood_feet_rotation_xl1 + (next.hood_feet_rotation_xl1 - current.hood_feet_rotation_xl1)*fraction;
+    result.hood_feet_rotation_xl2 = current.hood_feet_rotation_xl2 + (next.hood_feet_rotation_xl2 - current.hood_feet_rotation_xl2)*fraction;
+    result.hood_feet_rotation_xr1 = current.hood_feet_rotation_xr1 + (next.hood_feet_rotation_xr1 - current.hood_feet_rotation_xr1)*fraction;
+    result.hood_feet_rotation_xr2 = current.hood_feet_rotation_xr2 + (next.hood_feet_rotation_xr2 - current.hood_feet_rotation_xr2)*fraction;
+    result.throat_translate_y = current.throat_translate_y + (next.throat_translate_y - current.throat_translate_y)*fraction;
+    result.truck_ceiling_rotation = current.truck_ceiling_rotation + (next.truck_ceiling_rotation - current.truck_ceiling_rotation)*fraction;
+    result.front_glass_rotation = current.front_glass_rotation + (next.front_glass_rotation - current.front_glass_rotation)*fraction;
+    result.side_gate_rotation = current.side_gate_rotation + (next.side_gate_rotation - current.side_gate_rotation)*fraction;
+    result.weel_rotation = current.weel_rotation + (next.weel_rotation - current.weel_rotation)*fraction;
+    result.forword_backword_movement_z = current.forword_backword_movement_z + (next.forword_backword_movement_z - current.forword_backword_movement_z)*fraction;
+    result.forword_backword_movement_x = current.forword_backword_movement_x + (next.forword_backword_movement_x - current.forword_backword_movement_x)*fraction;
+
+    result.vertical_movement = current.vertical_movement + (next.vertical_movement - current.vertical_movement)*fraction;
+
+    result.headlight_on = (fraction > 0.5) ? current.headlight_on : next.headlight_on;
+    result.lighting_enabled = (fraction > 0.5) ? current.lighting_enabled : next.lighting_enabled;
+    result.light0_enabled = (fraction > 0.5) ? current.light0_enabled : next.light0_enabled;
+    result.light1_enabled = (fraction > 0.5) ? current.light1_enabled : next.light1_enabled;
+
+    return result;
+}
+
+void savePPM(int start_x,int start_y,int w,int h,char *fname){
+    FILE *f=fopen(fname,"wb");
+    if (!f) return;
+    std::vector<unsigned char> out(3*w*h);
+    glPixelStorei(GL_PACK_ALIGNMENT,1); /* byte aligned output */
+    glReadPixels(start_x,start_y,w,h, GL_RGB,GL_UNSIGNED_BYTE,&out[0]);
+    fprintf(f,"P6\n%d %d\n255\n",w,h);
+    for (int y=0;y<h;y++) { /* flip image bottom-to-top on output */
+      fwrite(&out[3*(h-1-y)*w],1,3*w,f);
+    }
+    fclose(f);
+}

@@ -88,4 +88,11 @@ typedef struct keyframe_t{
   bool read(ifstream &myfile);
 
 } keyframe_t;
+
+
+keyframe_t interpolate(keyframe_t current, keyframe_t next, float fraction);
+
+//save framebuffer as PPM format
+void savePPM(int start_x,int start_y,int w,int h,char *fname);
+
 #endif

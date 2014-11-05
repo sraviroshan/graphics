@@ -56,6 +56,12 @@ void set_camera(){
 
 
 void renderGL(void){
+  bool save = true; //whether to dump the framebuffer
+  if(csX75::animation_on){//animate on
+    cout << "rendering frame #" << csX75::output_frame_number << endl;
+    //wait for 1/FPS seconds and then load corresponding frame state. At end of this function store the image
+    save = csX75::animate();
+  }
   set_base_view();
   set_camera();
   surrounding.set_lights();
@@ -64,6 +70,15 @@ void renderGL(void){
   surrounding.surround_all();
   set_optimus_material();
   optimus.hierarchi();
+
+  if(csX75::animation_on){//animate mode
+    if(save){
+      csX75::dump();
+    }
+    else{
+      csX75::animation_on = false; //animation has ended. Last frame has been dumped      
+    }
+  }
 }
 
 int main (int argc, char *argv[]) 

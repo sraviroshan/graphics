@@ -39,6 +39,16 @@ namespace csX75
   string kf_file;
   vector<keyframe_t> saved_keyframes;
   int curr_keyframe_index;
+
+  //for animation
+  bool animation_on;
+  int FPS;
+  int NUM_INTER_FRAMES;
+  string output_folder;
+  string image_file_prefix;
+  int interpolated_index_number; //from [0,NUM_INTER_FRAMES-1]
+  int output_frame_number; //used for naming output images
+
   int MODE;
   int win_width;
   int win_height;
@@ -49,6 +59,8 @@ namespace csX75
     kf_file = "kf.txt";
     MODE = 0;
     curr_keyframe_index = saved_keyframes.size()-1; //@start of program -1
+    animation_on = false;
+
     //Set framebuffer clear color
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     //Set depth buffer furthest depth
@@ -160,9 +172,7 @@ namespace csX75
       cur.write(filename.c_str());
   }
 
-  void load_state(int index){ //do bounds check before calling
-      keyframe_t cur = saved_keyframes[index];
-
+  void load_state(keyframe_t cur){ //do bounds check before calling
       //global variable
       camera_no = cur.camera_no;
       //optimus_t variables. refer by optimus.<variable_name>
@@ -211,11 +221,13 @@ namespace csX75
   }
 
   void read_saved_keyframes(string filename){
+      cout << filename << "read_saved_keyframes" << endl;
       saved_keyframes.clear(); //clear the vector
       ifstream myfile;
       myfile.open (filename.c_str(), ios::in);
       int index = 0;
       while(true){
+          cout << "next_frame" << endl;
           keyframe_t cur;
           bool success = cur.read(myfile);
           if(!success) break;
@@ -225,6 +237,62 @@ namespace csX75
       cout<< "done ";
   }
 
+  void pause(const double _period){
+    double endtime = glfwGetTime() + _period;
+    while(glfwWindowShouldClose(window) == 0){
+      if(glfwGetTime() > endtime) break;
+      glfwPollEvents();
+    }
+    if(glfwWindowShouldClose(window) == 1){
+      glfwDestroyWindow(window);
+      glfwTerminate();
+      exit(0);
+    }
+  }
+
+  bool animate(){
+    cout << "into animate  curr_keyframe_index = " << curr_keyframe_index << "inter # = " <<interpolated_index_number << endl;
+    if(curr_keyframe_index == saved_keyframes.size()-1) {
+      cout << "#######################################falsifying" << endl;
+      return false;
+    }
+
+    double delta = 1.0/FPS; //seconds
+    pause(delta);
+
+    cout << "wait over" << endl;
+    cout << saved_keyframes.size() << " " << curr_keyframe_index << endl;
+    keyframe_t current = saved_keyframes[curr_keyframe_index];
+    keyframe_t next = saved_keyframes[curr_keyframe_index+1];
+
+    //interpolate by fraction  interpolated_index_number/NUM_INTER_FRAMES
+
+    float fraction = 1.0*interpolated_index_number/NUM_INTER_FRAMES;
+
+    keyframe_t interpolated_keyframe = interpolate(current, next, fraction);
+    cout << "wait over 2" << endl;
+
+    load_state(interpolated_keyframe);
+    cout << "wait over 3" << endl;
+
+    interpolated_index_number++;
+    
+    if(interpolated_index_number == NUM_INTER_FRAMES){
+      //slide interpolation window
+      curr_keyframe_index++;
+      interpolated_index_number = 0;
+    }
+
+    return true;
+  }
+
+  void dump(){
+    char imgname[100];
+    sprintf(imgname, "%s/%s_%d.ppm", output_folder.c_str(), image_file_prefix.c_str(), output_frame_number, 0);
+    savePPM(0,0,win_width, win_height, imgname);
+    output_frame_number++;
+  }
+
   //!GLFW keyboard callback
   void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
   {
@@ -232,9 +300,18 @@ namespace csX75
       MODE = ((MODE+1) % 3); //starts from 1 to NUM_MODES
         
       cout << "mode changed " << MODE << " ";
-      if(MODE == 0) cout << "RECORDING MODE : use = button to record current keyframe state" << endl;
-      else if(MODE == 1) cout << "TESTING SAVED KEY-FRAMES MODE: use < > keys to review key-frames" << endl;
-      else if(MODE == 2) cout << "PLAYBACK SAVED KEY-FRAMES MODE : use > to specify input textfile name and animate !!" << endl;
+      if(MODE == 0) {
+        animation_on = false;
+        cout << "RECORDING MODE : use = button to record current keyframe state" << endl;
+      }
+      else if(MODE == 1) {
+        animation_on = false;
+        cout << "TESTING SAVED KEY-FRAMES MODE: use < > keys to review key-frames" << endl;
+      }
+      else if(MODE == 2) {
+        animation_on = false;
+        cout << "PLAYBACK SAVED KEY-FRAMES MODE : use > to specify input textfile name and animate !!" << endl;
+      }
 
       if(MODE == 1) curr_keyframe_index = saved_keyframes.size()-1; //set curr_keyframe_index to end
     }
@@ -281,7 +358,8 @@ namespace csX75
             else{
                 curr_keyframe_index += 1;
                 cout << "loading keyframe : " << curr_keyframe_index << " [size : "  << saved_keyframes.size() << "]" << endl;
-                load_state(curr_keyframe_index);
+                keyframe_t kf = saved_keyframes[curr_keyframe_index];
+                load_state(kf);
             }
         }
         else if (key == GLFW_KEY_COMMA && action == GLFW_PRESS){
@@ -290,15 +368,27 @@ namespace csX75
             }
             else{
                 curr_keyframe_index -= 1;
-                cout << "loading keyframe : " << curr_keyframe_index << " [size : "  << saved_keyframes.size() << "]" << endl;
-                load_state(curr_keyframe_index);
+                keyframe_t kf = saved_keyframes[curr_keyframe_index];
+                load_state(kf);
             }
         }
     }
     else if(MODE == 2){ //animation mode
         if (key == GLFW_KEY_PERIOD && action == GLFW_PRESS){
-          cout << "enter keyframe file path :";
+          cout << "enter source keyframe file path :";
           cin >> kf_file;
+          cout << "enter required FPS :";
+          cin >> FPS;
+          cout << "enter number of intermediate frames(b/w keyframes) :";
+          cin >> NUM_INTER_FRAMES;
+          cout << "Enter output folder(must exist) :";
+          cin >> output_folder;
+          cout << "Enter image <prefix> : images will be saved as <prefix>_<frame#>.txt : ";
+          cin >> image_file_prefix;
+          output_frame_number = 0; //reset it
+          curr_keyframe_index = 0; //reset
+          animation_on = true; //animation is on
+
           read_saved_keyframes(kf_file);
           cout << "succesfully loaded into saved_keyframes vector. Now can resume" << endl;
         }
