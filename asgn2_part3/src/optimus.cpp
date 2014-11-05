@@ -676,125 +676,125 @@ void optimus_t::reset_view_angle(){
 
 void optimus_t::optimus_key_callback(int key, int scancode, int action, int mods){
 	if(key==GLFW_KEY_BACKSLASH && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      upper_body_rotation = (upper_body_rotation - ROTATION_DELTA)%360;
+      upper_body_rotation = (upper_body_rotation - ROTATION_DELTA);
     else if(key==GLFW_KEY_BACKSLASH  && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      upper_body_rotation = (upper_body_rotation + ROTATION_DELTA)%360;    
+      upper_body_rotation = (upper_body_rotation + ROTATION_DELTA);    
     else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS)
-      body_rotation_y = (body_rotation_y + ROTATION_DELTA)%360;
+      body_rotation_y = (body_rotation_y + ROTATION_DELTA);
     else if(key==GLFW_KEY_RIGHT && action == GLFW_PRESS)
-      body_rotation_y = (body_rotation_y - ROTATION_DELTA)%360;    
+      body_rotation_y = (body_rotation_y - ROTATION_DELTA);    
     // else if(key==GLFW_KEY_Z && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-    //   body_rotation_z = (body_rotation_z - ROTATION_DELTA)%360;
+    //   body_rotation_z = (body_rotation_z - ROTATION_DELTA);
     // else if(key==GLFW_KEY_Z && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-    //   body_rotation_z = (body_rotation_z + ROTATION_DELTA)%360;    
+    //   body_rotation_z = (body_rotation_z + ROTATION_DELTA);    
     
     // uper left hand rotation
     else if(key==GLFW_KEY_E && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      solder_rotation_zl = (solder_rotation_zl + ROTATION_DELTA)%360;    
+      solder_rotation_zl = (solder_rotation_zl + ROTATION_DELTA);    
     else if(key==GLFW_KEY_E && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      solder_rotation_zl = (solder_rotation_zl - ROTATION_DELTA)%360;
+      solder_rotation_zl = (solder_rotation_zl - ROTATION_DELTA);
     else if(key==GLFW_KEY_Q && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      solder_rotation_xl = (solder_rotation_xl + ROTATION_DELTA)%360;    
+      solder_rotation_xl = (solder_rotation_xl + ROTATION_DELTA);    
     else if(key==GLFW_KEY_Q && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      solder_rotation_xl = (solder_rotation_xl - ROTATION_DELTA)%360;      
+      solder_rotation_xl = (solder_rotation_xl - ROTATION_DELTA);      
     else if(key==GLFW_KEY_W && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      solder_rotation_yl = (solder_rotation_yl + ROTATION_DELTA)%360;    
+      solder_rotation_yl = (solder_rotation_yl + ROTATION_DELTA);    
     else if(key==GLFW_KEY_W && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      solder_rotation_yl = (solder_rotation_yl - ROTATION_DELTA)%360;      
+      solder_rotation_yl = (solder_rotation_yl - ROTATION_DELTA);      
     //lower left hand rotation
     else if(key==GLFW_KEY_R && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      elbows_rotation_l = (elbows_rotation_l + ROTATION_DELTA)%360;    
+      elbows_rotation_l = (elbows_rotation_l + ROTATION_DELTA);    
     else if(key==GLFW_KEY_R && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      elbows_rotation_l = (elbows_rotation_l - ROTATION_DELTA)%360;  
+      elbows_rotation_l = (elbows_rotation_l - ROTATION_DELTA);  
     // uper right hand rotation
     else if(key==GLFW_KEY_3 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      solder_rotation_zr = (solder_rotation_zr + ROTATION_DELTA)%360;    
+      solder_rotation_zr = (solder_rotation_zr + ROTATION_DELTA);    
     else if(key==GLFW_KEY_3 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      solder_rotation_zr = (solder_rotation_zr - ROTATION_DELTA)%360;
+      solder_rotation_zr = (solder_rotation_zr - ROTATION_DELTA);
     else if(key==GLFW_KEY_1 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      solder_rotation_xr = (solder_rotation_xr + ROTATION_DELTA)%360;    
+      solder_rotation_xr = (solder_rotation_xr + ROTATION_DELTA);    
     else if(key==GLFW_KEY_1 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      solder_rotation_xr = (solder_rotation_xr - ROTATION_DELTA)%360;      
+      solder_rotation_xr = (solder_rotation_xr - ROTATION_DELTA);      
     else if(key==GLFW_KEY_2 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      solder_rotation_yr = (solder_rotation_yr + ROTATION_DELTA)%360;    
+      solder_rotation_yr = (solder_rotation_yr + ROTATION_DELTA);    
     else if(key==GLFW_KEY_2 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      solder_rotation_yr = (solder_rotation_yr - ROTATION_DELTA)%360;      
+      solder_rotation_yr = (solder_rotation_yr - ROTATION_DELTA);      
     //lower right hand rotation
     else if(key==GLFW_KEY_4 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      elbows_rotation_r = (elbows_rotation_r + ROTATION_DELTA)%360;    
+      elbows_rotation_r = (elbows_rotation_r + ROTATION_DELTA);    
     else if(key==GLFW_KEY_4 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      elbows_rotation_r = (elbows_rotation_r - ROTATION_DELTA)%360;  
+      elbows_rotation_r = (elbows_rotation_r - ROTATION_DELTA);  
     // back weel slab rotarion
     else if (key==GLFW_KEY_F && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      back_weel_slab_rotation = (back_weel_slab_rotation + ROTATION_DELTA)%360;
+      back_weel_slab_rotation = (back_weel_slab_rotation + ROTATION_DELTA);
     else if (key==GLFW_KEY_F && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      back_weel_slab_rotation = (back_weel_slab_rotation - ROTATION_DELTA)%360;
+      back_weel_slab_rotation = (back_weel_slab_rotation - ROTATION_DELTA);
     
     // waist rotation
     else if (key==GLFW_KEY_M && action == GLFW_PRESS  && !(mods & GLFW_MOD_SHIFT))
-      waist_rotation = (waist_rotation + ROTATION_DELTA)%360;
+      waist_rotation = (waist_rotation + ROTATION_DELTA);
     else if (key==GLFW_KEY_M && action == GLFW_PRESS  && (mods & GLFW_MOD_SHIFT))
-      waist_rotation = (waist_rotation - ROTATION_DELTA)%360;
+      waist_rotation = (waist_rotation - ROTATION_DELTA);
     //uper left leg toration
     else if (key == GLFW_KEY_P && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      uper_leg_rotation_xl = (uper_leg_rotation_xl + ROTATION_DELTA)%360;
+      uper_leg_rotation_xl = (uper_leg_rotation_xl + ROTATION_DELTA);
     else if (key == GLFW_KEY_P && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      uper_leg_rotation_xl = (uper_leg_rotation_xl - ROTATION_DELTA)%360;
+      uper_leg_rotation_xl = (uper_leg_rotation_xl - ROTATION_DELTA);
     else if (key == GLFW_KEY_O && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      uper_leg_rotation_zl = (uper_leg_rotation_zl + ROTATION_DELTA)%360;
+      uper_leg_rotation_zl = (uper_leg_rotation_zl + ROTATION_DELTA);
     else if (key == GLFW_KEY_O && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      uper_leg_rotation_zl = (uper_leg_rotation_zl - ROTATION_DELTA)%360;
+      uper_leg_rotation_zl = (uper_leg_rotation_zl - ROTATION_DELTA);
     //uper right leg rotation
     else if (key == GLFW_KEY_0 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      uper_leg_rotation_xr = (uper_leg_rotation_xr + ROTATION_DELTA)%360;
+      uper_leg_rotation_xr = (uper_leg_rotation_xr + ROTATION_DELTA);
     else if (key == GLFW_KEY_0 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      uper_leg_rotation_xr = (uper_leg_rotation_xr - ROTATION_DELTA)%360;
+      uper_leg_rotation_xr = (uper_leg_rotation_xr - ROTATION_DELTA);
     else if (key == GLFW_KEY_9 && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      uper_leg_rotation_zr = (uper_leg_rotation_zr + ROTATION_DELTA)%360;
+      uper_leg_rotation_zr = (uper_leg_rotation_zr + ROTATION_DELTA);
     else if (key == GLFW_KEY_9 && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT)) 
-      uper_leg_rotation_zr = (uper_leg_rotation_zr - ROTATION_DELTA)%360;
+      uper_leg_rotation_zr = (uper_leg_rotation_zr - ROTATION_DELTA);
 
     //lower left leg
     else if (key==GLFW_KEY_I && action== GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      lower_leg_rotation_l = (lower_leg_rotation_l + ROTATION_DELTA)%360;
+      lower_leg_rotation_l = (lower_leg_rotation_l + ROTATION_DELTA);
     else if (key==GLFW_KEY_I && action== GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      lower_leg_rotation_l = (lower_leg_rotation_l - ROTATION_DELTA)%360;
+      lower_leg_rotation_l = (lower_leg_rotation_l - ROTATION_DELTA);
     //lower right leg
     else if (key==GLFW_KEY_8 && action== GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))  
-      lower_leg_rotation_r = (lower_leg_rotation_r + ROTATION_DELTA)%360;
+      lower_leg_rotation_r = (lower_leg_rotation_r + ROTATION_DELTA);
     else if (key==GLFW_KEY_8 && action== GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      lower_leg_rotation_r = (lower_leg_rotation_r - ROTATION_DELTA)%360;
+      lower_leg_rotation_r = (lower_leg_rotation_r - ROTATION_DELTA);
     //front leg slab contain weel rotation
     else if(key== GLFW_KEY_L && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      front_weel_slab_rotation = (front_weel_slab_rotation + ROTATION_DELTA)%360;
+      front_weel_slab_rotation = (front_weel_slab_rotation + ROTATION_DELTA);
     else if(key== GLFW_KEY_L && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      front_weel_slab_rotation = (front_weel_slab_rotation - ROTATION_DELTA)%360;
+      front_weel_slab_rotation = (front_weel_slab_rotation - ROTATION_DELTA);
     //hood  left feet rotation
     else if (key == GLFW_KEY_K && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xl1 = (hood_feet_rotation_xl1 + ROTATION_DELTA)%360;
+      hood_feet_rotation_xl1 = (hood_feet_rotation_xl1 + ROTATION_DELTA);
     else if (key == GLFW_KEY_K && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xl1 = (hood_feet_rotation_xl1 - ROTATION_DELTA)%360;
+      hood_feet_rotation_xl1 = (hood_feet_rotation_xl1 - ROTATION_DELTA);
     else if (key == GLFW_KEY_J && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xl2 = (hood_feet_rotation_xl2 + ROTATION_DELTA)%360;
+      hood_feet_rotation_xl2 = (hood_feet_rotation_xl2 + ROTATION_DELTA);
     else if (key == GLFW_KEY_J && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xl2 = (hood_feet_rotation_xl2 - ROTATION_DELTA)%360;
+      hood_feet_rotation_xl2 = (hood_feet_rotation_xl2 - ROTATION_DELTA);
     //hood  right feet rotation
     else if (key == GLFW_KEY_H && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xr1 = (hood_feet_rotation_xr1 + ROTATION_DELTA)%360;
+      hood_feet_rotation_xr1 = (hood_feet_rotation_xr1 + ROTATION_DELTA);
     else if (key == GLFW_KEY_H && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xr1 = (hood_feet_rotation_xr1 - ROTATION_DELTA)%360;
+      hood_feet_rotation_xr1 = (hood_feet_rotation_xr1 - ROTATION_DELTA);
     else if (key == GLFW_KEY_G && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xr2 = (hood_feet_rotation_xr2 + ROTATION_DELTA)%360;
+      hood_feet_rotation_xr2 = (hood_feet_rotation_xr2 + ROTATION_DELTA);
     else if (key == GLFW_KEY_G && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      hood_feet_rotation_xr2 = (hood_feet_rotation_xr2 - ROTATION_DELTA)%360;
+      hood_feet_rotation_xr2 = (hood_feet_rotation_xr2 - ROTATION_DELTA);
     else if (key == GLFW_KEY_A && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
       throat_translate_y += 0.3;
     else if (key == GLFW_KEY_A && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
       throat_translate_y -= 0.3;
     else if (key == GLFW_KEY_D && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      truck_ceiling_rotation = (truck_ceiling_rotation + ROTATION_DELTA)%360;
+      truck_ceiling_rotation = (truck_ceiling_rotation + ROTATION_DELTA);
     else if (key == GLFW_KEY_D && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      truck_ceiling_rotation = (truck_ceiling_rotation - ROTATION_DELTA)%360;
+      truck_ceiling_rotation = (truck_ceiling_rotation - ROTATION_DELTA);
     else if (key == GLFW_KEY_T && action == GLFW_PRESS)
       reset_transformer_config();
     else if (key == GLFW_KEY_C && action == GLFW_PRESS)
@@ -802,21 +802,21 @@ void optimus_t::optimus_key_callback(int key, int scancode, int action, int mods
     else if (key == GLFW_KEY_V && action == GLFW_PRESS)
       reset_view_angle();
     else if (key == GLFW_KEY_B && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      front_glass_rotation = (front_glass_rotation + ROTATION_DELTA)%360;
+      front_glass_rotation = (front_glass_rotation + ROTATION_DELTA);
     else if (key == GLFW_KEY_B && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      front_glass_rotation = (front_glass_rotation - ROTATION_DELTA)%360;
+      front_glass_rotation = (front_glass_rotation - ROTATION_DELTA);
     else if (key == GLFW_KEY_X && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-      side_gate_rotation = (side_gate_rotation + ROTATION_DELTA)%360;
+      side_gate_rotation = (side_gate_rotation + ROTATION_DELTA);
     else if (key == GLFW_KEY_X && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-      side_gate_rotation = (side_gate_rotation - ROTATION_DELTA)%360;
+      side_gate_rotation = (side_gate_rotation - ROTATION_DELTA);
     //weel rotation about z axis
     else if (key == GLFW_KEY_UP /*&& action == GLFW_PRESS*/ /*&& !(mods & GLFW_MOD_SHIFT)*/){
-      weel_rotation = (weel_rotation + ROTATION_DELTA)%360;
+      weel_rotation = (weel_rotation + ROTATION_DELTA);
       forword_backword_movement_z = forword_backword_movement_z + 2.0*PI*weel_radius*(1.0/18.0)*cos(body_rotation_y*PI/180.0);
       forword_backword_movement_x = forword_backword_movement_x + 2.0*PI*weel_radius*(1.0/18.0)*sin(body_rotation_y*PI/180.0);
     }
     else if (key == GLFW_KEY_DOWN /*&& action == GLFW_PRESS*/ /*&& (mods & GLFW_MOD_SHIFT)*/){
-      weel_rotation = (weel_rotation - ROTATION_DELTA)%360;
+      weel_rotation = (weel_rotation - ROTATION_DELTA);
       forword_backword_movement_z = forword_backword_movement_z - 2.0*PI*weel_radius*(1.0/18.0)*cos(body_rotation_y*PI/180.0);
       forword_backword_movement_x = forword_backword_movement_x - 2.0*PI*weel_radius*(1.0/18.0)*sin(body_rotation_y*PI/180.0);
     }

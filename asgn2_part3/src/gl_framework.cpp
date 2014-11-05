@@ -42,6 +42,7 @@ namespace csX75
 
   //for animation
   bool animation_on;
+  bool playback_mode;
   int FPS;
   int NUM_INTER_FRAMES;
   string output_folder;
@@ -60,6 +61,8 @@ namespace csX75
     MODE = 0;
     curr_keyframe_index = saved_keyframes.size()-1; //@start of program -1
     animation_on = false;
+    playback_mode = false;
+
 
     //Set framebuffer clear color
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -254,14 +257,14 @@ namespace csX75
     cout << "into animate  curr_keyframe_index = " << curr_keyframe_index << "inter # = " <<interpolated_index_number << endl;
     if(curr_keyframe_index == saved_keyframes.size()-1) {
       cout << "#######################################falsifying" << endl;
+      playback_mode = false; //playback is over if was on earlier
+      animation_on = false; //animation has ended. Last frame has been dumped 
       return false;
     }
 
     double delta = 1.0/FPS; //seconds
     pause(delta);
 
-    cout << "wait over" << endl;
-    cout << saved_keyframes.size() << " " << curr_keyframe_index << endl;
     keyframe_t current = saved_keyframes[curr_keyframe_index];
     keyframe_t next = saved_keyframes[curr_keyframe_index+1];
 
@@ -270,10 +273,8 @@ namespace csX75
     float fraction = 1.0*interpolated_index_number/NUM_INTER_FRAMES;
 
     keyframe_t interpolated_keyframe = interpolate(current, next, fraction);
-    cout << "wait over 2" << endl;
 
     load_state(interpolated_keyframe);
-    cout << "wait over 3" << endl;
 
     interpolated_index_number++;
     
@@ -387,10 +388,20 @@ namespace csX75
           cin >> image_file_prefix;
           output_frame_number = 0; //reset it
           curr_keyframe_index = 0; //reset
+          interpolated_index_number = 0;
+          
           animation_on = true; //animation is on
+          playback_mode = false; //default unless replayed after dumping the frames
 
           read_saved_keyframes(kf_file);
           cout << "succesfully loaded into saved_keyframes vector. Now can resume" << endl;
+        }
+        else if (key == GLFW_KEY_R && action == GLFW_PRESS){
+          cout << "Replay" << endl;
+          playback_mode = true;
+          animation_on = true;
+          curr_keyframe_index = 0;
+          interpolated_index_number = 0;
         }
     }
   }
