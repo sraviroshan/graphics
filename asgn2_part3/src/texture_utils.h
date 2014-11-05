@@ -1,5 +1,8 @@
 #ifndef _TEXTURE_UTILS_
 #define _TEXTURE_UTILS_
+#include <string>
+#include <vector>
+using namespace std;
 
 /* Image type - contains height, width, and data */
 class Image {
@@ -35,7 +38,7 @@ void set_wall_material();
 void set_glass_material();
 
 //stores state of open gl animation frame
-typedef struct state_t{
+typedef struct keyframe_t{
   int camera_no;
 
   //optimus_t variables. refer by optimus.<variable_name>
@@ -75,9 +78,22 @@ typedef struct state_t{
 
   float vertical_movement; // vertical movement of transformer(independent)
 
-  bool headlight_on;  // whether headlight on (decide which texture to load)
-
-
+  int headlight_on;  // whether headlight on (decide which texture to load)
+  int lighting_enabled;
+  int light0_enabled;
+  int light1_enabled;
   
-} struct_t;
+
+  void write(string filename);
+  void load(string filename);
+  bool read(ifstream &myfile);
+
+} keyframe_t;
+
+
+keyframe_t interpolate(keyframe_t current, keyframe_t next, float fraction);
+
+//save framebuffer as PPM format
+void savePPM(int start_x,int start_y,int w,int h,char *fname);
+
 #endif
