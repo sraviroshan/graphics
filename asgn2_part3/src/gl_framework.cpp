@@ -28,6 +28,7 @@
 
 #define NUM_MODES 3
 #define USE_PERSPECTIVE true
+#define NUM_CAMERAS 5
 extern optimus_t optimus;
 extern surrounding_t surrounding;
 
@@ -305,6 +306,7 @@ namespace csX75
       if(MODE == 0) {
         animation_on = false;
         cout << "RECORDING MODE : use = button to record current keyframe state" << endl;
+        kf_file = "kf.txt";
       }
       else if(MODE == 1) {
         animation_on = false;
@@ -347,7 +349,7 @@ namespace csX75
         else if (key == GLFW_KEY_F9 && action == GLFW_PRESS) //f9
           camera_no = 1;
         else if (key == GLFW_KEY_F10 && action == GLFW_PRESS) //f10
-          camera_no = (camera_no+1)%4;
+          camera_no = (camera_no+1)%NUM_CAMERAS;
         //whole body rotation
         else 
           optimus.optimus_key_callback(key, scancode, action, mods);
@@ -377,17 +379,33 @@ namespace csX75
     }
     else if(MODE == 2){ //animation mode
         if (key == GLFW_KEY_PERIOD && action == GLFW_PRESS){
-          cout << "enter source keyframe file path :";
-          cin >> kf_file;
-          cout << "enter required FPS :";
-          cin >> FPS;
-          cout << "enter number of intermediate frames(b/w keyframes) :";
-          cin >> NUM_INTER_FRAMES;
-          cout << "Enter output folder(must exist) :";
-          cin >> output_folder;
-          cout << "Enter image <prefix> : images will be saved as <prefix>_<frame#>.txt : ";
-          cin >> image_file_prefix;
-          output_frame_number = 0; //reset it
+          cout << "Default Settings :: keyframe file = 'kf.txt', 30 FPS, 15 inter frames, \n output folder = 'output, prefix = 'anim', starting frame# = 0\n";
+          cout << "Use default enter Y or N : ";
+          string option;
+          cin >> option;
+          if(option == "N"){
+            cout << "enter source keyframe file path :";
+            cin >> kf_file;
+            cout << "enter required FPS :";
+            cin >> FPS;
+            cout << "enter number of intermediate frames(b/w keyframes) :";
+            cin >> NUM_INTER_FRAMES;
+            cout << "Enter output folder(must exist) :";
+            cin >> output_folder;
+            cout << "Enter image <prefix> : images will be saved as <prefix>_<frame#>.txt : ";
+            cin >> image_file_prefix;
+            cout << "Enter starting output frame number : ";
+            cin >> output_frame_number;
+          }
+          else{
+            kf_file = "kf.txt";
+            FPS = 30;
+            NUM_INTER_FRAMES = 15;
+            output_folder = "animate";
+            image_file_prefix = "anim";
+            output_frame_number = 0;
+          }
+
           curr_keyframe_index = 0; //reset
           interpolated_index_number = 0;
 
