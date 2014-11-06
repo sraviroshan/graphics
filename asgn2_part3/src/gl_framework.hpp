@@ -39,6 +39,7 @@ namespace csX75
   extern int curr_keyframe_index;
 
   extern bool animation_on;
+  extern bool playback_mode;
   extern int FPS;
   extern int NUM_INTER_FRAMES;
   extern string output_folder;
