@@ -288,7 +288,7 @@ namespace csX75
 
   void dump(){
     char imgname[100];
-    sprintf(imgname, "%s/%s_%d.ppm", output_folder.c_str(), image_file_prefix.c_str(), output_frame_number, 0);
+    sprintf(imgname, "%s/%s_%d.ppm", output_folder.c_str(), image_file_prefix.c_str(), output_frame_number);
     savePPM(0,0,win_width, win_height, imgname);
     output_frame_number++;
   }
