@@ -24,6 +24,7 @@ public:
 	void floor_wall(void);
 
 	void set_camera_wall_corner(void);
+	void set_camera_wall_right(void);
 	void set_lights();
 	
 	void stage_floor();

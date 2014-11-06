@@ -118,6 +118,8 @@ void optimus_t::set_lights(void){ //set the position of the headlights LIGHT2 AN
     glTranslatef(0, vertical_movement, 0);
     glTranslatef(forword_backword_movement_x,0,forword_backword_movement_z);
     glRotatef(body_rotation_y,0,1,0);
+    glRotatef(-1*body_rotation_x,1,0,0);
+
 
     glTranslatef(0,-1*torso_yl,0);
     glRotatef(waist_rotation,0,1,0);
@@ -143,6 +145,7 @@ void optimus_t::set_lights(void){ //set the position of the headlights LIGHT2 AN
     glTranslatef(0, vertical_movement, 0);
     glTranslatef(forword_backword_movement_x,0,forword_backword_movement_z);
     glRotatef(body_rotation_y,0,1,0);
+    glRotatef(-1*body_rotation_x,1,0,0);
 
     glTranslatef(0,-1*torso_yl,0);
     glRotatef(waist_rotation,0,1,0);
@@ -285,6 +288,7 @@ void optimus_t::set_camera_head(void){
 
   glTranslatef(0, -1*throat_translate_y,0);
   glRotatef(-1*body_rotation_y,0,1,0);
+  glRotatef(-1*body_rotation_x,1,0,0);
   glTranslatef(-1*forword_backword_movement_x,0,-1*forword_backword_movement_z);
   glTranslatef(0, -vertical_movement, 0);
 
@@ -306,7 +310,7 @@ void optimus_t::set_camera_top(void){
 
   glTranslatef(0, -1*throat_translate_y,0);
   glRotatef(-1*body_rotation_y,0,1,0);
-  // glRotatef(-1*body_rotation_x,1,0,0);
+  glRotatef(-1*body_rotation_x,1,0,0);
   glTranslatef(-1*forword_backword_movement_x,0,-1*forword_backword_movement_z);
   glTranslatef(0, -vertical_movement, 0);
 }
@@ -326,8 +330,9 @@ void optimus_t::hierarchi(){
     glTranslatef(forword_backword_movement_x,0,forword_backword_movement_z);
   
   //       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  SHOULD NOT BE HERE.
-         // glRotatef(body_rotation_x,1,0,0);
+         glRotatef(body_rotation_x,1,0,0);
          glRotatef(body_rotation_y,0,1,0);
+
          // glRotatef(body_rotation_z,0,0,1);
         
       {
@@ -684,10 +689,10 @@ void optimus_t::optimus_key_callback(int key, int scancode, int action, int mods
       body_rotation_y = (body_rotation_y + ROTATION_DELTA);
     else if(key==GLFW_KEY_RIGHT && action == GLFW_PRESS)
       body_rotation_y = (body_rotation_y - ROTATION_DELTA);    
-    // else if(key==GLFW_KEY_Z && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
-    //   body_rotation_z = (body_rotation_z - ROTATION_DELTA);
-    // else if(key==GLFW_KEY_Z && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
-    //   body_rotation_z = (body_rotation_z + ROTATION_DELTA);    
+    else if(key==GLFW_KEY_X && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
+      body_rotation_x = (body_rotation_x - ROTATION_DELTA);
+    else if(key==GLFW_KEY_X && action == GLFW_PRESS && (mods & GLFW_MOD_SHIFT))
+      body_rotation_x = (body_rotation_x + ROTATION_DELTA);    
     
     // uper left hand rotation
     else if(key==GLFW_KEY_E && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
@@ -813,13 +818,32 @@ void optimus_t::optimus_key_callback(int key, int scancode, int action, int mods
     //weel rotation about z axis
     else if (key == GLFW_KEY_UP /*&& action == GLFW_PRESS*/ /*&& !(mods & GLFW_MOD_SHIFT)*/){
       weel_rotation = (weel_rotation + ROTATION_DELTA);
-      forword_backword_movement_z = forword_backword_movement_z + 2.0*PI*weel_radius*(1.0/18.0)*cos(body_rotation_y*PI/180.0);
-      forword_backword_movement_x = forword_backword_movement_x + 2.0*PI*weel_radius*(1.0/18.0)*sin(body_rotation_y*PI/180.0);
+      float movement = 2.0*PI*weel_radius*(1.0/18.0);
+      if(cos(body_rotation_y) > 0){
+        vertical_movement = vertical_movement - movement * sin(body_rotation_x*PI/180.0);
+      }
+      else{
+        vertical_movement = vertical_movement + movement * sin(body_rotation_x*PI/180.0);
+      }
+
+      float horizontal = abs(movement * cos(body_rotation_x*PI/180.0));
+      forword_backword_movement_z = forword_backword_movement_z + horizontal*cos(body_rotation_y*PI/180.0);
+      forword_backword_movement_x = forword_backword_movement_x + horizontal*sin(body_rotation_y*PI/180.0);
     }
     else if (key == GLFW_KEY_DOWN /*&& action == GLFW_PRESS*/ /*&& (mods & GLFW_MOD_SHIFT)*/){
       weel_rotation = (weel_rotation - ROTATION_DELTA);
-      forword_backword_movement_z = forword_backword_movement_z - 2.0*PI*weel_radius*(1.0/18.0)*cos(body_rotation_y*PI/180.0);
-      forword_backword_movement_x = forword_backword_movement_x - 2.0*PI*weel_radius*(1.0/18.0)*sin(body_rotation_y*PI/180.0);
+      float movement = 2.0*PI*weel_radius*(1.0/18.0);
+
+      if(cos(body_rotation_y) > 0){
+        vertical_movement = vertical_movement + movement * sin(body_rotation_x*PI/180.0);
+      }
+      else{
+        vertical_movement = vertical_movement - movement * sin(body_rotation_x*PI/180.0);
+      }
+
+      float horizontal = abs(movement * cos(body_rotation_x*PI/180.0));
+      forword_backword_movement_z = forword_backword_movement_z - horizontal*cos(body_rotation_y*PI/180.0);
+      forword_backword_movement_x = forword_backword_movement_x - horizontal*sin(body_rotation_y*PI/180.0);
     }
     else if (key == GLFW_KEY_Y && action == GLFW_PRESS && !(mods & GLFW_MOD_SHIFT))
       vertical_movement = vertical_movement + 2.0*PI*weel_radius*(1.0/18.0);

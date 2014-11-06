@@ -347,7 +347,7 @@ namespace csX75
         else if (key == GLFW_KEY_F9 && action == GLFW_PRESS) //f9
           camera_no = 1;
         else if (key == GLFW_KEY_F10 && action == GLFW_PRESS) //f10
-          camera_no = 2;
+          camera_no = (camera_no+1)%4;
         //whole body rotation
         else 
           optimus.optimus_key_callback(key, scancode, action, mods);

@@ -49,6 +49,9 @@ void set_camera(){
   else if(camera_no==2){
     optimus.set_camera_top();
   }
+  else if(camera_no==3){
+    surrounding.set_camera_wall_right();
+  }
   else{
 
   }

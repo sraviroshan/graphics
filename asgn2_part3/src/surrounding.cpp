@@ -80,6 +80,19 @@ void surrounding_t::set_camera_wall_corner(void){
             0,1, 0);
 }
 
+void surrounding_t::set_camera_wall_right(void){
+  
+  // gluLookAt(-cx_wall, cy_wall, cz_wall,
+ //            0, 0, 0,
+ //            cx_wall, (cx_wall*cx_wall + cz_wall*cz_wall)/1.0 * cy_wall, -1*cz_wall);
+  // gluLookAt(-x_wall, y_wall,z_wall,
+ //            x_wall, -y_wall, -z_wall,
+ //            0,1, 0);
+  gluLookAt(-x_wall, y_wall,0,
+            x_wall, -y_wall, 0,
+            0,1, 0);
+}
+
 
 // Load bitmap images to form textures
 void surrounding_t::load_textures() { 
