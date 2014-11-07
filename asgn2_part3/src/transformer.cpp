@@ -55,6 +55,9 @@ void set_camera(){
   else if(camera_no==4){
     surrounding.set_camera_hall_center();
   }
+  else if(camera_no==5){
+    surrounding.set_camera_wall_left_horizontal();
+  }
   else{
 
   }

@@ -75,7 +75,7 @@ void surrounding_t::set_camera_wall_corner(void){
 	// gluLookAt(-x_wall, y_wall,z_wall,
  //            x_wall, -y_wall, -z_wall,
  //            0,1, 0);
-  gluLookAt(0, y_wall,z_wall,
+  gluLookAt(0, 0.15*y_wall,z_wall,
             0, -y_wall, -z_wall,
             0,1, 0);
 }
@@ -83,6 +83,12 @@ void surrounding_t::set_camera_wall_corner(void){
 void surrounding_t::set_camera_wall_right(void){
   gluLookAt(-x_wall, y_wall,0,
             x_wall, -y_wall, 0,
+            0,1, 0);
+}
+
+void surrounding_t::set_camera_wall_left_horizontal(void){
+  gluLookAt(x_wall, -0.9*y_wall,-0.5*z_wall,
+            -x_wall, -0.9*y_wall, 0,
             0,1, 0);
 }
 

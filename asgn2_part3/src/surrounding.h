@@ -26,6 +26,7 @@ public:
 	void set_camera_wall_corner(void);
 	void set_camera_wall_right(void);
 	void set_camera_hall_center(void);
+	void set_camera_wall_left_horizontal(void);
 	void set_lights();
 	
 	void stage_floor();

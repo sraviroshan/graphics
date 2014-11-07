@@ -25,10 +25,11 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 
 #define NUM_MODES 3
 #define USE_PERSPECTIVE true
-#define NUM_CAMERAS 5
+#define NUM_CAMERAS 6
 extern optimus_t optimus;
 extern surrounding_t surrounding;
 
@@ -390,7 +391,7 @@ namespace csX75
             cin >> FPS;
             cout << "enter number of intermediate frames(b/w keyframes) :";
             cin >> NUM_INTER_FRAMES;
-            cout << "Enter output folder(must exist) :";
+            cout << "Enter output folder :";
             cin >> output_folder;
             cout << "Enter image <prefix> : images will be saved as <prefix>_<frame#>.txt : ";
             cin >> image_file_prefix;
@@ -405,6 +406,9 @@ namespace csX75
             image_file_prefix = "anim";
             output_frame_number = 0;
           }
+
+          string command("mkdir -p ");
+          system((command + output_folder).c_str()); //create output folder if not exists
 
           curr_keyframe_index = 0; //reset
           interpolated_index_number = 0;
