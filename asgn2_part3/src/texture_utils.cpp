@@ -326,7 +326,8 @@ bool keyframe_t::read(ifstream &myfile){
 keyframe_t interpolate(keyframe_t current, keyframe_t next, float fraction){
     keyframe_t result;
 
-    result.camera_no = (fraction > 0.5) ? current.camera_no : next.camera_no;
+    //result.camera_no = (fraction > 0.5) ? current.camera_no : next.camera_no;
+    result.camera_no = current.camera_no;
 
     result.rotation_angle = current.rotation_angle + (next.rotation_angle - current.rotation_angle)*fraction;
     result.body_rotation_x = current.body_rotation_x + (next.body_rotation_x - current.body_rotation_x)*fraction;
@@ -364,10 +365,10 @@ keyframe_t interpolate(keyframe_t current, keyframe_t next, float fraction){
 
     result.vertical_movement = current.vertical_movement + (next.vertical_movement - current.vertical_movement)*fraction;
 
-    result.headlight_on = (fraction > 0.5) ? current.headlight_on : next.headlight_on;
-    result.lighting_enabled = (fraction > 0.5) ? current.lighting_enabled : next.lighting_enabled;
-    result.light0_enabled = (fraction > 0.5) ? current.light0_enabled : next.light0_enabled;
-    result.light1_enabled = (fraction > 0.5) ? current.light1_enabled : next.light1_enabled;
+    result.headlight_on = current.headlight_on;
+    result.lighting_enabled = current.lighting_enabled;
+    result.light0_enabled = current.light0_enabled;
+    result.light1_enabled = current.light1_enabled;
 
     return result;
 }

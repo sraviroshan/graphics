@@ -373,6 +373,7 @@ namespace csX75
             }
             else{
                 curr_keyframe_index -= 1;
+                cout << "loading keyframe : " << curr_keyframe_index << " [size : "  << saved_keyframes.size() << "]" << endl;
                 keyframe_t kf = saved_keyframes[curr_keyframe_index];
                 load_state(kf);
             }
