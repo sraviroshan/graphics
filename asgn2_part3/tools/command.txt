@@ -1,0 +1,13 @@
+Convert images to video. Image file sequence list in list.txt
+mencoder mf://@list.txt -mf fps=25 -ovc lavc -lavcopts vcodec=msmpeg4v2:vbitrate=3200 -o output_25fps.avi
+
+
+Add music to video
+mencoder output_25fps_better.avi -o with_music.avi -ovc copy -oac copy -audiofile manwa.mp3
+
+
+Mp3 cutter 
+sudo apt-get install sox
+sudo apt-get install libsox-fmt-mp3
+
+sox interstallar.mp3 a.mp3 trim 40 100
