@@ -394,7 +394,7 @@ namespace csX75
             cin >> NUM_INTER_FRAMES;
             cout << "Enter output folder :";
             cin >> output_folder;
-            cout << "Enter image <prefix> : images will be saved as <prefix>_<frame#>.txt : ";
+            cout << "Enter image <prefix> : images will be saved as <prefix>_<frame#>.ppm : ";
             cin >> image_file_prefix;
             cout << "Enter starting output frame number : ";
             cin >> output_frame_number;
